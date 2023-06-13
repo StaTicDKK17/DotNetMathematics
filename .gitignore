@@ -1,4 +1,6 @@
 /.vs
+/Mathematics/bin
+/Mathematics/obj
 /MathematicsTests/bin
 /MathematicsTests/obj
 /MathematicsTests/Report
