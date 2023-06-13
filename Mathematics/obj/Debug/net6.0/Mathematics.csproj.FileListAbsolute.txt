@@ -1,0 +1,12 @@
+D:\C#\MathLib\Mathematics\bin\Debug\net6.0\Mathematics.deps.json
+D:\C#\MathLib\Mathematics\bin\Debug\net6.0\Mathematics.dll
+D:\C#\MathLib\Mathematics\bin\Debug\net6.0\Mathematics.pdb
+D:\C#\MathLib\Mathematics\obj\Debug\net6.0\Mathematics.csproj.AssemblyReference.cache
+D:\C#\MathLib\Mathematics\obj\Debug\net6.0\Mathematics.GeneratedMSBuildEditorConfig.editorconfig
+D:\C#\MathLib\Mathematics\obj\Debug\net6.0\Mathematics.AssemblyInfoInputs.cache
+D:\C#\MathLib\Mathematics\obj\Debug\net6.0\Mathematics.AssemblyInfo.cs
+D:\C#\MathLib\Mathematics\obj\Debug\net6.0\Mathematics.csproj.CoreCompileInputs.cache
+D:\C#\MathLib\Mathematics\obj\Debug\net6.0\Mathematics.dll
+D:\C#\MathLib\Mathematics\obj\Debug\net6.0\refint\Mathematics.dll
+D:\C#\MathLib\Mathematics\obj\Debug\net6.0\Mathematics.pdb
+D:\C#\MathLib\Mathematics\obj\Debug\net6.0\ref\Mathematics.dll
