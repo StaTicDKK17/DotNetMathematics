@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Mathematics.Vectors;
 
-namespace Mathematics;
+namespace Mathematics.Matrices;
 
 public interface IMatrix
 {
@@ -18,6 +14,6 @@ public interface IMatrix
     int N_Cols { get; }
 
 
-    
+
     (int, int) Size { get; }
 }

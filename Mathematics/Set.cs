@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mathematics;
+﻿namespace Mathematics;
 
 public class Set<T> : ISet<T>
 {

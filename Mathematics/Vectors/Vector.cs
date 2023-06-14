@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mathematics;
+﻿namespace Mathematics.Vectors;
 
 public class Vector : IVector
 {
@@ -27,16 +20,22 @@ public class Vector : IVector
     {
         xs = new float[v.Size];
 
-        for(int i = 0; i < v.Size; i++)
+        for (int i = 0; i < v.Size; i++)
             xs[i] = v.xs[i];
-        
+
     }
 
-    public float Item(int i) => xs[i];
+    public float Item(int i) => xs[i - 1];
+    private float Item0I(int i) => xs[i];
+
+    public void SetItem0I(int i, float value)
+    {
+        xs[i] = value;
+    }
 
     public void SetItem(int i, float value)
     {
-        xs[i] = value;
+        xs[i - 1] = value;
     }
 
     public float[] ToArray()
@@ -49,17 +48,17 @@ public class Vector : IVector
         Vector retval = new Vector(v.Size);
 
         for (int i = 0; i < v.Size; i++)
-            retval.SetItem(i, v.Item(i) * y);
+            retval.SetItem0I(i, v.Item0I(i) * y);
 
         return retval;
-    } 
+    }
 
     public static Vector operator *(float x, Vector v)
     {
         Vector retval = new Vector(v.Size);
 
         for (int i = 0; i < v.Size; i++)
-            retval.SetItem(i, v.Item(i) * x);
+            retval.SetItem0I(i, v.Item0I(i) * x);
 
         return retval;
     }
@@ -69,7 +68,7 @@ public class Vector : IVector
         Vector retval = new Vector(Math.Min(xs.Size, ys.Size));
 
         for (int i = 0; i < Math.Min(xs.Size, ys.Size); i++)
-            retval.SetItem(i, xs.Item(i) + ys.Item(i));
+            retval.SetItem0I(i, xs.Item0I(i) + ys.Item0I(i));
 
         return retval;
     }
@@ -79,7 +78,7 @@ public class Vector : IVector
         Vector retval = new Vector(Math.Min(xs.Size, ys.Size));
 
         for (int i = 0; i < Math.Min(xs.Size, ys.Size); i++)
-            retval.SetItem(i, xs.Item(i) - ys.Item(i));
+            retval.SetItem0I(i, xs.Item0I(i) - ys.Item0I(i));
 
         return retval;
     }
@@ -89,8 +88,26 @@ public class Vector : IVector
         float retval = 0.0f;
 
         for (int i = 0; i < Math.Min(xs.Size, ys.Size); i++)
-            retval += xs.Item(i) * ys.Item(i);
+            retval += xs.Item0I(i) * ys.Item0I(i);
 
         return retval;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is Vector)
+        {
+            Vector retval = (Vector)obj;
+
+            if (retval.Size != Size) return false;
+
+            for(int i = 0; i < retval.Size; i++)
+            {
+                if (retval.Item0I(i) != Item0I(i))
+                    return false;
+            }
+            return true;
+        }
+        return false;
     }
 }
