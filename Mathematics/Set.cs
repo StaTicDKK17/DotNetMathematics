@@ -24,23 +24,23 @@ public class Set<T> : ISet<T>
         }
     }
 
-    public Set(Set<T> other)
+    public Set(ISet<T> other)
     {
         collection = new List<T>();
-        foreach (T element in other.collection)
+        foreach (T element in other.ToArray())
         {
             collection.Add(element);
         }
     }
 
-    public Set<T> Intersection(Set<T> other)
+    public Set<T> Intersection(ISet<T> other)
     {
-        return new Set<T>(collection.Intersect(other.collection));
+        return new Set<T>(collection.Intersect(other.ToArray()));
     }
 
-    public Set<T> Union(Set<T> other)
+    public Set<T> Union(ISet<T> other)
     {
-        return new Set<T>(collection.Union(other.collection));
+        return new Set<T>(collection.Union(other.ToArray()));
     }
 
     public bool Contains(T element)
@@ -53,7 +53,7 @@ public class Set<T> : ISet<T>
         collection.Add(element);
     }
 
-    public Set<T> Minus(Set<T> other)
+    public Set<T> Minus(ISet<T> other)
     {
         Set<T> newSet = new Set<T>();
 
@@ -64,9 +64,14 @@ public class Set<T> : ISet<T>
         return newSet;
     }
 
-    public Set<T> SymmetricDifference(Set<T> other)
+    public Set<T> SymmetricDifference(ISet<T> other)
     {
-        Set<T> set1 = this.Minus(other);
+        ISet<T> set1 = this.Minus(other);
         return new Set<T>(set1.Union(other.Minus(this)));
+    }
+
+    public T[] ToArray()
+    {
+        return collection.ToArray();
     }
 }

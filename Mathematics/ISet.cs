@@ -1,11 +1,14 @@
 ﻿namespace Mathematics;
 
-internal interface ISet<T>
+public interface ISet<T>
 {
-    Set<T> Intersection(Set<T> other);
-    Set<T> Union(Set<T> other);
+    Set<T> Intersection(ISet<T> other);
+    Set<T> Union(ISet<T> other);
     bool Contains(T element);
-    Set<T> Minus(Set<T> other);
+    Set<T> Minus(ISet<T> other);
     void AddElement(T element);
-    Set<T> SymmetricDifference(Set<T> other);
+    Set<T> SymmetricDifference(ISet<T> other);
+    T[] ToArray();
+
+    int Size {  get; }
 }
