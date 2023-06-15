@@ -22,13 +22,13 @@ public class Matrix : IMatrix
         this.xs = xs;
     }
 
-    public Matrix(Matrix A)
+    public Matrix(IMatrix A)
     {
         xs = new float[A.M_Rows, A.N_Cols];
 
         for (int i = 0; i < A.M_Rows; i++)
             for (int j = 0; j < A.N_Cols; j++)
-                xs[i, j] = A.xs[i, j];
+                xs[i, j] = A.ToArray()[i, j];
     }
 
     private float Item0I(int i, int j) => xs[i, j];

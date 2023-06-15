@@ -8,7 +8,7 @@ public class MatrixTests
     [Fact]
     public void EmptyMatrixCreationWorks()
     {
-        Matrix M = new(3, 2);
+        IMatrix M = new Matrix(3, 2);
 
         Assert.True(M.M_Rows == 3 && M.N_Cols == 2);
     }
@@ -16,7 +16,7 @@ public class MatrixTests
     [Fact]
     public void SizePropertyBehavesWell()
     {
-        Matrix M = new(7, 32);
+        IMatrix M = new Matrix(7, 32);
 
         var dims = M.Size;
 
@@ -30,7 +30,7 @@ public class MatrixTests
                             { 1.0f, 2.0f, 3.0f }
         };
 
-        Matrix M = new(floats);
+        IMatrix M = new Matrix(floats);
 
         var dimensions = M.Size;
 
@@ -44,8 +44,8 @@ public class MatrixTests
                             { 5.0f, 6.0f, 7.0f, 8.0f }
         };
 
-        Matrix M = new(floats);
-        Matrix M1 = new(M);
+        IMatrix M = new Matrix(floats);
+        IMatrix M1 = new Matrix(M);
 
         Assert.True(M.Equals(M1));
     }
@@ -57,7 +57,7 @@ public class MatrixTests
                             { 5.0f, 6.0f, 7.0f, 8.0f }
         };
 
-        Matrix M = new(floats);
+        IMatrix M = new Matrix(floats);
 
         Assert.Equal(5.0f, M.Item(2, 1));
     }
@@ -69,7 +69,7 @@ public class MatrixTests
                             { 5.0f, 6.0f, 7.0f, 8.0f }
         };
 
-        Matrix M = new(floats);
+        IMatrix M = new Matrix(floats);
 
         M.SetItem(2, 1, 42.0f);
 
@@ -83,7 +83,7 @@ public class MatrixTests
                             { 4.0f, 3.0f }
         };
 
-        Matrix M = new(floats);
+        IMatrix M = new Matrix(floats);
 
         Vector vec = M.Row(1);
 
@@ -97,7 +97,7 @@ public class MatrixTests
                             { 4.0f, 3.0f }
         };
 
-        Matrix M = new(floats);
+        IMatrix M = new Matrix(floats);
 
         Vector vec = M.Column(1);
 
@@ -111,7 +111,7 @@ public class MatrixTests
                             { 4.0f, 3.0f }
         };
 
-        Matrix M = new(floats);
+        IMatrix M = new Matrix(floats);
 
         float[,] res = M.ToArray();
 
@@ -128,9 +128,9 @@ public class MatrixTests
                             { 4.0f, 3.0f }
         };
 
-        Matrix M = new(floats);
+        IMatrix M = new Matrix(floats);
 
-        Vector v = new Vector(30);
+        IVector v = new Vector(30);
 
         Assert.False(M.Equals(v));
     }
@@ -145,8 +145,8 @@ public class MatrixTests
                             { 4.0f, 3.0f }
         };
 
-        Matrix M = new(floats);
-        Matrix M1 = new(float2);
+        IMatrix M = new Matrix(floats);
+        IMatrix M1 = new Matrix(float2);
 
         Assert.False(M.Equals(M1));
     }

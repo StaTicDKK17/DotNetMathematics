@@ -13,7 +13,5 @@ public interface IMatrix
     int M_Rows { get; }
     int N_Cols { get; }
 
-
-
     (int, int) Size { get; }
 }
