@@ -85,7 +85,7 @@ public class MatrixTests
 
         IMatrix M = new Matrix(floats);
 
-        Vector vec = M.Row(1);
+        IVector vec = M.Row(1);
 
         Assert.True(new Vector(new float[] { 3.0f, 4.0f }).Equals(vec));
     }
@@ -99,7 +99,7 @@ public class MatrixTests
 
         IMatrix M = new Matrix(floats);
 
-        Vector vec = M.Column(1);
+        IVector vec = M.Column(1);
 
         Assert.True(new Vector(new float[] {3.0f, 2.0f }).Equals(vec));
     }

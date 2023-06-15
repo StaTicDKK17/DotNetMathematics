@@ -16,17 +16,17 @@ public class Vector : IVector
         this.xs = xs;
     }
 
-    public Vector(Vector v)
+    public Vector(IVector v)
     {
         xs = new float[v.Size];
 
         for (int i = 0; i < v.Size; i++)
-            xs[i] = v.xs[i];
+            xs[i] = v.ToArray()[i];
 
     }
 
     public float Item(int i) => xs[i - 1];
-    private float Item0I(int i) => xs[i];
+    public float Item0I(int i) => xs[i];
 
     public void SetItem0I(int i, float value)
     {
@@ -43,9 +43,9 @@ public class Vector : IVector
         return xs;
     }
 
-    public static Vector operator *(Vector v, float y)
+    public static IVector operator *(Vector v, float y)
     {
-        Vector retval = new Vector(v.Size);
+        IVector retval = new Vector(v.Size);
 
         for (int i = 0; i < v.Size; i++)
             retval.SetItem0I(i, v.Item0I(i) * y);
@@ -53,9 +53,9 @@ public class Vector : IVector
         return retval;
     }
 
-    public static Vector operator *(float x, Vector v)
+    public static IVector operator *(float x, Vector v)
     {
-        Vector retval = new Vector(v.Size);
+        IVector retval = new Vector(v.Size);
 
         for (int i = 0; i < v.Size; i++)
             retval.SetItem0I(i, v.Item0I(i) * x);
@@ -63,9 +63,9 @@ public class Vector : IVector
         return retval;
     }
 
-    public static Vector operator +(Vector xs, Vector ys)
+    public static IVector operator +(Vector xs, Vector ys)
     {
-        Vector retval = new Vector(Math.Min(xs.Size, ys.Size));
+        IVector retval = new Vector(Math.Min(xs.Size, ys.Size));
 
         for (int i = 0; i < Math.Min(xs.Size, ys.Size); i++)
             retval.SetItem0I(i, xs.Item0I(i) + ys.Item0I(i));
@@ -73,9 +73,9 @@ public class Vector : IVector
         return retval;
     }
 
-    public static Vector operator -(Vector xs, Vector ys)
+    public static IVector operator -(Vector xs, Vector ys)
     {
-        Vector retval = new Vector(Math.Min(xs.Size, ys.Size));
+        IVector retval = new Vector(Math.Min(xs.Size, ys.Size));
 
         for (int i = 0; i < Math.Min(xs.Size, ys.Size); i++)
             retval.SetItem0I(i, xs.Item0I(i) - ys.Item0I(i));

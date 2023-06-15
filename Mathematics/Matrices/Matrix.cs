@@ -45,9 +45,9 @@ public class Matrix : IMatrix
         xs[i - 1, j - 1] = value;
     }
 
-    public Vector Row(int i)
+    public IVector Row(int i)
     {
-        Vector vec = new Vector(M_Rows);
+        IVector vec = new Vector(M_Rows);
         for (int j = 0; j < M_Rows; j++)
             vec.SetItem0I(j, Item0I(j, i-1));
 
@@ -59,9 +59,9 @@ public class Matrix : IMatrix
         return xs;
     }
 
-    public Vector Column(int j)
+    public IVector Column(int j)
     {
-        Vector vec = new Vector(N_Cols);
+        IVector vec = new Vector(N_Cols);
 
         for (int i = 0; i < N_Cols; i++)
             vec.SetItem0I(i, Item0I(j-1, i));
