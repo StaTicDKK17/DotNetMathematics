@@ -15,7 +15,7 @@ public interface IVector
 
     public static IVector operator *(float x, IVector v)
     {
-        return (IVector)((Vector)v * x);
+        return (IVector)(x * (Vector)v);
     }
 
     public static IVector operator +(IVector xs, IVector ys)

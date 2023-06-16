@@ -196,4 +196,24 @@ public class VectorTests
 
         Assert.False(vec1.Equals(1.0f));
     }
+
+    [Fact]
+    public void VectorsOfDifferentSizeIsNotEqual()
+    {
+        IVector vec1 = new Vector(2);
+        IVector vec2 = new Vector(3);
+
+        Assert.False(vec1.Equals(vec2));
+    }
+
+    [Fact]
+    public void VectorsWithDifferentComponentsAreNotEqual()
+    {
+        float[] f = { 1.0f, 2.0f };
+
+        IVector vec1 = new Vector(2);
+        IVector vec2 = new Vector(f);
+
+        Assert.False(vec1.Equals(vec2));
+    }
 }
