@@ -55,18 +55,18 @@ public class Set<T> : ISet<T>
 
     public Set<T> Minus(ISet<T> other)
     {
-        Set<T> newSet = new Set<T>();
+        ISet<T> newSet = new Set<T>();
 
         foreach (T element in collection)
             if (!other.Contains(element))
                 newSet.AddElement(element);
 
-        return newSet;
+        return (Set<T>)newSet;
     }
 
     public Set<T> SymmetricDifference(ISet<T> other)
     {
-        ISet<T> set1 = this.Minus(other);
+        ISet<T> set1 = Minus(other);
         return new Set<T>(set1.Union(other.Minus(this)));
     }
 
