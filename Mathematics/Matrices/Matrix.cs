@@ -71,16 +71,16 @@ public class Matrix : IMatrix
 
     public override bool Equals(object? obj)
     {
-        if (obj is Matrix)
-        {
-            Matrix M = (Matrix)obj;
-            for (int i = 0; i < M_Rows; i++)
-                for (int j = 0; j < N_Cols; j++)
-                    if (Item0I(i, j) != M.Item0I(i, j))
-                        return false;
+        if (!(obj is Matrix))
+            return false;
 
-            return true;
-        }
-        return false;
+        Matrix M = (Matrix)obj;
+
+        for (int i = 0; i < M_Rows; i++)
+            for (int j = 0; j < N_Cols; j++)
+                if (Item0I(i, j) != M.Item0I(i, j))
+                    return false;
+
+        return true;
     }
 }
