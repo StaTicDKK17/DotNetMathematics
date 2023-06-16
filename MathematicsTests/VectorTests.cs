@@ -125,4 +125,75 @@ public class VectorTests
             Assert.Equal(0.0f, vec3.ToArray()[i]);
         }
     }
+
+    [Fact]
+    public void MultiplicationLeftVectorBehavesWell()
+    {
+        float[] floats = { 1.0f, 2.0f, 3.0f, 4.0f };
+
+        IVector vec1 = new Vector(floats);
+
+        IVector vec2 = vec1 * 3.0f;
+
+        for(int i = 0; i < floats.Length; i++)
+        {
+            Assert.Equal(floats[i] * 3.0f, vec2.ToArray()[i]);
+        }
+    }
+
+    [Fact]
+    public void MultiplicationRightVectorBehavesWell()
+    {
+        float[] floats = { 1.0f, 2.0f, 3.0f, 4.0f };
+
+
+        IVector vec1 = new Vector(floats);
+
+        IVector vec2 = -1.0f * vec1;
+
+        for(int i = 0; i < floats.Length; i++)
+        {
+            Assert.Equal(floats[i] * -1.0f, vec2.ToArray()[i]);
+        }
+    }
+
+    [Fact]
+    public void DotProductBehavesWell()
+    {
+        float[] floats = { 1.0f, 2.0f, 3.0f, 4.0f };
+        float[] floats1 = { -3.0f, 2.0f, 1.0f, 0.0f };
+
+        IVector vec1 = new Vector(floats);
+        IVector vec2 = new Vector(floats1);
+
+        Assert.Equal(4.0f, vec1 * vec2);
+    }
+
+    [Fact]
+    public void EqualsCanCompareVectors()
+    {
+        float[] floats = { 1.0f, 2.0f, 3.0f, 4.0f };
+        IVector vec1 = new Vector(floats);
+        IVector vec2 = new Vector(vec1);
+
+        Assert.True(vec1.Equals(vec2));
+    }
+
+    [Fact]
+    public void NullIsNotVector()
+    {
+        float[] floats = { 1.0f, 2.0f, 3.0f, 4.0f };
+        IVector vec1 = new Vector(floats);
+
+        Assert.False(vec1.Equals(null));
+    }
+
+    [Fact]
+    public void EqualsReturnsFalseWithOtherObjects()
+    {
+        float[] floats = { 1.0f };
+        IVector vec1 = new Vector(floats);
+
+        Assert.False(vec1.Equals(1.0f));
+    }
 }
