@@ -150,5 +150,28 @@ public class MatrixTests
 
         Assert.False(M.Equals(M1));
     }
+
+    [Fact]
+    public void NullIsNotMatrix()
+    {
+        float[,] floats = { { 3.0f, 2.0f },
+        };
+        IMatrix M = new Matrix(floats);
+
+        Assert.False(M.Equals(null));
+    }
+
+    [Fact]
+    public void MatrixIsNotEqualVector()
+    {
+        float[] floats1 = { 3.0f, 2.0f };
+        float[,] floats2 = { { 3.0f, 2.0f },
+        };
+
+        IMatrix M = new Matrix(floats2);
+        IVector v = new Vector(floats1);
+
+        Assert.False(M.Equals(v));
+    }
 }
 
