@@ -1,4 +1,6 @@
-﻿namespace Mathematics.Vectors;
+﻿using System.Diagnostics.Contracts;
+
+namespace Mathematics.Vectors;
 
 public class Vector : IVector
 {
@@ -8,6 +10,7 @@ public class Vector : IVector
 
     public Vector(int n)
     {
+        Contract.Requires(n > 0);
         xs = new float[n];
     }
 

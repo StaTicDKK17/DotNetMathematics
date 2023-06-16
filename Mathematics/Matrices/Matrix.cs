@@ -1,5 +1,7 @@
 ﻿using Mathematics.Vectors;
 
+using System.Diagnostics.Contracts;
+
 namespace Mathematics.Matrices;
 
 public class Matrix : IMatrix
@@ -14,6 +16,8 @@ public class Matrix : IMatrix
 
     public Matrix(int mRows, int nCols)
     {
+        Contract.Requires(mRows > 0);
+        Contract.Requires(nCols > 0);
         xs = new float[mRows, nCols];
     }
 
