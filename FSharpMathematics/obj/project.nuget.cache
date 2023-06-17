@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "dgSpecHash": "64Nt0NTAkzvN49BTV4yWYVf3YIPl30HCjXXrnvGpO4rtc7ODKmtQQDHO5oc+K8av/klplLP9mDRcnQtngMGFaw==",
+  "success": false,
+  "projectFilePath": "D:\\C#\\MathLib\\FSharpMathematics\\FSharpMathematics.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Stati\\.nuget\\packages\\fsharp.core\\7.0.300\\fsharp.core.7.0.300.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1108",
+      "level": "Error",
+      "message": "Cycle detected. \r\n  FSharpMathematics -> Mathematics -> FSharpMathematics.",
+      "libraryId": "FSharpMathematics",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
+}

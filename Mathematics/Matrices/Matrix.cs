@@ -73,6 +73,84 @@ public class Matrix : IMatrix
         return vec;
     }
 
+    public static Matrix operator +(Matrix A, Matrix B)
+    {
+        Contract.Requires(A.M_Rows == B.M_Rows);
+        Contract.Requires(A.N_Cols == B.N_Cols);
+
+        Matrix M = new Matrix(A.M_Rows, A.N_Cols);
+
+        for (int i = 0; i < A.M_Rows-1; i++)
+            for (int j = 0; j < A.N_Cols-1; j++)
+                M.SetItem0I(i, j, A.Item0I(i, j) + B.Item0I(i, j));
+            
+        return M;
+    }
+
+    public static Matrix operator -(Matrix A,  Matrix B)
+    {
+        Contract.Requires(A.M_Rows == B.M_Rows);
+        Contract.Requires(A.N_Cols == B.N_Cols);
+
+        Matrix M = new Matrix(A.M_Rows, A.N_Cols);
+
+        for (int i = 0; i < A.M_Rows - 1; i++)
+            for (int j = 0; j < A.N_Cols - 1; j++)
+                M.SetItem0I(i, j, A.Item0I(i, j) - B.Item0I(i, j));
+
+        return M;
+    }
+
+    public static Matrix operator *(float x, Matrix M)
+    {
+        Matrix A = new Matrix(M.M_Rows, M.N_Cols);
+
+        for (int i = 0; i < M.M_Rows - 1; i++)
+            for (int j = 0; j < M.N_Cols - 1; j++)
+                A.SetItem0I(i, j, M.Item0I(i, j) * x);
+
+        return A;
+    }
+
+    public static Matrix operator *(Matrix M, float x)
+    {
+        Matrix A = new Matrix(M.M_Rows, M.N_Cols);
+
+        for (int i = 0; i < M.M_Rows - 1; i++)
+            for (int j = 0; j < M.N_Cols - 1; j++)
+                A.SetItem0I(i, j, x * M.Item0I(i, j));
+
+        return A;
+    }
+
+    public static Matrix operator *(Matrix A, Matrix B)
+    {
+        Contract.Requires(A.N_Cols == B.M_Rows);
+
+        Matrix M = new Matrix(A.M_Rows, B.N_Cols);
+
+        for (int i = 0; i < A.M_Rows - 1; i++)
+        {
+            for (int j = 0; j < B.N_Cols-1; j++)
+            {
+                float rowRes = 0;
+                IVector row = A.Row(i + 1);
+                IVector col = B.Column(j + 1);
+
+                foreach (float e1 in row.ToArray())
+                {
+                    foreach(float e2 in col.ToArray())
+                    {
+                        rowRes += e1 * e2;
+                    }
+                }
+                M.SetItem0I(i, j, rowRes);
+            }
+        }
+
+        return M;
+    }
+
     public override bool Equals(object? obj)
     {
         if (!(obj is Matrix))

@@ -56,18 +56,17 @@
           }
         }
       },
-      "FSharpMathematics/1.0.0": {
+      "Mathematics/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "FSharp.Core": "7.0.300",
-          "Mathematics": "1.0.0"
+          "FSharpMathematics": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/FSharpMathematics.dll": {}
+          "bin/placeholder/Mathematics.dll": {}
         },
         "runtime": {
-          "bin/placeholder/FSharpMathematics.dll": {}
+          "bin/placeholder/Mathematics.dll": {}
         }
       }
     }
@@ -115,15 +114,16 @@
         "lib/netstandard2.1/zh-Hant/FSharp.Core.resources.dll"
       ]
     },
-    "FSharpMathematics/1.0.0": {
+    "Mathematics/1.0.0": {
       "type": "project",
-      "path": "../FSharpMathematics/FSharpMathematics.fsproj",
-      "msbuildProject": "../FSharpMathematics/FSharpMathematics.fsproj"
+      "path": "../Mathematics/Mathematics.csproj",
+      "msbuildProject": "../Mathematics/Mathematics.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "FSharpMathematics >= 1.0.0"
+      "FSharp.Core >= 7.0.300",
+      "Mathematics >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -133,11 +133,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\C#\\MathLib\\Mathematics\\Mathematics.csproj",
-      "projectName": "Mathematics",
-      "projectPath": "D:\\C#\\MathLib\\Mathematics\\Mathematics.csproj",
+      "projectUniqueName": "D:\\C#\\MathLib\\FSharpMathematics\\FSharpMathematics.fsproj",
+      "projectName": "FSharpMathematics",
+      "projectPath": "D:\\C#\\MathLib\\FSharpMathematics\\FSharpMathematics.fsproj",
       "packagesPath": "C:\\Users\\Stati\\.nuget\\packages\\",
-      "outputPath": "D:\\C#\\MathLib\\Mathematics\\obj\\",
+      "outputPath": "D:\\C#\\MathLib\\FSharpMathematics\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -153,27 +153,31 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
+        "C:\\Program Files\\dotnet\\sdk\\7.0.302\\FSharp\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\C#\\MathLib\\FSharpMathematics\\FSharpMathematics.fsproj": {
-              "projectPath": "D:\\C#\\MathLib\\FSharpMathematics\\FSharpMathematics.fsproj"
+            "D:\\C#\\MathLib\\Mathematics\\Mathematics.csproj": {
+              "projectPath": "D:\\C#\\MathLib\\Mathematics\\Mathematics.csproj"
             }
           }
         }
-      },
-      "warningProperties": {
-        "warnAsError": [
-          "NU1605"
-        ]
       }
     },
     "frameworks": {
       "net6.0": {
         "targetAlias": "net6.0",
+        "dependencies": {
+          "FSharp.Core": {
+            "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+            "target": "Package",
+            "version": "[7.0.300, )",
+            "generatePathProperty": true
+          }
+        },
         "imports": [
           "net461",
           "net462",
@@ -198,8 +202,8 @@
     {
       "code": "NU1108",
       "level": "Error",
-      "message": "Cycle detected. \r\n  Mathematics -> FSharpMathematics -> Mathematics.",
-      "libraryId": "Mathematics",
+      "message": "Cycle detected. \r\n  FSharpMathematics -> Mathematics -> FSharpMathematics.",
+      "libraryId": "FSharpMathematics",
       "targetGraphs": [
         "net6.0"
       ]
