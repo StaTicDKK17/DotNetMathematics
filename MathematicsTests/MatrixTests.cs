@@ -11,7 +11,7 @@ public class MatrixTests
     {
         IMatrix M = new Matrix(3, 2);
 
-        Assert.True(M.MRows == 3 && M.N_Cols == 2);
+        Assert.True(M.MRows == 3 && M.NCols == 2);
     }
 
     [Fact]

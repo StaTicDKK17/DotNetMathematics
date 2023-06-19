@@ -10,9 +10,9 @@ public class Matrix : IMatrix
 
     public int MRows => xs.GetLength(0);
 
-    public int N_Cols => xs.GetLength(1);
+    public int NCols => xs.GetLength(1);
 
-    public (int, int) Size => (MRows, N_Cols);
+    public (int, int) Size => (MRows, NCols);
 
     public Matrix(int mRows, int nCols)
     {
@@ -28,10 +28,10 @@ public class Matrix : IMatrix
 
     public Matrix(IMatrix A)
     {
-        xs = new float[A.MRows, A.N_Cols];
+        xs = new float[A.MRows, A.NCols];
 
         for (int i = 0; i < A.MRows; i++)
-            for (int j = 0; j < A.N_Cols; j++)
+            for (int j = 0; j < A.NCols; j++)
                 xs[i, j] = A.ToArray()[i, j];
     }
 
@@ -65,23 +65,38 @@ public class Matrix : IMatrix
 
     public IVector Column(int j)
     {
-        IVector vec = new Vector(N_Cols);
+        IVector vec = new Vector(NCols);
 
-        for (int i = 0; i < N_Cols; i++)
+        for (int i = 0; i < NCols; i++)
             vec.SetItem0I(i, Item0I(j-1, i));
 
         return vec;
     }
 
+    public static Matrix Transpose(Matrix M)
+    {
+        Matrix A = new(M.NCols, M.MRows);
+
+        for (int i = 0; i < M.MRows; i++)
+        {
+            for (int j = 0; j < M.NCols; j++)
+            {
+                A.SetItem0I(j, i, M.Item0I(i, j));
+            }
+        }
+
+        return A;
+    }
+
     public static Matrix operator +(Matrix A, Matrix B)
     {
         Contract.Requires(A.MRows == B.MRows);
-        Contract.Requires(A.N_Cols == B.N_Cols);
+        Contract.Requires(A.NCols == B.NCols);
 
-        Matrix M = new(A.MRows, A.N_Cols);
+        Matrix M = new(A.MRows, A.NCols);
 
         for (int i = 0; i < A.MRows; i++)
-            for (int j = 0; j < A.N_Cols; j++)
+            for (int j = 0; j < A.NCols; j++)
                 M.SetItem0I(i, j, A.Item0I(i, j) + B.Item0I(i, j));
             
         return M;
@@ -90,12 +105,12 @@ public class Matrix : IMatrix
     public static Matrix operator -(Matrix A,  Matrix B)
     {
         Contract.Requires(A.MRows == B.MRows);
-        Contract.Requires(A.N_Cols == B.N_Cols);
+        Contract.Requires(A.NCols == B.NCols);
 
-        Matrix M = new(A.MRows, A.N_Cols);
+        Matrix M = new(A.MRows, A.NCols);
 
         for (int i = 0; i < A.MRows; i++)
-            for (int j = 0; j < A.N_Cols; j++)
+            for (int j = 0; j < A.NCols; j++)
                 M.SetItem0I(i, j, A.Item0I(i, j) - B.Item0I(i, j));
 
         return M;
@@ -103,10 +118,10 @@ public class Matrix : IMatrix
 
     public static Matrix operator *(float x, Matrix M)
     {
-        Matrix A = new(M.MRows, M.N_Cols);
+        Matrix A = new(M.MRows, M.NCols);
 
         for (int i = 0; i < M.MRows; i++)
-            for (int j = 0; j < M.N_Cols; j++)
+            for (int j = 0; j < M.NCols; j++)
                 A.SetItem0I(i, j, M.Item0I(i, j) * x);
 
         return A;
@@ -114,10 +129,10 @@ public class Matrix : IMatrix
 
     public static Matrix operator *(Matrix M, float x)
     {
-        Matrix A = new(M.MRows, M.N_Cols);
+        Matrix A = new(M.MRows, M.NCols);
 
         for (int i = 0; i < M.MRows; i++)
-            for (int j = 0; j < M.N_Cols; j++)
+            for (int j = 0; j < M.NCols; j++)
                 A.SetItem0I(i, j, x * M.Item0I(i, j));
 
         return A;
@@ -125,13 +140,13 @@ public class Matrix : IMatrix
 
     public static Matrix operator *(Matrix A, Matrix B)
     {
-        Contract.Requires(A.N_Cols == B.MRows);
+        Contract.Requires(A.NCols == B.MRows);
 
-        Matrix M = new(A.MRows, B.N_Cols);
+        Matrix M = new(A.MRows, B.NCols);
 
         for (int i = 0; i < A.MRows; i++)
         {
-            for (int j = 0; j < B.N_Cols; j++)
+            for (int j = 0; j < B.NCols; j++)
             {
                 float rowRes = 0;
                 IVector row = A.Column(i + 1);
@@ -158,7 +173,7 @@ public class Matrix : IMatrix
         Matrix M = (Matrix)obj;
 
         for (int i = 0; i < MRows; i++)
-            for (int j = 0; j < N_Cols; j++)
+            for (int j = 0; j < NCols; j++)
                 if (Item0I(i, j) != M.Item0I(i, j))
                     return false;
 

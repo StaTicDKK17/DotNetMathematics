@@ -10,33 +10,38 @@ public interface IMatrix
     IVector Row(int i);
     IVector Column(int j);
 
+    static IMatrix Transpose(IMatrix M)
+    {
+        return Matrix.Transpose((Matrix)M);
+    }
+
     int MRows { get; }
-    int N_Cols { get; }
+    int NCols { get; }
 
     (int, int) Size { get; }
     
     public static IMatrix operator +(IMatrix xs, IMatrix ys)
     {
-        return (IMatrix)((Matrix)xs + (Matrix)ys);
+        return (Matrix)xs + (Matrix)ys;
     }
 
     public static IMatrix operator -(IMatrix xs, IMatrix ys)
     {
-        return (IMatrix)((Matrix)xs - (Matrix)ys);
+        return (Matrix)xs - (Matrix)ys;
     }
 
     public static IMatrix operator *(IMatrix v, float y)
     {
-        return (IMatrix)((Matrix)v * y);
+        return (Matrix)v * y;
     }
 
     public static IMatrix operator *(float x, IMatrix v)
     {
-        return (IMatrix)(x * (Matrix)v);
+        return x * (Matrix)v;
     }
 
     public static IMatrix operator *(IMatrix a, IMatrix v)
     {
-        return (IMatrix)((Matrix)a * (Matrix)v);
+        return (Matrix)a * (Matrix)v;
     }
 }
