@@ -216,4 +216,14 @@ public class VectorTests
 
         Assert.False(vec1.Equals(vec2));
     }
+
+    [Fact]
+    public void GetHashCodeWorks()
+    {
+        float[] f = { 1.0f, 2.0f };
+        IVector vec1 = new Vector(f);
+        IVector vec2 = new Vector(f);
+
+        Assert.True(vec1.GetHashCode() == vec2.GetHashCode());
+    }
 }

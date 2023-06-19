@@ -244,6 +244,26 @@ public class MatrixTests
     }
 
     [Fact]
+    public void MatrixFloatMultiplicationWorks()
+    {
+        float[,] floats = { { -2, 3 },
+                            {  0, 1 }
+        };
+
+        IMatrix M = new Matrix(floats);
+
+        IMatrix actual = M * -2;
+
+        float[,] expectedFloats = { { 4, -6 },
+                                    { 0, -2 }
+        };
+
+        IMatrix expected = new Matrix(expectedFloats);
+
+        Assert.True(expected.Equals(actual));
+    }
+
+    [Fact]
     public void MatrixMultiplicationBehavesWell()
     {
         float[,] floats1 = { { 1, 2, 5 },
@@ -265,6 +285,19 @@ public class MatrixTests
         IMatrix actual = left * right;
 
         Assert.True(actual.Equals(expected));
+    }
+
+    [Fact]
+    public void GetHashCodeWorks()
+    {
+        float[,] floats = { { 1, 2, 3 },
+                            { 4, 5, 6 }
+        };
+
+        IMatrix M = new Matrix(floats);
+        IMatrix A = new Matrix(floats);
+
+        Assert.True(M.GetHashCode() == A.GetHashCode());
     }
 }
 
