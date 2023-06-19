@@ -2,6 +2,7 @@
 
 using Mathematics.Matrices;
 using Mathematics.Vectors;
+using Newtonsoft.Json;
 
 public class MatrixTests
 {
@@ -172,6 +173,98 @@ public class MatrixTests
         IVector v = new Vector(floats1);
 
         Assert.False(M.Equals(v));
+    }
+
+    [Fact]
+    public void MatrixAdditionBehavesWell()
+    {
+        float[,] floats = { { 2, 1 },
+                            { 0, 1 } 
+        };
+        float[,] floats1 = { { 1, -1},
+                             { 2, 0 }
+        };
+
+        IMatrix M1 = new Matrix(floats);
+        IMatrix M2 = new Matrix(floats1);
+
+        IMatrix M3 = M1 + M2;
+
+        float[,] expected = { { 3, 0 },
+                              { 2, 1 }
+        };
+
+        IMatrix expectedM = new Matrix(expected);
+
+        Assert.True(expectedM.Equals(M3));
+    }
+
+    [Fact]
+    public void MatrixSubtractionBehavesWell()
+    {
+        float[,] floats = { { 2, 1 },
+                            { 0, 1 }
+        };
+        float[,] floats1 = { { 1, -1},
+                             { 2, 0 }
+        };
+
+        IMatrix M1 = new Matrix(floats);
+        IMatrix M2 = new Matrix(floats1);
+
+        IMatrix M3 = M1 - M2;
+
+        float[,] expected = { { 1, 2 },
+                              { -2, 1 }
+        };
+
+        IMatrix expectedM = new Matrix(expected);
+
+        Assert.True(expectedM.Equals(M3));
+    }
+
+    [Fact]
+    public void MatrixScalarMultiplicationBehavesWell()
+    {
+        float[,] floats = { { -2, 3 },
+                            {  0, 1 }
+        };
+
+        IMatrix M = new Matrix(floats);
+
+        IMatrix actual = -2 * M;
+
+        float[,] expectedFloats = { { 4, -6 },
+                                    { 0, -2 }
+        };
+
+        IMatrix expected = new Matrix(expectedFloats);
+
+        Assert.True(expected.Equals(actual));
+    }
+
+    [Fact]
+    public void MatrixMultiplicationBehavesWell()
+    {
+        float[,] floats1 = { { 1, 2, 5 },
+                             { 3, 0, 4 }
+        };
+
+        float[,] floats2 = { { 2, 1 },
+                             { 3, 6 },
+                             { 1, 7 }
+        };
+
+        float[,] expectedFloats = { { 13, 48 },
+                                    { 10, 31 }
+        };
+
+        IMatrix left = new Matrix(floats1);
+        IMatrix right = new Matrix(floats2);
+        IMatrix expected = new Matrix(expectedFloats);
+        IMatrix actual = left * right;
+
+        Assert.True(actual.Equals(expected));
     }
 }
 

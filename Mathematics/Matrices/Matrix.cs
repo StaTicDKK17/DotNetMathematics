@@ -80,8 +80,8 @@ public class Matrix : IMatrix
 
         Matrix M = new Matrix(A.M_Rows, A.N_Cols);
 
-        for (int i = 0; i < A.M_Rows-1; i++)
-            for (int j = 0; j < A.N_Cols-1; j++)
+        for (int i = 0; i < A.M_Rows; i++)
+            for (int j = 0; j < A.N_Cols; j++)
                 M.SetItem0I(i, j, A.Item0I(i, j) + B.Item0I(i, j));
             
         return M;
@@ -94,8 +94,8 @@ public class Matrix : IMatrix
 
         Matrix M = new Matrix(A.M_Rows, A.N_Cols);
 
-        for (int i = 0; i < A.M_Rows - 1; i++)
-            for (int j = 0; j < A.N_Cols - 1; j++)
+        for (int i = 0; i < A.M_Rows; i++)
+            for (int j = 0; j < A.N_Cols; j++)
                 M.SetItem0I(i, j, A.Item0I(i, j) - B.Item0I(i, j));
 
         return M;
@@ -105,8 +105,8 @@ public class Matrix : IMatrix
     {
         Matrix A = new Matrix(M.M_Rows, M.N_Cols);
 
-        for (int i = 0; i < M.M_Rows - 1; i++)
-            for (int j = 0; j < M.N_Cols - 1; j++)
+        for (int i = 0; i < M.M_Rows; i++)
+            for (int j = 0; j < M.N_Cols; j++)
                 A.SetItem0I(i, j, M.Item0I(i, j) * x);
 
         return A;
@@ -116,8 +116,8 @@ public class Matrix : IMatrix
     {
         Matrix A = new Matrix(M.M_Rows, M.N_Cols);
 
-        for (int i = 0; i < M.M_Rows - 1; i++)
-            for (int j = 0; j < M.N_Cols - 1; j++)
+        for (int i = 0; i < M.M_Rows; i++)
+            for (int j = 0; j < M.N_Cols; j++)
                 A.SetItem0I(i, j, x * M.Item0I(i, j));
 
         return A;
@@ -129,21 +129,20 @@ public class Matrix : IMatrix
 
         Matrix M = new Matrix(A.M_Rows, B.N_Cols);
 
-        for (int i = 0; i < A.M_Rows - 1; i++)
+        for (int i = 0; i < A.M_Rows; i++)
         {
-            for (int j = 0; j < B.N_Cols-1; j++)
+            for (int j = 0; j < B.N_Cols; j++)
             {
                 float rowRes = 0;
-                IVector row = A.Row(i + 1);
-                IVector col = B.Column(j + 1);
+                IVector row = A.Column(i + 1);
+                IVector col = B.Row(j + 1);
 
-                foreach (float e1 in row.ToArray())
+                for (int e1 = 0; e1 < row.Size; e1++)
                 {
-                    foreach(float e2 in col.ToArray())
-                    {
-                        rowRes += e1 * e2;
-                    }
+                    rowRes += row.ToArray()[e1] * col.ToArray()[e1];
                 }
+
+                
                 M.SetItem0I(i, j, rowRes);
             }
         }

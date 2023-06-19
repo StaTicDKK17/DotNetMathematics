@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mathematics", "Mathematics\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathematicsTests", "MathematicsTests\MathematicsTests.csproj", "{67D33524-7DDE-4FB8-A9C7-EB27A884130D}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpMathematics", "FSharpMathematics\FSharpMathematics.fsproj", "{B2969562-9611-41C6-8E7C-D76392BDD323}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{67D33524-7DDE-4FB8-A9C7-EB27A884130D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67D33524-7DDE-4FB8-A9C7-EB27A884130D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67D33524-7DDE-4FB8-A9C7-EB27A884130D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2969562-9611-41C6-8E7C-D76392BDD323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2969562-9611-41C6-8E7C-D76392BDD323}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2969562-9611-41C6-8E7C-D76392BDD323}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2969562-9611-41C6-8E7C-D76392BDD323}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
