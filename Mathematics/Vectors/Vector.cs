@@ -4,7 +4,7 @@ namespace Mathematics.Vectors;
 
 public class Vector : IVector
 {
-    private float[] xs;
+    private readonly float[] xs;
 
     public int Size => xs.Length;
 
@@ -98,19 +98,24 @@ public class Vector : IVector
 
     public override bool Equals(object? obj)
     {
-        if (obj is Vector)
+        if (obj is not Vector)
+            return false;
+        
+        Vector retval = (Vector)obj;
+
+        if (retval.Size != Size) return false;
+
+        for (int i = 0; i < retval.Size; i++)
         {
-            Vector retval = (Vector)obj;
-
-            if (retval.Size != Size) return false;
-
-            for(int i = 0; i < retval.Size; i++)
-            {
-                if (retval.Item0I(i) != Item0I(i))
-                    return false;
-            }
-            return true;
+            if (retval.Item0I(i) != Item0I(i))
+                return false;
         }
-        return false;
+        return true;
+        
+    }
+
+    public override int GetHashCode()
+    {
+        return xs.GetHashCode();
     }
 }

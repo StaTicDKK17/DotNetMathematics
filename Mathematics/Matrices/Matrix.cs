@@ -6,13 +6,13 @@ namespace Mathematics.Matrices;
 
 public class Matrix : IMatrix
 {
-    private float[,] xs;
+    private readonly float[,] xs;
 
-    public int M_Rows => xs.GetLength(0);
+    public int MRows => xs.GetLength(0);
 
     public int N_Cols => xs.GetLength(1);
 
-    public (int, int) Size => (M_Rows, N_Cols);
+    public (int, int) Size => (MRows, N_Cols);
 
     public Matrix(int mRows, int nCols)
     {
@@ -28,9 +28,9 @@ public class Matrix : IMatrix
 
     public Matrix(IMatrix A)
     {
-        xs = new float[A.M_Rows, A.N_Cols];
+        xs = new float[A.MRows, A.N_Cols];
 
-        for (int i = 0; i < A.M_Rows; i++)
+        for (int i = 0; i < A.MRows; i++)
             for (int j = 0; j < A.N_Cols; j++)
                 xs[i, j] = A.ToArray()[i, j];
     }
@@ -51,8 +51,8 @@ public class Matrix : IMatrix
 
     public IVector Row(int i)
     {
-        IVector vec = new Vector(M_Rows);
-        for (int j = 0; j < M_Rows; j++)
+        IVector vec = new Vector(MRows);
+        for (int j = 0; j < MRows; j++)
             vec.SetItem0I(j, Item0I(j, i-1));
 
         return vec;
@@ -75,12 +75,12 @@ public class Matrix : IMatrix
 
     public static Matrix operator +(Matrix A, Matrix B)
     {
-        Contract.Requires(A.M_Rows == B.M_Rows);
+        Contract.Requires(A.MRows == B.MRows);
         Contract.Requires(A.N_Cols == B.N_Cols);
 
-        Matrix M = new Matrix(A.M_Rows, A.N_Cols);
+        Matrix M = new(A.MRows, A.N_Cols);
 
-        for (int i = 0; i < A.M_Rows; i++)
+        for (int i = 0; i < A.MRows; i++)
             for (int j = 0; j < A.N_Cols; j++)
                 M.SetItem0I(i, j, A.Item0I(i, j) + B.Item0I(i, j));
             
@@ -89,12 +89,12 @@ public class Matrix : IMatrix
 
     public static Matrix operator -(Matrix A,  Matrix B)
     {
-        Contract.Requires(A.M_Rows == B.M_Rows);
+        Contract.Requires(A.MRows == B.MRows);
         Contract.Requires(A.N_Cols == B.N_Cols);
 
-        Matrix M = new Matrix(A.M_Rows, A.N_Cols);
+        Matrix M = new(A.MRows, A.N_Cols);
 
-        for (int i = 0; i < A.M_Rows; i++)
+        for (int i = 0; i < A.MRows; i++)
             for (int j = 0; j < A.N_Cols; j++)
                 M.SetItem0I(i, j, A.Item0I(i, j) - B.Item0I(i, j));
 
@@ -103,9 +103,9 @@ public class Matrix : IMatrix
 
     public static Matrix operator *(float x, Matrix M)
     {
-        Matrix A = new Matrix(M.M_Rows, M.N_Cols);
+        Matrix A = new(M.MRows, M.N_Cols);
 
-        for (int i = 0; i < M.M_Rows; i++)
+        for (int i = 0; i < M.MRows; i++)
             for (int j = 0; j < M.N_Cols; j++)
                 A.SetItem0I(i, j, M.Item0I(i, j) * x);
 
@@ -114,9 +114,9 @@ public class Matrix : IMatrix
 
     public static Matrix operator *(Matrix M, float x)
     {
-        Matrix A = new Matrix(M.M_Rows, M.N_Cols);
+        Matrix A = new(M.MRows, M.N_Cols);
 
-        for (int i = 0; i < M.M_Rows; i++)
+        for (int i = 0; i < M.MRows; i++)
             for (int j = 0; j < M.N_Cols; j++)
                 A.SetItem0I(i, j, x * M.Item0I(i, j));
 
@@ -125,11 +125,11 @@ public class Matrix : IMatrix
 
     public static Matrix operator *(Matrix A, Matrix B)
     {
-        Contract.Requires(A.N_Cols == B.M_Rows);
+        Contract.Requires(A.N_Cols == B.MRows);
 
-        Matrix M = new Matrix(A.M_Rows, B.N_Cols);
+        Matrix M = new(A.MRows, B.N_Cols);
 
-        for (int i = 0; i < A.M_Rows; i++)
+        for (int i = 0; i < A.MRows; i++)
         {
             for (int j = 0; j < B.N_Cols; j++)
             {
@@ -152,16 +152,21 @@ public class Matrix : IMatrix
 
     public override bool Equals(object? obj)
     {
-        if (!(obj is Matrix))
+        if (obj is not Matrix)
             return false;
 
         Matrix M = (Matrix)obj;
 
-        for (int i = 0; i < M_Rows; i++)
+        for (int i = 0; i < MRows; i++)
             for (int j = 0; j < N_Cols; j++)
                 if (Item0I(i, j) != M.Item0I(i, j))
                     return false;
 
         return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return xs.GetHashCode();
     }
 }
