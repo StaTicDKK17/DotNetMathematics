@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.Contracts;
+﻿using Mathematics.Matrices;
+using System.ComponentModel;
+using System.Diagnostics.Contracts;
 
 namespace Mathematics.Vectors;
 
@@ -7,6 +9,20 @@ public class Vector : IVector
     private readonly float[] xs;
 
     public int Size => xs.Length;
+
+    public float Norm
+    {
+        get
+        {
+            float res = 0;
+
+            foreach (float e in xs)
+            {
+                res += MathF.Pow(e, 2);
+            }
+            return MathF.Sqrt(res);
+        }
+    }
 
     public Vector(int n)
     {
@@ -96,6 +112,36 @@ public class Vector : IVector
         return retval;
     }
 
+    public static IVector operator *(Vector v, IMatrix M)
+    {
+        Contract.Requires(M.NCols == v.Size);
+        float[] results = new float[M.MRows];
+        for (int i = 0; i < M.MRows; i++)
+        {
+            float res = 0.0f;
+            for (int j = 0; j < M.NCols; j++)
+                res += M.Item(i + 1, j + 1) * v.Item0I(j);
+            
+            results[i] = res;
+        }
+        return new Vector(results);
+    }
+
+    public static IVector operator *(IMatrix M, Vector v)
+    {
+        Contract.Requires(M.NCols == v.Size);
+        float[] results = new float[M.MRows];
+        for (int i = 0; i < M.MRows; i++)
+        {
+            float res = 0.0f;
+            for (int j = 0; j < M.NCols; j++)
+                res += M.Item(i + 1, j + 1) * v.Item0I(j);
+            
+            results[i] = res;
+        }
+        return new Vector(results);
+    }
+
     public override bool Equals(object? obj)
     {
         if (obj is not Vector)
@@ -106,10 +152,9 @@ public class Vector : IVector
         if (retval.Size != Size) return false;
 
         for (int i = 0; i < retval.Size; i++)
-        {
             if (retval.Item0I(i) != Item0I(i))
                 return false;
-        }
+        
         return true;
         
     }

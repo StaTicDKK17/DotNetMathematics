@@ -1,4 +1,6 @@
-﻿namespace Mathematics.Vectors;
+﻿using Mathematics.Matrices;
+
+namespace Mathematics.Vectors;
 
 public interface IVector
 {
@@ -7,6 +9,8 @@ public interface IVector
     public float Item0I(int i);
     void SetItem(int i, float value);
     void SetItem0I(int i, float value);
+
+    float Norm { get; }
 
     public static IVector operator *(IVector v, float y)
     {
@@ -32,6 +36,18 @@ public interface IVector
     {
         return (Vector)xs * (Vector)ys;
     }
+
+    public static IVector operator *(IVector v, IMatrix M)
+    {
+        return (Vector)v * M;
+    }
+
+    public static IVector operator *(IMatrix M, IVector v)
+    {
+        return M * (Vector)v;
+    }
+
+
 
     int Size { get; }
 }

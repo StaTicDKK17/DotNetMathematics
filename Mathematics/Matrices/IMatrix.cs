@@ -19,6 +19,9 @@ public interface IMatrix
     int NCols { get; }
 
     (int, int) Size { get; }
+
+    public bool IsSymmetric();
+    public bool IsSkewSymmetric();
     
     public static IMatrix operator +(IMatrix xs, IMatrix ys)
     {

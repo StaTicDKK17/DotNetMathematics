@@ -299,5 +299,94 @@ public class MatrixTests
 
         Assert.True(M.GetHashCode() == A.GetHashCode());
     }
+
+    [Fact]
+    public void TestSquareMatrixTranspose()
+    {
+        float[,] floats = { { 1, 2 },
+                            { 3, 4 }
+        };
+
+        IMatrix M = new Matrix(floats);
+
+        float[,] expectedFloats = { { 1, 3 },
+                                    { 2, 4 }
+        };
+
+        IMatrix expected = new Matrix(expectedFloats);
+
+        Assert.True(IMatrix.Transpose(M).Equals(expected));
+    }
+
+    [Fact]
+    public void TestNonSquareMatrixTranspose()
+    {
+        float[,] floats = { { 1, 3, 5 },
+                            { 2, 4, 6 },
+        };
+
+        IMatrix M = new Matrix(floats);
+
+        float[,] expectedFloats = { { 1, 2 },
+                                    { 3, 4 },
+                                    { 5, 6 },
+        };
+
+        IMatrix expected = new Matrix(expectedFloats);
+
+        Assert.True(IMatrix.Transpose(M).Equals(expected));
+    }
+
+    [Fact]
+    public void IsSymmetricWorksOnTrueCase()
+    {
+        float[,] floats = { {  1, -2,  3 },
+                            { -2,  0,  4 },
+                            {  3,  4, -7 }
+        };
+
+        IMatrix M = new Matrix(floats);
+
+        Assert.True(M.IsSymmetric());
+    }
+
+    [Fact]
+    public void IsSymmetricWorksOnFalseCase()
+    {
+        float[,] floats = { {  1, -6,  3 },
+                            { -2,  0,  4 },
+                            {  -100,  4, -7 }
+        };
+
+        IMatrix M = new Matrix(floats);
+
+        Assert.False(M.IsSymmetric());
+    }
+
+    [Fact]
+    public void IsSkewSymmetricWorksOnTrueCase()
+    {
+        float[,] floats = { {  0, -2,  3 },
+                            {  2,  0, -4 },
+                            { -3,  4,  0}
+        };
+
+        IMatrix M = new Matrix(floats);
+
+        Assert.True(M.IsSkewSymmetric());
+    }
+
+    [Fact]
+    public void IsSkewSymmetricWorksOnFalseCase()
+    {
+        float[,] floats = { {  1,  2,   3 },
+                            { -2,  500, 7 },
+                            { -5432, -7,   -525}
+        };
+
+        IMatrix M = new Matrix(floats);
+
+        Assert.False(M.IsSkewSymmetric());
+    }
 }
 

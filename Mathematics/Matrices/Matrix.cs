@@ -88,6 +88,16 @@ public class Matrix : IMatrix
         return A;
     }
 
+    public bool IsSymmetric()
+    {
+        return Transpose(this).Equals(this);
+    }
+
+    public bool IsSkewSymmetric()
+    {
+        return Transpose(this).Equals(-1f * this);
+    }
+
     public static Matrix operator +(Matrix A, Matrix B)
     {
         Contract.Requires(A.MRows == B.MRows);
