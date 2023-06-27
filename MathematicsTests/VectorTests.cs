@@ -1,4 +1,5 @@
-﻿using Mathematics.Vectors;
+﻿using Mathematics.Matrices;
+using Mathematics.Vectors;
 using System.Runtime.Intrinsics;
 
 namespace MathematicsTests;
@@ -225,5 +226,41 @@ public class VectorTests
         IVector vec2 = new Vector(f);
 
         Assert.True(vec1.GetHashCode() == vec2.GetHashCode());
+    }
+
+    [Fact]
+    public void MatrixVectorMultiplicationWorks()
+    {
+        float[,] floats = { { 4.0f, 5.0f, 6.0f },
+                            { 7.0f, 8.0f, 9.0f }
+        };
+
+        float[] floats2 = { 1.2f, 2.3f, 3.4f };
+
+        IMatrix M = new Matrix(floats);
+        IVector v = new Vector(floats2);
+
+        IVector res = M * v;
+        IVector expected = new Vector(new float[] { 36.7f, 57.4f });
+
+        Assert.True(expected.Equals(res));
+    }
+
+    [Fact]
+    public void VectorMatrixMultiplicationWorks()
+    {
+        float[,] floats = { { 4.0f, 5.0f, 6.0f },
+                            { 7.0f, 8.0f, 9.0f }
+        };
+
+        float[] floats2 = { 1.2f, 2.3f, 3.4f };
+
+        IMatrix M = new Matrix(floats);
+        IVector v = new Vector(floats2);
+
+        IVector res = v * M;
+        IVector expected = new Vector(new float[] { 36.7f, 57.4f });
+
+        Assert.True(expected.Equals(res));
     }
 }
