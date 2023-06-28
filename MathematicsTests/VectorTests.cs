@@ -263,4 +263,12 @@ public class VectorTests
 
         Assert.True(expected.Equals(res));
     }
+
+    [Fact]
+    public void VectorNormPropertyBehavesWell()
+    {
+        IVector v = new Vector(new float[] { 1, 2, 3, 4 });
+
+        Assert.Equal(MathF.Sqrt(30.0f), v.Norm);
+    }
 }
