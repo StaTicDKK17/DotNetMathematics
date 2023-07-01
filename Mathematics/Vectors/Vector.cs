@@ -1,6 +1,8 @@
 ﻿using Mathematics.Matrices;
+using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics.Contracts;
+using System.Runtime.Serialization;
 
 namespace Mathematics.Vectors;
 
@@ -10,19 +12,7 @@ public class Vector : IVector
 
     public int Size => xs.Length;
 
-    public float Norm
-    {
-        get
-        {
-            float res = 0;
-
-            foreach (float e in xs)
-            {
-                res += MathF.Pow(e, 2);
-            }
-            return MathF.Sqrt(res);
-        }
-    }
+    public float Norm => MathF.Sqrt(xs.Select(x => MathF.Pow(x, 2)).Sum());
 
     public Vector(int n)
     {
@@ -30,9 +20,9 @@ public class Vector : IVector
         xs = new float[n];
     }
 
-    public Vector(float[] xs)
+    public Vector(IEnumerable xs)
     {
-        this.xs = xs;
+        this.xs = (float[])xs;
     }
 
     public Vector(IVector v)
@@ -64,65 +54,64 @@ public class Vector : IVector
 
     public static IVector operator *(Vector v, float y)
     {
-        IVector retval = new Vector(v.Size);
+        float[] new_elements = v
+            .ToArray()
+            .Select(e => e * y)
+            .ToArray();
 
-        for (int i = 0; i < v.Size; i++)
-            retval.SetItem0I(i, v.Item0I(i) * y);
-
-        return retval;
+        return new Vector(new_elements);
     }
 
     public static IVector operator *(float x, Vector v)
     {
-        IVector retval = new Vector(v.Size);
-
-        for (int i = 0; i < v.Size; i++)
-            retval.SetItem0I(i, v.Item0I(i) * x);
-
-        return retval;
+        float[] new_elements = v
+            .ToArray()
+            .Select(e => e * x)
+            .ToArray();
+        
+        return new Vector(new_elements);
     }
 
     public static IVector operator +(Vector xs, Vector ys)
     {
-        IVector retval = new Vector(Math.Min(xs.Size, ys.Size));
+        float[] new_elements = xs
+            .ToArray()
+            .Zip(ys.ToArray(), (x, y) => x + y)
+            .ToArray();
 
-        for (int i = 0; i < Math.Min(xs.Size, ys.Size); i++)
-            retval.SetItem0I(i, xs.Item0I(i) + ys.Item0I(i));
-
-        return retval;
+        return new Vector(new_elements);
     }
 
     public static IVector operator -(Vector xs, Vector ys)
     {
-        IVector retval = new Vector(Math.Min(xs.Size, ys.Size));
+        float[] new_elements = xs
+            .ToArray()
+            .Zip(ys.ToArray(), (x, y) => x - y)
+            .ToArray();
 
-        for (int i = 0; i < Math.Min(xs.Size, ys.Size); i++)
-            retval.SetItem0I(i, xs.Item0I(i) - ys.Item0I(i));
-
-        return retval;
+        return new Vector(new_elements);
     }
 
     public static float operator *(Vector xs, Vector ys)
     {
-        float retval = 0.0f;
-
-        for (int i = 0; i < Math.Min(xs.Size, ys.Size); i++)
-            retval += xs.Item0I(i) * ys.Item0I(i);
-
-        return retval;
+        return xs
+            .ToArray()
+            .Zip(ys.ToArray(), (x, y) => x * y)
+            .Sum();
     }
 
     public static IVector operator *(Vector v, IMatrix M)
     {
         Contract.Requires(M.NCols == v.Size);
         float[] results = new float[M.MRows];
+
         for (int i = 0; i < M.MRows; i++)
         {
-            float res = 0.0f;
-            for (int j = 0; j < M.NCols; j++)
-                res += M.Item(i + 1, j + 1) * v.Item0I(j);
-            
-            results[i] = res;
+            IVector row = M.Row(i + 1);
+            results[i] = row
+                .ToArray()
+                .Zip(v.ToArray(), (x, y) => x * y)
+                .Sum();
         }
         return new Vector(results);
     }
@@ -133,11 +122,11 @@ public class Vector : IVector
         float[] results = new float[M.MRows];
         for (int i = 0; i < M.MRows; i++)
         {
-            float res = 0.0f;
-            for (int j = 0; j < M.NCols; j++)
-                res += M.Item(i + 1, j + 1) * v.Item0I(j);
-            
-            results[i] = res;
+            IVector row = M.Row(i + 1);
+            results[i] = row
+                .ToArray()
+                .Zip(v.ToArray(), (x, y) => x * y)
+                .Sum();
         }
         return new Vector(results);
     }
@@ -162,5 +151,10 @@ public class Vector : IVector
     public override int GetHashCode()
     {
         return xs.GetHashCode();
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        return xs.GetEnumerator();
     }
 }

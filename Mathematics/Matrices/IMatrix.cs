@@ -1,14 +1,20 @@
 ﻿using Mathematics.Vectors;
+using System.Collections;
 
 namespace Mathematics.Matrices;
 
-public interface IMatrix
+public interface IMatrix : IEnumerable
 {
-    float[,] ToArray();
+    float[][] ToArray();
     float Item(int i, int j);
     void SetItem(int i, int j, float value);
     IVector Row(int i);
     IVector Column(int j);
+
+    static IMatrix ArgumentRight(IMatrix A, IVector v)
+    {
+        return Matrix.ArgumentRight((Matrix)A, v);
+    }
 
     static IMatrix Transpose(IMatrix M)
     {

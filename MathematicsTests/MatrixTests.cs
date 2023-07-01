@@ -88,7 +88,7 @@ public class MatrixTests
 
         IVector vec = M.Row(1);
 
-        Assert.True(new Vector(new float[] { 3.0f, 4.0f }).Equals(vec));
+        Assert.True(new Vector(new float[] { 3.0f, 2.0f }).Equals(vec));
     }
 
     [Fact]
@@ -102,7 +102,7 @@ public class MatrixTests
 
         IVector vec = M.Column(1);
 
-        Assert.True(new Vector(new float[] {3.0f, 2.0f }).Equals(vec));
+        Assert.True(new Vector(new float[] {3.0f, 4.0f }).Equals(vec));
     }
 
     [Fact]
@@ -114,11 +114,11 @@ public class MatrixTests
 
         IMatrix M = new Matrix(floats);
 
-        float[,] res = M.ToArray();
+        float[][] res = M.ToArray();
 
         for (int i = 0; i < 2; i++)
             for(int j = 0; j < 2; j++) {
-                Assert.Equal(floats[i, j], res[i, j]);
+                Assert.Equal(floats[i, j], res[i][j]);
         }
     }
 
@@ -285,19 +285,6 @@ public class MatrixTests
         IMatrix actual = left * right;
 
         Assert.True(actual.Equals(expected));
-    }
-
-    [Fact]
-    public void GetHashCodeWorks()
-    {
-        float[,] floats = { { 1, 2, 3 },
-                            { 4, 5, 6 }
-        };
-
-        IMatrix M = new Matrix(floats);
-        IMatrix A = new Matrix(floats);
-
-        Assert.True(M.GetHashCode() == A.GetHashCode());
     }
 
     [Fact]

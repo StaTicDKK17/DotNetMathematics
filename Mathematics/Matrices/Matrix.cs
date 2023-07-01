@@ -1,16 +1,16 @@
 ﻿using Mathematics.Vectors;
-
+using System.Collections;
 using System.Diagnostics.Contracts;
 
 namespace Mathematics.Matrices;
 
 public class Matrix : IMatrix
 {
-    private readonly float[,] xs;
+    private readonly float[][] xs;
 
     public int MRows => xs.GetLength(0);
 
-    public int NCols => xs.GetLength(1);
+    public int NCols => xs[0].Length;
 
     public (int, int) Size => (MRows, NCols);
 
@@ -18,72 +18,93 @@ public class Matrix : IMatrix
     {
         Contract.Requires(mRows > 0);
         Contract.Requires(nCols > 0);
-        xs = new float[mRows, nCols];
+        xs = new float[mRows][];
+        SetupMatrixArray(nCols);
     }
 
     public Matrix(float[,] xs)
+    {
+        this.xs = new float[xs.GetLength(0)][];
+
+        SetupMatrixArray(xs.GetLength(1));
+
+        Enumerable.Range(0, xs.GetLength(0))
+            .ToList()
+            .ForEach(i => Enumerable.Range(0, xs.GetLength(1))
+                .ToList()
+                .ForEach(j => this.xs[i][j] = xs[i, j]));
+    }
+
+    public Matrix(float[][] xs)
     {
         this.xs = xs;
     }
 
     public Matrix(IMatrix A)
     {
-        xs = new float[A.MRows, A.NCols];
+        xs = new float[A.MRows][];
 
-        for (int i = 0; i < A.MRows; i++)
-            for (int j = 0; j < A.NCols; j++)
-                xs[i, j] = A.ToArray()[i, j];
+        SetupMatrixArray(A.NCols);
+
+        Enumerable.Range(0, A.MRows)
+            .ToList()
+            .ForEach(i => xs[i] = A.Row(i + 1).ToArray());
     }
 
-    private float Item0I(int i, int j) => xs[i, j];
-    public float Item(int i, int j) => xs[i - 1, j - 1];
+    private void SetupMatrixArray(int cols)
+    {
+        Enumerable.Range(0, MRows)
+            .ToList()
+            .ForEach(i => xs[i] = new float[cols]);
+    }
+
+    private float Item0I(int i, int j) => xs[i][j];
+    public float Item(int i, int j) => xs[i - 1][j - 1];
 
     private void SetItem0I(int i, int j, float value)
     {
-        xs[i, j] = value;
+        xs[i][j] = value;
     }
 
 
     public void SetItem(int i, int j, float value)
     {
-        xs[i - 1, j - 1] = value;
+        xs[i - 1][j - 1] = value;
     }
 
     public IVector Row(int i)
     {
-        IVector vec = new Vector(MRows);
-        for (int j = 0; j < MRows; j++)
-            vec.SetItem0I(j, Item0I(j, i-1));
-
-        return vec;
+        return new Vector(xs[i-1]);
     }
 
-    public float[,] ToArray()
+    public void SetRow(int i, IVector v)
+    {
+        xs[i - 1] = v.ToArray();
+    }
+
+    public float[][] ToArray()
     {
         return xs;
     }
 
     public IVector Column(int j)
     {
-        IVector vec = new Vector(NCols);
-
-        for (int i = 0; i < NCols; i++)
-            vec.SetItem0I(i, Item0I(j-1, i));
-
-        return vec;
+        return new Vector(Enumerable.Range(0, MRows)
+            .Select(e => Item0I(e, j - 1))
+            .ToArray());
     }
 
     public static Matrix Transpose(Matrix M)
     {
         Matrix A = new(M.NCols, M.MRows);
 
-        for (int i = 0; i < M.MRows; i++)
-        {
-            for (int j = 0; j < M.NCols; j++)
-            {
-                A.SetItem0I(j, i, M.Item0I(i, j));
-            }
-        }
+        Enumerable.Range(0, M.MRows)
+            .ToList()
+            .ForEach(
+              i => Enumerable.Range(0, M.NCols)
+                .ToList()
+                .ForEach(j => A.SetItem0I(j, i, M.Item0I(i, j)))
+        );
 
         return A;
     }
@@ -98,18 +119,39 @@ public class Matrix : IMatrix
         return Transpose(this).Equals(-1f * this);
     }
 
+    public void ElemetaryRowScaling(int row, float multiplier)
+    {   
+        float[] TransformedRow = Row(row)
+            .ToArray()
+            .Select(p => p * multiplier)
+            .ToArray();
+        xs[row] = TransformedRow;
+       
+    }
+
+    public void ElementaryRowReplacement(int row, float multiplier, int row2)
+    {
+        Contract.Requires(row != row2);
+        float[] TransformedRow = Row(row)
+            .ToArray()
+            .Zip(Row(row2).ToArray(), (e1, e2) => e1 + e2 * multiplier)
+            .ToArray();
+        xs[row] = TransformedRow;
+    }
+
     public static Matrix operator +(Matrix A, Matrix B)
     {
         Contract.Requires(A.MRows == B.MRows);
         Contract.Requires(A.NCols == B.NCols);
 
-        Matrix M = new(A.MRows, A.NCols);
-
-        for (int i = 0; i < A.MRows; i++)
-            for (int j = 0; j < A.NCols; j++)
-                M.SetItem0I(i, j, A.Item0I(i, j) + B.Item0I(i, j));
+        float[][] floats = A.xs
+            .Zip(B.xs, (row1, row2) => row1
+                .Zip(row2, (e1, e2) => e1 + e2)
+                .ToArray()
+            )
+            .ToArray();
             
-        return M;
+        return new Matrix(floats);
     }
 
     public static Matrix operator -(Matrix A,  Matrix B)
@@ -117,35 +159,29 @@ public class Matrix : IMatrix
         Contract.Requires(A.MRows == B.MRows);
         Contract.Requires(A.NCols == B.NCols);
 
-        Matrix M = new(A.MRows, A.NCols);
+        float[][] floats = A.xs
+            .Zip(
+                B.xs, (row1, row2) => row1.Zip(row2, (e1, e2) => e1 - e2)
+                .ToArray()
+            ).ToArray();
 
-        for (int i = 0; i < A.MRows; i++)
-            for (int j = 0; j < A.NCols; j++)
-                M.SetItem0I(i, j, A.Item0I(i, j) - B.Item0I(i, j));
-
-        return M;
+        return new Matrix(floats);
     }
 
     public static Matrix operator *(float x, Matrix M)
-    {
-        Matrix A = new(M.MRows, M.NCols);
+    { 
+        float[][] floats = M.xs
+            .Select(row => row.Select(p => p * x).ToArray()).ToArray();
 
-        for (int i = 0; i < M.MRows; i++)
-            for (int j = 0; j < M.NCols; j++)
-                A.SetItem0I(i, j, M.Item0I(i, j) * x);
-
-        return A;
+        return new Matrix(floats);
     }
 
     public static Matrix operator *(Matrix M, float x)
     {
-        Matrix A = new(M.MRows, M.NCols);
+        float[][] floats = M.xs
+            .Select(row => row.Select(p => p * x).ToArray()).ToArray();
 
-        for (int i = 0; i < M.MRows; i++)
-            for (int j = 0; j < M.NCols; j++)
-                A.SetItem0I(i, j, x * M.Item0I(i, j));
-
-        return A;
+        return new Matrix(floats);
     }
 
     public static Matrix operator *(Matrix A, Matrix B)
@@ -154,23 +190,20 @@ public class Matrix : IMatrix
 
         Matrix M = new(A.MRows, B.NCols);
 
-        for (int i = 0; i < A.MRows; i++)
-        {
-            for (int j = 0; j < B.NCols; j++)
-            {
-                float rowRes = 0;
-                IVector row = A.Column(i + 1);
-                IVector col = B.Row(j + 1);
-
-                for (int e1 = 0; e1 < row.Size; e1++)
+        Enumerable.Range(0, A.MRows)
+          .ToList()
+          .ForEach(num1 => Enumerable.Range(0, B.NCols)
+            .ToList()
+              .ForEach(num2 =>
                 {
-                    rowRes += row.ToArray()[e1] * col.ToArray()[e1];
+                  float res = A.Row(num1 + 1)
+                    .ToArray()
+                    .Zip(B.Column(num2 + 1).ToArray(), (e1, e2) => e1 * e2)
+                    .Sum();
+                  M.SetItem0I(num1, num2, res);
                 }
-
-                
-                M.SetItem0I(i, j, rowRes);
-            }
-        }
+              )
+        );
 
         return M;
     }
@@ -190,8 +223,30 @@ public class Matrix : IMatrix
         return true;
     }
 
-    public override int GetHashCode()
+    internal static IMatrix ArgumentRight(Matrix A, IVector v)
     {
-        return xs.GetHashCode();
+        Contract.Requires(A.MRows == v.Size);
+
+        IMatrix M = new Matrix(A.MRows, A.NCols + 1);
+
+        Enumerable.Range(0, A.MRows)
+            .ToList()
+            .ForEach(
+            i => Enumerable.Range(0, A.NCols)
+              .ToList()
+              .ForEach(
+                j =>
+                {
+                    M.SetItem(i + 1, j + 1, A.Item0I(i, j));
+                    M.SetItem(i + 1, A.NCols, v.Item0I(i));
+                }
+              ));
+
+        return M;
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        return xs.GetEnumerator();
     }
 }

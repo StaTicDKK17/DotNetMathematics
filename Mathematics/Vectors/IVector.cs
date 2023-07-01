@@ -1,8 +1,9 @@
 ﻿using Mathematics.Matrices;
+using System.Collections;
 
 namespace Mathematics.Vectors;
 
-public interface IVector
+public interface IVector : IEnumerable
 {
     float[] ToArray();
     float Item(int i);
