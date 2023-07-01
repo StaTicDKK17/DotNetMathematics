@@ -29,9 +29,9 @@ public class Vector : IVector
     {
         xs = new float[v.Size];
 
-        for (int i = 0; i < v.Size; i++)
-            xs[i] = v.ToArray()[i];
-
+        Enumerable.Range(0, v.Size)
+            .ToList()
+            .ForEach(i => xs[i] = v.ToArray()[i]);
     }
 
     public float Item(int i) => xs[i - 1];
@@ -103,32 +103,32 @@ public class Vector : IVector
     public static IVector operator *(Vector v, IMatrix M)
     {
         Contract.Requires(M.NCols == v.Size);
-        float[] results = new float[M.MRows];
 
-        for (int i = 0; i < M.MRows; i++)
-        {
-            IVector row = M.Row(i + 1);
-            results[i] = row
-                .ToArray()
-                .Zip(v.ToArray(), (x, y) => x * y)
-                .Sum();
-        }
-        return new Vector(results);
+        float[] res = Enumerable.Range(0, M.MRows)
+            .Select(
+            i => M.Row(i + 1)
+              .ToArray()
+              .Zip(v.ToArray(), (x, y) => x * y)
+              .Sum()
+            )
+            .ToArray();
+            ;
+        return new Vector(res);
     }
 
     public static IVector operator *(IMatrix M, Vector v)
     {
         Contract.Requires(M.NCols == v.Size);
-        float[] results = new float[M.MRows];
-        for (int i = 0; i < M.MRows; i++)
-        {
-            IVector row = M.Row(i + 1);
-            results[i] = row
-                .ToArray()
-                .Zip(v.ToArray(), (x, y) => x * y)
-                .Sum();
-        }
-        return new Vector(results);
+        float[] res = Enumerable.Range(0, M.MRows)
+            .Select(
+            i => M.Row(i + 1)
+              .ToArray()
+              .Zip(v.ToArray(), (x, y) => x * y)
+              .Sum()
+            )
+            .ToArray();
+        ;
+        return new Vector(res);
     }
 
     public override bool Equals(object? obj)
