@@ -4,7 +4,7 @@ public class Set<T> : ISet<T>
 {
     public int Size => collection.Count;
 
-    private List<T> collection;
+    private readonly List<T> collection;
 
     public Set()
     {

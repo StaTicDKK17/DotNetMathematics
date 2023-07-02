@@ -5,10 +5,33 @@ namespace Mathematics.Vectors;
 
 public interface IVector
 {
+    /// <returns>An array representation of the vector</returns>
     float[] ToArray();
+
+    /// <summary>
+    /// 1-Indexed - Returns the ith item in the vector
+    /// </summary>
+    /// <param name="i"></param>
     float Item(int i);
-    public float Item0I(int i);
+
+    /// <summary>
+    /// 0-Indexed - Returns the ith item in the vector
+    /// </summary>
+    /// <param name="i"></param>
+    float Item0I(int i);
+
+    /// <summary>
+    /// 1-Indexed - Sets the ith item in the vector to value
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="value"></param>s
     void SetItem(int i, float value);
+
+    /// <summary>
+    /// 0-Indexed - Sets the ith item in the vector to value
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="value"></param>
     void SetItem0I(int i, float value);
 
     float Norm { get; }
@@ -47,8 +70,6 @@ public interface IVector
     {
         return M * (Vector)v;
     }
-
-
 
     int Size { get; }
 }

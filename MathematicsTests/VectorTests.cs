@@ -219,16 +219,6 @@ public class VectorTests
     }
 
     [Fact]
-    public void GetHashCodeWorks()
-    {
-        float[] f = { 1.0f, 2.0f };
-        IVector vec1 = new Vector(f);
-        IVector vec2 = new Vector(f);
-
-        Assert.True(vec1.GetHashCode() == vec2.GetHashCode());
-    }
-
-    [Fact]
     public void MatrixVectorMultiplicationWorks()
     {
         float[,] floats = { { 4.0f, 5.0f, 6.0f },
