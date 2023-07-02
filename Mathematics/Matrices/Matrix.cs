@@ -1,5 +1,4 @@
 ﻿using Mathematics.Vectors;
-using System.Collections;
 using System.Diagnostics.Contracts;
 
 namespace Mathematics.Matrices;
@@ -58,13 +57,26 @@ public class Matrix : IMatrix
             .ForEach(i => xs[i] = new float[cols]);
     }
 
-    private float Item0I(int i, int j)
+    /// <summary>
+    /// 0-Indexed - Returns the ith, jth item in a matrix
+    /// </summary>
+    /// <param name="i">0-Indexed</param>
+    /// <param name="j">0-Indexed</param>
+    /// <returns></returns>
+    public float Item0I(int i, int j)
     {
         Contract.Requires(i < MRows && i >= 0);
         Contract.Requires(j < NCols && j >= 0);
 
         return xs[i][j];
     }
+
+    /// <summary>
+    /// 1-Indexed - returns the ith, jth item in a matrix 
+    /// </summary>
+    /// <param name="i">1-Indexed</param>
+    /// <param name="j">1-Indexed</param>
+    /// <returns></returns>
     public float Item(int i, int j)
     {
         Contract.Requires(i <= MRows && i > 0);
@@ -73,7 +85,13 @@ public class Matrix : IMatrix
         return xs[i - 1][j - 1];
     }
 
-    private void SetItem0I(int i, int j, float value)
+    /// <summary>
+    /// 0-Indexed - Sets the entry at (i, j) to value
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="j"></param>
+    /// <param name="value"></param>
+    public void SetItem0I(int i, int j, float value)
     {
         Contract.Requires(i < MRows && i >= 0);
         Contract.Requires(j < NCols && j >= 0);
@@ -81,7 +99,12 @@ public class Matrix : IMatrix
         xs[i][j] = value;
     }
 
-
+    /// <summary>
+    /// 1-Indexed - Sets the entry at (i, j) to value
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="j"></param>
+    /// <param name="value"></param>
     public void SetItem(int i, int j, float value)
     {
         Contract.Requires(i <= MRows && i > 0);
@@ -90,13 +113,23 @@ public class Matrix : IMatrix
         xs[i - 1][j - 1] = value;
     }
 
+    /// <summary>
+    /// 1-Indexed - Gets the ith row in the matrix
+    /// </summary>
+    /// <param name="i"></param>
+    /// <returns>A vector containing the entries in the ith row</returns>
     public IVector Row(int i)
     {
         Contract.Requires(i <= MRows && i > 0);
 
         return new Vector(xs[i-1]);
     }
-
+    
+    /// <summary>
+    /// 1-Indexed - Sets the ith row to v in the matrix
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="v"></param>
     public void SetRow(int i, IVector v)
     {
         Contract.Requires(i <= MRows && i > 0);
@@ -105,11 +138,19 @@ public class Matrix : IMatrix
         xs[i - 1] = v.ToArray();
     }
 
+    /// <summary>
+    /// Returns the array in a 2-dimensional array representation
+    /// </summary>
+    /// <returns></returns>
     public float[][] ToArray()
     {
         return xs;
     }
 
+    /// <summary>
+    /// 1-Indexed - returns the jth column of the matrix
+    /// </summary>
+    /// <param name="j"></param>
     public IVector Column(int j)
     {
         Contract.Requires(j <= NCols && j > 0);
@@ -119,6 +160,8 @@ public class Matrix : IMatrix
             .ToArray());
     }
 
+    /// <param name="M"></param>
+    /// <returns>The transpose matrix of M</returns>
     public static Matrix Transpose(Matrix M)
     {
         Matrix A = new(M.NCols, M.MRows);
@@ -134,16 +177,23 @@ public class Matrix : IMatrix
         return A;
     }
 
+    /// <returns>true if matrix is symmetrix, false otherwise</returns>
     public bool IsSymmetric()
     {
         return Transpose(this).Equals(this);
     }
 
+    /// <returns>true if the matrix is skew-symmetric, false otherwise</returns>
     public bool IsSkewSymmetric()
     {
         return Transpose(this).Equals(-1f * this);
     }
 
+    /// <summary>
+    /// 1-Indexed - transforms the instance multiplying each entry in the ith row by the multiplier
+    /// </summary>
+    /// <param name="row"></param>
+    /// <param name="multiplier"></param>
     public void ElemetaryRowScaling(int row, float multiplier)
     {
         Contract.Requires(row <= MRows && row > 0);
@@ -156,6 +206,13 @@ public class Matrix : IMatrix
        
     }
 
+    /// <summary>
+    /// 1-Indexed - Transforms the instance, doing a row replacement where the form is
+    /// row = row + multiplier * row2
+    /// </summary>
+    /// <param name="row"></param>
+    /// <param name="multiplier"></param>
+    /// <param name="row2"></param>
     public void ElementaryRowReplacement(int row, float multiplier, int row2)
     {
         Contract.Requires(row <= MRows);
@@ -169,6 +226,11 @@ public class Matrix : IMatrix
         xs[row] = TransformedRow;
     }
 
+    /// <summary>
+    /// 1-Indexed - Interchanges the ith and jth row
+    /// </summary>
+    /// <param name="row1"></param>
+    /// <param name="row2"></param>
     public void ElementaryRowInterchange(int row1, int row2)
     {
         Contract.Requires(row1 != row2);
@@ -264,7 +326,13 @@ public class Matrix : IMatrix
         return true;
     }
 
-    internal static IMatrix ArgumentRight(Matrix A, IVector v)
+    /// <summary>
+    /// Creates an argumented matrix with the last column being v
+    /// </summary>
+    /// <param name="A"></param>
+    /// <param name="v"></param>
+    /// <returns></returns>
+    public static IMatrix ArgumentRight(Matrix A, IVector v)
     {
         Contract.Requires(A.MRows == v.Size);
 

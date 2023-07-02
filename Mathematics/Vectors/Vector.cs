@@ -32,12 +32,21 @@ public class Vector : IVector
             .ForEach(i => xs[i] = v.ToArray()[i]);
     }
 
+    /// <summary>
+    /// 1-Indexed - Returns the ith item in the vector
+    /// </summary>
+    /// <param name="i"></param>
     public float Item(int i)
     {
         Contract.Requires(i <= Size && i > 0);
 
         return xs[i - 1];
     }
+
+    /// <summary>
+    /// 0-Indexed - Returns the ith item in the vector
+    /// </summary>
+    /// <param name="i"></param>
     public float Item0I(int i)
     {
         Contract.Requires(i < Size && i >= 0);
@@ -45,18 +54,29 @@ public class Vector : IVector
         return xs[i];
     }
 
+    /// <summary>
+    /// 0-Indexed - Sets the ith item in the vector to value
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="value"></param>
     public void SetItem0I(int i, float value)
     {
         Contract.Requires(i < Size && i >= 0);
         xs[i] = value;
     }
 
+    /// <summary>
+    /// 1-Indexed - Sets the ith item in the vector to value
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="value"></param>
     public void SetItem(int i, float value)
     {
         Contract.Requires(i <= Size && i > 0);
         xs[i - 1] = value;
     }
 
+    /// <returns>An array representation of the vector</returns>
     public float[] ToArray()
     {
         return xs;
@@ -162,10 +182,5 @@ public class Vector : IVector
         
         return true;
         
-    }
-
-    public override int GetHashCode()
-    {
-        return xs.GetHashCode();
     }
 }
