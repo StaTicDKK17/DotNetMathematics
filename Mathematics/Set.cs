@@ -33,26 +33,50 @@ public class Set<T> : ISet<T>
         }
     }
 
+    /// <summary>
+    /// Returns the intersection between two sets
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
     public Set<T> Intersection(ISet<T> other)
     {
         return new Set<T>(collection.Intersect(other.ToArray()));
     }
 
+    /// <summary>
+    /// Returns the union between two sets
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
     public Set<T> Union(ISet<T> other)
     {
         return new Set<T>(collection.Union(other.ToArray()));
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="element"></param>
+    /// <returns>true if the element is in the set, false otherwise</returns>
     public bool Contains(T element)
     {
         return collection.Contains(element);
     }
 
+    /// <summary>
+    /// Adds element to the set
+    /// </summary>
+    /// <param name="element"></param>
     public void AddElement(T element)
     {
         collection.Add(element);
     }
 
+    /// <summary>
+    /// Returns the subtraction of two sets
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
     public Set<T> Minus(ISet<T> other)
     {
         ISet<T> newSet = new Set<T>();
@@ -64,6 +88,11 @@ public class Set<T> : ISet<T>
         return (Set<T>)newSet;
     }
 
+    /// <summary>
+    /// Returns the symmetric difference between two sets
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
     public Set<T> SymmetricDifference(ISet<T> other)
     {
         ISet<T> set1 = Minus(other);
