@@ -1,8 +1,6 @@
 ﻿using Mathematics.Matrices;
 using System.Collections;
-using System.ComponentModel;
 using System.Diagnostics.Contracts;
-using System.Runtime.Serialization;
 
 namespace Mathematics.Vectors;
 
@@ -34,16 +32,28 @@ public class Vector : IVector
             .ForEach(i => xs[i] = v.ToArray()[i]);
     }
 
-    public float Item(int i) => xs[i - 1];
-    public float Item0I(int i) => xs[i];
+    public float Item(int i)
+    {
+        Contract.Requires(i <= Size && i > 0);
+
+        return xs[i - 1];
+    }
+    public float Item0I(int i)
+    {
+        Contract.Requires(i < Size && i >= 0);
+
+        return xs[i];
+    }
 
     public void SetItem0I(int i, float value)
     {
+        Contract.Requires(i < Size && i >= 0);
         xs[i] = value;
     }
 
     public void SetItem(int i, float value)
     {
+        Contract.Requires(i <= Size && i > 0);
         xs[i - 1] = value;
     }
 
@@ -74,6 +84,8 @@ public class Vector : IVector
 
     public static IVector operator +(Vector xs, Vector ys)
     {
+        Contract.Requires(xs.Size == ys.Size);
+
         float[] new_elements = xs
             .ToArray()
             .Zip(ys.ToArray(), (x, y) => x + y)
@@ -84,6 +96,8 @@ public class Vector : IVector
 
     public static IVector operator -(Vector xs, Vector ys)
     {
+        Contract.Requires(xs.Size == ys.Size);
+
         float[] new_elements = xs
             .ToArray()
             .Zip(ys.ToArray(), (x, y) => x - y)
@@ -94,6 +108,8 @@ public class Vector : IVector
 
     public static float operator *(Vector xs, Vector ys)
     {
+        Contract.Requires(xs.Size == ys.Size);
+
         return xs
             .ToArray()
             .Zip(ys.ToArray(), (x, y) => x * y)
@@ -151,10 +167,5 @@ public class Vector : IVector
     public override int GetHashCode()
     {
         return xs.GetHashCode();
-    }
-
-    public IEnumerator GetEnumerator()
-    {
-        return xs.GetEnumerator();
     }
 }

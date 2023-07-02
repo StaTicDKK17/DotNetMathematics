@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Mathematics.Vectors;
 
-public interface IVector : IEnumerable
+public interface IVector
 {
     float[] ToArray();
     float Item(int i);

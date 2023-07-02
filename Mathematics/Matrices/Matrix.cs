@@ -58,27 +58,50 @@ public class Matrix : IMatrix
             .ForEach(i => xs[i] = new float[cols]);
     }
 
-    private float Item0I(int i, int j) => xs[i][j];
-    public float Item(int i, int j) => xs[i - 1][j - 1];
+    private float Item0I(int i, int j)
+    {
+        Contract.Requires(i < MRows && i >= 0);
+        Contract.Requires(j < NCols && j >= 0);
+
+        return xs[i][j];
+    }
+    public float Item(int i, int j)
+    {
+        Contract.Requires(i <= MRows && i > 0);
+        Contract.Requires(j <= NCols && j > 0);
+
+        return xs[i - 1][j - 1];
+    }
 
     private void SetItem0I(int i, int j, float value)
     {
+        Contract.Requires(i < MRows && i >= 0);
+        Contract.Requires(j < NCols && j >= 0);
+
         xs[i][j] = value;
     }
 
 
     public void SetItem(int i, int j, float value)
     {
+        Contract.Requires(i <= MRows && i > 0);
+        Contract.Requires(j <= NCols && j > 0);
+
         xs[i - 1][j - 1] = value;
     }
 
     public IVector Row(int i)
     {
+        Contract.Requires(i <= MRows && i > 0);
+
         return new Vector(xs[i-1]);
     }
 
     public void SetRow(int i, IVector v)
     {
+        Contract.Requires(i <= MRows && i > 0);
+        Contract.Requires(v.Size == NCols);
+
         xs[i - 1] = v.ToArray();
     }
 
@@ -89,8 +112,10 @@ public class Matrix : IMatrix
 
     public IVector Column(int j)
     {
+        Contract.Requires(j <= NCols && j > 0);
+
         return new Vector(Enumerable.Range(0, MRows)
-            .Select(e => Item0I(e, j - 1))
+            .Select(e => xs[e][j - 1])
             .ToArray());
     }
 
@@ -120,9 +145,11 @@ public class Matrix : IMatrix
     }
 
     public void ElemetaryRowScaling(int row, float multiplier)
-    {   
-        float[] TransformedRow = Row(row)
-            .ToArray()
+    {
+        Contract.Requires(row <= MRows && row > 0);
+        Contract.Requires(multiplier != 0);
+
+        float[] TransformedRow = xs[row-1]
             .Select(p => p * multiplier)
             .ToArray();
         xs[row] = TransformedRow;
@@ -131,12 +158,26 @@ public class Matrix : IMatrix
 
     public void ElementaryRowReplacement(int row, float multiplier, int row2)
     {
+        Contract.Requires(row <= MRows);
+        Contract.Requires(row <= MRows);
         Contract.Requires(row != row2);
-        float[] TransformedRow = Row(row)
-            .ToArray()
-            .Zip(Row(row2).ToArray(), (e1, e2) => e1 + e2 * multiplier)
+        Contract.Requires(multiplier != 0);
+
+        float[] TransformedRow = xs[row-1]
+            .Zip(xs[row2-1], (e1, e2) => e1 + e2 * multiplier)
             .ToArray();
         xs[row] = TransformedRow;
+    }
+
+    public void ElementaryRowInterchange(int row1, int row2)
+    {
+        Contract.Requires(row1 != row2);
+        Contract.Requires(row2 <= MRows);
+        Contract.Requires(row1 <= MRows);
+
+        float[] temp = xs[row1 - 1];
+        xs[row1 - 1] = xs[row2 - 1];
+        xs[row2 - 1] = temp;
     }
 
     public static Matrix operator +(Matrix A, Matrix B)
@@ -243,10 +284,5 @@ public class Matrix : IMatrix
               ));
 
         return M;
-    }
-
-    public IEnumerator GetEnumerator()
-    {
-        return xs.GetEnumerator();
     }
 }

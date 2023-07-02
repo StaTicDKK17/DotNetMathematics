@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Mathematics.Matrices;
 
-public interface IMatrix : IEnumerable
+public interface IMatrix
 {
     float[][] ToArray();
     float Item(int i, int j);
