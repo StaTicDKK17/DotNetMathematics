@@ -261,4 +261,27 @@ public class VectorTests
 
         Assert.Equal(MathF.Sqrt(30.0f), v.Norm);
     }
+
+    [Fact]
+    public void VectorHashCodeWorks()
+    {
+        float[] floats = { 1, 2, 3, 4 };
+
+        IVector v = new Vector(floats);
+        IVector v2 = new Vector(floats);
+
+        Assert.True(v.GetHashCode() == v2.GetHashCode());
+    }
+
+    [Fact]
+    public void VectorHashCodeWorksNegative()
+    {
+        float[] floats = { 1, 2, 3, 4 };
+        float[] floats2 = { 2, 3, 4, 1 };
+
+        IVector v = new Vector(floats);
+        IVector v2 = new Vector(floats2);
+
+        Assert.True(v.GetHashCode() != v2.GetHashCode());
+    }
 }

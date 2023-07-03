@@ -172,6 +172,6 @@ public class Vector : IVector
 
     public override int GetHashCode()
     {
-        throw new NotImplementedException();
+        return xs.GetHashCode();
     }
 }
