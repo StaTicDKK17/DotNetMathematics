@@ -155,22 +155,21 @@ public class Matrix : IMatrix
         float[] TransformedRow = xs[row-1]
             .Select(p => p * multiplier)
             .ToArray();
-        xs[row] = TransformedRow;
-       
+        xs[row-1] = TransformedRow;
     }
 
     
     public void ElementaryRowReplacement(int row, float multiplier, int row2)
     {
-        Contract.Requires(row <= MRows);
-        Contract.Requires(row <= MRows);
+        Contract.Requires(row <= MRows && row > 0);
+        Contract.Requires(row2 <= MRows && row2 > 0);
         Contract.Requires(row != row2);
         Contract.Requires(multiplier != 0);
 
         float[] TransformedRow = xs[row-1]
             .Zip(xs[row2-1], (e1, e2) => e1 + e2 * multiplier)
             .ToArray();
-        xs[row] = TransformedRow;
+        xs[row-1] = TransformedRow;
     }
 
     
@@ -283,8 +282,8 @@ public class Matrix : IMatrix
               .ForEach(
                 j =>
                 {
-                    M.SetItem(i + 1, j + 1, A.Item0I(i, j));
-                    M.SetItem(i + 1, A.NCols, v.Item0I(i));
+                    M.SetItem0I(i, j, A.Item0I(i, j));
+                    M.SetItem0I(i, A.NCols, v.Item0I(i));
                 }
               ));
 

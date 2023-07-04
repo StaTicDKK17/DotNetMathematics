@@ -375,5 +375,134 @@ public class MatrixTests
 
         Assert.False(M.IsSkewSymmetric());
     }
-}
 
+    [Fact]
+    public void GetHashCodeWorks()
+    {
+        float[][] floats = new float[][] { new float[] { 1, 2, 3 },
+                                           new float[] { 4, 5, 6 } 
+        };
+
+        IMatrix M = new Matrix(floats);
+        IMatrix M2 = new Matrix(floats);
+
+        Assert.True(M.GetHashCode() == M2.GetHashCode());
+    }
+
+    [Fact]
+    public void GetHashCodeWorksNegative()
+    {
+        float[][] floats = new float[][] { new float[] { 1, 2, 3 },
+                                           new float[] { 4, 5, 6 }
+        };
+
+        float[][] floats2 = new float[][] { new float[] { 1, 8, 3 },
+                                           new float[] { 4, 5, 6 }
+        };
+
+        IMatrix M = new Matrix(floats);
+        IMatrix M2 = new Matrix(floats2);
+
+        Assert.True(M.GetHashCode() != M2.GetHashCode());
+    }
+
+    [Fact]
+    public void SetRowWorks()
+    {
+        IMatrix M = new Matrix(3, 2);
+
+        float[] floats = { 2, 3 };
+        M.SetRow(1, new Vector(floats));
+
+        Assert.True(M.Row(1).Equals(new Vector(floats)));
+    }
+
+    [Fact]
+    public void ElementaryRowScalingWorks()
+    {
+        float[] row1 = { 1, 2, 3 };
+
+        float[][] floats = { row1, new float[] { 4, 5, 6 } };
+        IMatrix M = new Matrix(floats);
+
+        M.ElemetaryRowScaling(1, 2f);
+
+        int i = 0;
+
+        foreach (float item in M.Row(1))
+        {
+            Assert.True(item == row1[i] * 2f);
+            i++;
+        }
+    }
+
+    [Fact]
+    public void ElementaryRowInterChangeWorks()
+    {
+        float[] row1 = { 1, 2, 3 };
+        float[] row2 = { 4, 5, 6 };
+
+        IVector v1 = new Vector(row1);
+        IVector v2 = new Vector(row2);
+
+        float[][] floats = { row1, row2 };
+
+        IMatrix M = new Matrix(floats);
+
+        M.ElementaryRowInterchange(1, 2);
+
+        Assert.True(M.Row(1).Equals(v2) && M.Row(2).Equals(v1));
+    }
+
+    [Fact]
+    public void ElementaryRowReplacementWorks()
+    {
+        float[] row1 = { 1, 2, 3 };
+        float[] row2 = { 4, 5, 6 };
+        float[][] floats = { row1, row2 };
+
+        float[] expected = new float[row1.Length];
+
+        for(int i = 0; i < row1.Length; i++)
+        {
+            expected[i] = row1[i] + row2[i];
+        }
+
+        IMatrix M = new Matrix(floats);
+        M.ElementaryRowReplacement(2, 1, 1);
+
+        int j = 0;
+
+        foreach (float e in M.Row(2))
+        {
+            Assert.True(e == expected[j]);
+            j++;
+        }
+    }
+
+    [Fact]
+    public void ArgumentRightWorks()
+    {
+        IVector v = new Vector(new float[] { 1, 2, 3 });
+
+        float[] row1 = new float[] { 1, 2 };
+        float[] row2 = new float[] { 3, 4 };
+        float[] row3 = new float[] { 5, 6 };
+
+        float[][] floats = { row1, row2, row3 };
+
+        IMatrix M = new Matrix(floats);
+
+        IMatrix M2 = IMatrix.ArgumentRight(M, v);
+
+        Assert.True(M2.MRows == M.MRows);
+        Assert.True(M2.NCols == M.NCols + 1);
+
+        for (int i = 0; i < M2.MRows; i++)
+            for (int j = 0; j < M2.NCols; j++)
+                if (j == M.NCols)
+                    Assert.True(M2.Item0I(i, j) == v.Item0I(i));
+                else
+                    Assert.True(M2.Item0I(i, j) == M.Item0I(i, j));
+    }
+}

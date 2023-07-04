@@ -174,4 +174,9 @@ public class Vector : IVector
     {
         return xs.GetHashCode();
     }
+
+    public IEnumerator GetEnumerator()
+    {
+        return xs.GetEnumerator();
+    }
 }
