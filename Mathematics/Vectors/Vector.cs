@@ -32,7 +32,6 @@ public class Vector : IVector
             .ForEach(i => xs[i] = v.ToArray()[i]);
     }
 
-    
     public float Item(int i)
     {
         Contract.Requires(i <= Size && i > 0);
@@ -40,7 +39,6 @@ public class Vector : IVector
         return xs[i - 1];
     }
 
-    
     public float Item0I(int i)
     {
         Contract.Requires(i < Size && i >= 0);
@@ -48,21 +46,18 @@ public class Vector : IVector
         return xs[i];
     }
 
-    
     public void SetItem0I(int i, float value)
     {
         Contract.Requires(i < Size && i >= 0);
         xs[i] = value;
     }
 
-    
     public void SetItem(int i, float value)
     {
         Contract.Requires(i <= Size && i > 0);
         xs[i - 1] = value;
     }
 
-    
     public float[] ToArray()
     {
         return xs;

@@ -1,6 +1,5 @@
 ﻿using Mathematics.Matrices;
 using Mathematics.Vectors;
-using System.Runtime.Intrinsics;
 
 namespace MathematicsTests;
 

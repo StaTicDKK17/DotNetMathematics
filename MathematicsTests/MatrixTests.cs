@@ -2,7 +2,6 @@
 
 using Mathematics.Matrices;
 using Mathematics.Vectors;
-using Newtonsoft.Json;
 
 public class MatrixTests
 {
@@ -102,7 +101,7 @@ public class MatrixTests
 
         IVector vec = M.Column(1);
 
-        Assert.True(new Vector(new float[] {3.0f, 4.0f }).Equals(vec));
+        Assert.True(new Vector(new float[] { 3.0f, 4.0f }).Equals(vec));
     }
 
     [Fact]
@@ -117,9 +116,9 @@ public class MatrixTests
         float[][] res = M.ToArray();
 
         for (int i = 0; i < 2; i++)
-            for(int j = 0; j < 2; j++) {
+            for (int j = 0; j < 2; j++) {
                 Assert.Equal(floats[i, j], res[i][j]);
-        }
+            }
     }
 
     [Fact]
@@ -179,7 +178,7 @@ public class MatrixTests
     public void MatrixAdditionBehavesWell()
     {
         float[,] floats = { { 2, 1 },
-                            { 0, 1 } 
+                            { 0, 1 }
         };
         float[,] floats1 = { { 1, -1},
                              { 2, 0 }
@@ -380,7 +379,7 @@ public class MatrixTests
     public void GetHashCodeWorks()
     {
         float[][] floats = new float[][] { new float[] { 1, 2, 3 },
-                                           new float[] { 4, 5, 6 } 
+                                           new float[] { 4, 5, 6 }
         };
 
         IMatrix M = new Matrix(floats);
@@ -463,7 +462,7 @@ public class MatrixTests
 
         float[] expected = new float[row1.Length];
 
-        for(int i = 0; i < row1.Length; i++)
+        for (int i = 0; i < row1.Length; i++)
         {
             expected[i] = row1[i] + row2[i];
         }
@@ -504,5 +503,22 @@ public class MatrixTests
                     Assert.True(M2.Item0I(i, j) == v.Item0I(i));
                 else
                     Assert.True(M2.Item0I(i, j) == M.Item0I(i, j));
+    }
+
+    [Fact]
+    public void TestSimpleGaussElimination()
+    {
+        IVector v = new Vector(new float[] { 2, 0, 7 });
+        float[][] floats = { new float[] { 2, 4, 2},
+                             new float[] {-3, -5, 5},
+                             new float[] {4, 7, 2}
+        };
+        Matrix A = new Matrix(floats);
+
+        IVector res = A.GaussElimination(v);
+
+        Assert.True(res.Item(1) == 2);
+        Assert.True(res.Item(2) == 3);
+        Assert.True(res.Item(3) == 6);
     }
 }

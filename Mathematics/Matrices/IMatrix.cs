@@ -4,24 +4,10 @@ namespace Mathematics.Matrices;
 
 public interface IMatrix
 {
-    /// <summary>
-    /// Returns the array in a 2-dimensional array representation
-    /// </summary>
-    float[][] ToArray();
+    int MRows { get; }
+    int NCols { get; }
 
-    /// <summary>
-    /// 1-Indexed - returns the ith, jth item in a matrix 
-    /// </summary>
-    /// <param name="i"></param>
-    /// <param name="j"></param>
-    float Item(int i, int j);
-
-    /// <summary>
-    /// 0-Indexed - Returns the ith, jth item in a matrix
-    /// </summary>
-    /// <param name="i"></param>
-    /// <param name="j"></param>
-    float Item0I(int i, int j);
+    (int, int) Size { get; }
 
     /// <summary>
     /// 0-Indexed - Sets the entry at (i, j) to value
@@ -40,37 +26,11 @@ public interface IMatrix
     void SetItem(int i, int j, float value);
 
     /// <summary>
-    /// 1-Indexed - Gets the ith row in the matrix
-    /// </summary>
-    /// <param name="i"></param>
-    /// <returns>A vector containing the entries in the ith row</returns>
-    IVector Row(int i);
-
-    /// <summary>
     /// 1-Indexed - Sets the ith row to v in the matrix
     /// </summary>
     /// <param name="i"></param>
     /// <param name="v"></param>
     void SetRow(int i, IVector v);
-
-    /// <summary>
-    /// 1-Indexed - returns the jth column of the matrix
-    /// </summary>
-    /// <param name="j"></param>
-    IVector Column(int j);
-
-    /// <param name="M"></param>
-    /// <returns>The transpose matrix of M</returns>
-    static IMatrix Transpose(IMatrix M)
-    {
-        return Matrix.Transpose((Matrix)M);
-    }
-
-    /// <returns>true if matrix is symmetrix, false otherwise</returns>
-    bool IsSymmetric();
-
-    /// <returns>true if the matrix is skew-symmetric, false otherwise</returns>
-    bool IsSkewSymmetric();
 
     /// <summary>
     /// 1-Indexed - transforms the instance multiplying each entry in the ith row by the multiplier
@@ -95,6 +55,51 @@ public interface IMatrix
     /// <param name="row2"></param>
     void ElementaryRowInterchange(int row1, int row2);
 
+    /// <returns>true if matrix is symmetrix, false otherwise</returns>
+    bool IsSymmetric();
+
+    /// <returns>true if the matrix is skew-symmetric, false otherwise</returns>
+    bool IsSkewSymmetric();
+
+    /// <summary>
+    /// Returns the array in a 2-dimensional array representation
+    /// </summary>
+    float[][] ToArray();
+
+    /// <summary>
+    /// 1-Indexed - returns the ith, jth item in a matrix 
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="j"></param>
+    float Item(int i, int j);
+
+    /// <summary>
+    /// 0-Indexed - Returns the ith, jth item in a matrix
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="j"></param>
+    float Item0I(int i, int j);
+
+    /// <summary>
+    /// 1-Indexed - Gets the ith row in the matrix
+    /// </summary>
+    /// <param name="i"></param>
+    /// <returns>A vector containing the entries in the ith row</returns>
+    IVector Row(int i);
+
+    /// <summary>
+    /// 1-Indexed - returns the jth column of the matrix
+    /// </summary>
+    /// <param name="j"></param>
+    IVector Column(int j);
+
+    /// <param name="M"></param>
+    /// <returns>The transpose matrix of M</returns>
+    static IMatrix Transpose(IMatrix M)
+    {
+        return Matrix.Transpose((Matrix)M);
+    }
+
     /// <summary>
     /// Creates an argumented matrix with the last column being v
     /// </summary>
@@ -105,33 +110,28 @@ public interface IMatrix
     {
         return Matrix.ArgumentRight((Matrix)A, v);
     }
-
-    int MRows { get; }
-    int NCols { get; }
-
-    (int, int) Size { get; }
     
-    public static IMatrix operator +(IMatrix xs, IMatrix ys)
+    static IMatrix operator +(IMatrix xs, IMatrix ys)
     {
         return (Matrix)xs + (Matrix)ys;
     }
 
-    public static IMatrix operator -(IMatrix xs, IMatrix ys)
+    static IMatrix operator -(IMatrix xs, IMatrix ys)
     {
         return (Matrix)xs - (Matrix)ys;
     }
 
-    public static IMatrix operator *(IMatrix v, float y)
+    static IMatrix operator *(IMatrix v, float y)
     {
         return (Matrix)v * y;
     }
 
-    public static IMatrix operator *(float x, IMatrix v)
+    static IMatrix operator *(float x, IMatrix v)
     {
         return x * (Matrix)v;
     }
 
-    public static IMatrix operator *(IMatrix a, IMatrix v)
+    static IMatrix operator *(IMatrix a, IMatrix v)
     {
         return (Matrix)a * (Matrix)v;
     }
