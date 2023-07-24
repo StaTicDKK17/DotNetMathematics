@@ -152,7 +152,7 @@ public class Matrix : IMatrix
         Contract.Requires(j <= NCols && j > 0);
 
         return new Vector(Enumerable.Range(0, MRows)
-            .Select(e => xs[e][j - 1])
+            .Select(e => xs[e][j-1])
             .ToArray());
     }
 
@@ -291,14 +291,14 @@ public class Matrix : IMatrix
 
     private void CleanMatrix()
     {
-        float tolerance = 10e-8f;
+        float tolerance = 1e-6f;
 
         Enumerable.Range(0, MRows)
             .ToList()
             .ForEach(i => Enumerable.Range(0, NCols)
                 .ToList()
                 .ForEach(
-                j => { if (this.Item0I(i, j) <= tolerance) this.SetItem0I(i, j, 0); }
+                j => { if (Math.Abs(this.Item0I(i, j)) <= tolerance) this.SetItem0I(i, j, 0); }
                 ));
     }
 
@@ -311,32 +311,32 @@ public class Matrix : IMatrix
 
     public void EliminateBelowPivot(float tolerance, int top_row, int col)
     {
-        for (int i = top_row+1; i < MRows-1; i++)
+        for (int i = top_row; i < MRows; i++)
         {
-            float item = Item0I(i, col);
+            float item = Item0I(i, col-1);
 
             if (Math.Abs(item) > tolerance)
             {
-                float value = Math.Abs(item / Item0I(top_row, col));
+                float value = Math.Abs(item / Item0I(top_row-1, col-1));
 
                 value = DetermineRowFactor(value, item, (Item0I(top_row, col)));
 
-                ElementaryRowReplacement(i, value, top_row);
+                ElementaryRowReplacement(i+1, value, top_row);
             }
         }
     }
 
     public void EliminateAbovePivot(float tolerance, int top_col, int row)
     {
-        for (int i = 0; i < row-1; i++)
+        for (int i = 1; i < row; i++)
         {
-            int other_row = row - 1 - i;
-            float item = Item0I(other_row, top_col);
+            int other_row = row - i;
+            float item = Item0I(other_row-1, top_col-1);
 
             if (Math.Abs(item) > tolerance)
             {
-                float value = Math.Abs(item / Item0I(row, top_col));
-                value = DetermineRowFactor(value, item, Item0I(row, top_col));
+                float value = Math.Abs(item / Item(row, top_col));
+                value = DetermineRowFactor(value, item, Item(row, top_col));
 
                 ElementaryRowReplacement(other_row, value, row);
             }
@@ -345,7 +345,7 @@ public class Matrix : IMatrix
 
     public void ForwardReduction()
     {
-        float tolerance = 1e-8f;
+        float tolerance = 1e-6f;
 
         int top_row = 0;
 
@@ -356,6 +356,7 @@ public class Matrix : IMatrix
 
             for (int j = top_row; j < column.Size; ++j)
             {
+                if (br) break;
                 if (Math.Abs(column.Item(j+1)) > tolerance && !br)
                 {
                     ElementaryRowInterchange(j + 1, top_row+1);
@@ -367,12 +368,25 @@ public class Matrix : IMatrix
                     CleanMatrix();
                 }
             }
+
         }
+    }
+
+    private bool IsPivot(int row, int col, float tolerance)
+    {
+        for (int i = col-1; i > 0; i--)
+        {
+            if (Math.Abs(Item(row, i)) > tolerance)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void BackwardReduction()
     {
-        float tolerance = 1e-8f;
+        float tolerance = 1e-6f;
 
         int top_col = NCols - 1;
 
@@ -383,11 +397,12 @@ public class Matrix : IMatrix
 
             for (int j = 0; j < top_col; j++)
             {
-                if (Math.Abs(Item(row, j+1)) > tolerance && !br)
+                float item = Item(row, j + 1);
+                if (Math.Abs(item) > tolerance && !br && IsPivot(row, j+1, 1e-6f))
                 {
-                    ElemetaryRowScaling(row + 1, 1.0f / Item(row, j + 1));
+                    ElemetaryRowScaling(row, 1.0f / Item(row, j + 1));
 
-                    EliminateAbovePivot(tolerance, j + 1, row + 1);
+                    EliminateAbovePivot(tolerance, j + 1, row);
 
                     br = true;
                     top_col--;
@@ -404,6 +419,6 @@ public class Matrix : IMatrix
         M.ForwardReduction();
         M.BackwardReduction();
 
-        return new Vector(M.Column(NCols));
+        return new Vector(M.Column(NCols+1));
     }
 }

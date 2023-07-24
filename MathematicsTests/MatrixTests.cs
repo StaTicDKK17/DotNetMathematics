@@ -506,19 +506,43 @@ public class MatrixTests
     }
 
     [Fact]
+    public void TestForwardReduction()
+    {
+        float[][] floats = { new float[] {0, 1, -2, 2, 2},
+                             new float[] {2, 3, 6, 3, 11},
+                             new float[] {-4, -13, 2, 1, -15},
+                             new float[] {0, -1, 2, 1, 1}
+        };
+
+        float[][] reduced = { new float[] {2, 3, 6, 3, 11},
+                              new float[] {0, 1, -2, 2, 2},
+                              new float[] {0, 0, 0, 21, 21},
+                              new float[] {0, 0, 0, 0, 0}
+        };
+        Matrix M = new Matrix(floats);
+        Matrix M2 = new Matrix(reduced);
+
+        M.ForwardReduction();
+
+        Assert.True(M.Equals(M2));
+    }
+
+    [Fact]
     public void TestSimpleGaussElimination()
     {
-        IVector v = new Vector(new float[] { 2, 0, 7 });
-        float[][] floats = { new float[] { 2, 4, 2},
-                             new float[] {-3, -5, 5},
-                             new float[] {4, 7, 2}
+        IVector v = new Vector(new float[] { 2, 11, -15, 1 });
+        float[][] floats = { new float[] {0, 1, -2, 2},
+                             new float[] {2, 3, 6, 3},
+                             new float[] {-4, -13, 2, 1},
+                             new float[] {0, -1, 2, 1}
         };
         Matrix A = new Matrix(floats);
 
         IVector res = A.GaussElimination(v);
 
-        Assert.True(res.Item(1) == 2);
-        Assert.True(res.Item(2) == 3);
-        Assert.True(res.Item(3) == 6);
+        Assert.True(res.Item(1) == 4);
+        Assert.True(res.Item(2) == 0);
+        Assert.True(res.Item(3) == 1);
+        Assert.True(res.Item(4) == 0);
     }
 }
