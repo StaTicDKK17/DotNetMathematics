@@ -545,4 +545,16 @@ public class MatrixTests
         Assert.True(res.Item(3) == 1);
         Assert.True(res.Item(4) == 0);
     }
+
+    [Fact]
+    public void TestIsPivot()
+    {
+        float[][] floats = { new float[] {1, 2, 3,},
+                             new float[] {4, 5, 6}
+        };
+
+        Matrix A = new Matrix(floats);
+
+        Assert.False(A.IsPivot(2, 3, 1e-6f));
+    }
 }

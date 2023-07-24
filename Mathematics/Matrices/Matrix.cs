@@ -372,7 +372,7 @@ public class Matrix : IMatrix
         }
     }
 
-    private bool IsPivot(int row, int col, float tolerance)
+    public bool IsPivot(int row, int col, float tolerance)
     {
         for (int i = col-1; i > 0; i--)
         {
