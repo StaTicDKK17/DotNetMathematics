@@ -412,13 +412,17 @@ public class Matrix : IMatrix
         }
     }
 
-    public IVector GaussElimination(IVector b)
+    public IVector GaussElimination(IVector? b)
     {
-        Matrix M = (Matrix)ArgumentRight(this, b);
+        Matrix M;
+        if (b is null)
+            M = new Matrix(this);
+        else
+            M = (Matrix)ArgumentRight(this, b);
 
         M.ForwardReduction();
         M.BackwardReduction();
 
-        return new Vector(M.Column(NCols+1));
+        return new Vector(M.Column(M.NCols));
     }
 }

@@ -146,5 +146,5 @@ public interface IMatrix
 
     void BackwardReduction();
 
-    IVector GaussElimination(IVector b);
+    IVector GaussElimination(IVector? b);
 }
