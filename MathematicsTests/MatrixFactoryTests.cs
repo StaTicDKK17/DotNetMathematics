@@ -259,4 +259,13 @@ public class MatrixFactoryTests
 
         Assert.True(A.Equals(B));
     }
+
+    [Fact]
+    public void ZeroOfSize100_IsWellBehaved()
+    {
+        Matrix A = new Matrix(100, 100);
+        Matrix B = MatrixFactory.Zero(100);
+
+        Assert.True(A.Equals(B));
+    }
 }
