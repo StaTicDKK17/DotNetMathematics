@@ -557,4 +557,17 @@ public class MatrixTests
 
         Assert.False(A.IsPivot(2, 3, 1e-6f));
     }
+
+    [Fact]
+    public void GaussWithNullWorks()
+    {
+        Matrix A = new Matrix(10, 10);
+
+        IVector v = A.GaussElimination(null);
+
+        for (int i = 0; i < 10; i++)
+        {
+            Assert.True(v.Item0I(i) == 0);
+        }
+    }
 }
