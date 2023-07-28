@@ -188,7 +188,6 @@ public class Matrix : IMatrix
                     CleanMatrix();
                 }
             }
-
         }
     }
 

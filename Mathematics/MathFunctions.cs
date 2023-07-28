@@ -2,9 +2,9 @@
 
 public class MathFunctions
 {
-    public static long Fac(long x)
+    public static long Fac(int x)
     {
-        int res = 1;
+        long res = 1;
 
         for (int i = 2; i <= x; i++)
         {

@@ -18,7 +18,7 @@ public class MatrixFactory
 
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++)
-                M.SetItem0I(i, j, 1.0f / ((float)i + (float)j + 1.0f));
+                M.SetItem0I(i, j, 1.0f / (i + j + 1.0f));
 
         return M;
     }
@@ -27,9 +27,8 @@ public class MatrixFactory
     {
         Matrix M = new Matrix(n, n);
 
-        for (int i = n - 1; i >= 0; i--)
-            for (int j = 0; j < n; j++)
-                M.SetItem0I(i, j, 1);
+        for (int i = n - 1, j = 0; i >= 0; i--, j++)
+            M.SetItem0I(i, j, 1);
 
         return M;
     }
@@ -40,7 +39,7 @@ public class MatrixFactory
 
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= n; j++)
-                M.SetItem(i, j, Math.Min(i, j) / Math.Max(i, j));
+                M.SetItem(i, j, MathF.Min(i, j) / MathF.Max(i, j));
 
         return M;
     }
@@ -56,13 +55,34 @@ public class MatrixFactory
         return M;
     }
 
+    public static Matrix One(int n, int m)
+    {
+        Matrix M = new Matrix(n, m);
+
+        for (int i = 1; i <= n; i++)
+        {
+            for (int j = 1; j <= m; j++)
+            {
+                M.SetItem(i, j, 1);
+            }
+        }
+
+        return M;
+    }
+
     public static Matrix LowerPascal(int n)
     {
         Matrix M = new Matrix(n, n);
 
-        for (int i = 1; i <= n; i++)
-            for (int j = 1; j <= i; j++)
-                M.SetItem(i, j, MathFunctions.Fac(i) / (MathFunctions.Fac(j) * MathFunctions.Fac(i - j)));
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j <= i; j++)
+            {
+                long denominator = MathFunctions.Fac(j) * MathFunctions.Fac(i - j);
+                long top = MathFunctions.Fac(i);
+
+                M.SetItem(i+1, j+1, (float)top / (float)denominator);
+            }
+                
 
         return M;
     }
@@ -71,9 +91,14 @@ public class MatrixFactory
     {
         Matrix M = new Matrix(n, n);
 
-        for (int i = 1; i <= n; i++)
-            for (int j = i; j <= n; j++)
-                M.SetItem(i, j, MathFunctions.Fac(j) / (MathFunctions.Fac(i) * MathFunctions.Fac(j - i)));
+        for (int i = 0; i < n; i++)
+            for (int j = i; j < n; j++)
+            {
+                long denominator = MathFunctions.Fac(i) * MathFunctions.Fac(j - i);
+                long top = MathFunctions.Fac(j);
+
+                M.SetItem(i + 1, j + 1, (float)top / (float)denominator);
+            }
 
         return M;
     }
@@ -82,9 +107,14 @@ public class MatrixFactory
     {
         Matrix M = new Matrix(n, n);
 
-        for (int i = 1; i <= n; i++)
-            for (int j = 1; j <= n; j++)
-                M.SetItem(i, j, MathFunctions.Fac(i + j) / (MathFunctions.Fac(i) * MathFunctions.Fac(j)));
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+            {
+                long denominator = MathFunctions.Fac(i) * MathFunctions.Fac(j);
+                long top = MathFunctions.Fac(i + j);
+
+                M.SetItem(i + 1, j + 1, (float)top / (float)denominator);
+            }
 
         return M;
     }
@@ -95,7 +125,9 @@ public class MatrixFactory
 
         for (int i = 1; i <= n; i++)
             for (int j = 1; j <= n; j++)
-                if (i % j == 0)
+                if (i == 1 || j == 1)
+                    M.SetItem(i, j, 1);
+                else if (j % i == 0)
                     M.SetItem(i, j, 1);
 
         return M;
@@ -105,9 +137,8 @@ public class MatrixFactory
     {
         Matrix M = new Matrix(n, n);
 
-        for (int i = 2; i < n; i++)
-            for (int j = i - 1; j == i - 1; j++)
-                M.SetItem(i, j, 1);
+        for (int i = 2; i <= n; i++)
+                M.SetItem(i, i-1, 1);
 
         return M;
     }
@@ -116,9 +147,8 @@ public class MatrixFactory
     {
         Matrix M = new Matrix(n, n);
 
-        for (int i = 1; i <= n; i++)
-            for (int j = i + 1; j == i + 1; j++)
-                M.SetItem(i, j, 1);
+        for (int i = 1; i < n; i++)
+                M.SetItem(i, i+1, 1);
 
         return M;
     }
