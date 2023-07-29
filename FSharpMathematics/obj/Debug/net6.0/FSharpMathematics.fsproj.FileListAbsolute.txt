@@ -1,0 +1,11 @@
+D:\C#\MathLib\FSharpMathematics\obj\Debug\net6.0\FSharpMathematics.fsproj.AssemblyReference.cache
+D:\C#\MathLib\FSharpMathematics\obj\Debug\net6.0\FSharpMathematics.AssemblyInfoInputs.cache
+D:\C#\MathLib\FSharpMathematics\obj\Debug\net6.0\FSharpMathematics.AssemblyInfo.fs
+D:\C#\MathLib\FSharpMathematics\obj\Debug\net6.0\FSharpMathematics.fsproj.CoreCompileInputs.cache
+D:\C#\MathLib\FSharpMathematics\bin\Debug\net6.0\FSharpMathematics.deps.json
+D:\C#\MathLib\FSharpMathematics\bin\Debug\net6.0\FSharpMathematics.dll
+D:\C#\MathLib\FSharpMathematics\bin\Debug\net6.0\FSharpMathematics.pdb
+D:\C#\MathLib\FSharpMathematics\bin\Debug\net6.0\FSharpMathematics.xml
+D:\C#\MathLib\FSharpMathematics\obj\Debug\net6.0\FSharpMathematics.dll
+D:\C#\MathLib\FSharpMathematics\obj\Debug\net6.0\FSharpMathematics.xml
+D:\C#\MathLib\FSharpMathematics\obj\Debug\net6.0\FSharpMathematics.pdb

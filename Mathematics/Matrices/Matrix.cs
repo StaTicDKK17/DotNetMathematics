@@ -1,4 +1,5 @@
 ﻿using Mathematics.Vectors;
+using System.Data.Common;
 using System.Diagnostics.Contracts;
 
 namespace Mathematics.Matrices;
@@ -12,6 +13,8 @@ public class Matrix : IMatrix
     public int NCols => xs[0].Length;
 
     public (int, int) Size => (MRows, NCols);
+
+    #region CONSTRUCTORS
 
     public Matrix(int mRows, int nCols)
     {
@@ -50,6 +53,10 @@ public class Matrix : IMatrix
             .ForEach(i => xs[i] = A.Row(i + 1).ToArray());
     }
 
+    #endregion
+
+    #region SETTERS
+
     public void SetItem0I(int i, int j, float value)
     {
         Contract.Requires(i < MRows && i >= 0);
@@ -74,17 +81,33 @@ public class Matrix : IMatrix
         xs[i - 1] = v.ToArray();
     }
 
+    #endregion
+
+    #region ROW_OPERATIONS
+
+    private float[] TransformRowScaling(float[] row, float multiplier)
+    {
+        return row
+            .Select(p => p * multiplier)
+            .ToArray();
+    }
+
     public void ElemetaryRowScaling(int row, float multiplier)
     {
         Contract.Requires(row <= MRows && row > 0);
         Contract.Requires(multiplier != 0);
 
-        float[] TransformedRow = xs[row - 1]
-            .Select(p => p * multiplier)
-            .ToArray();
-        xs[row - 1] = TransformedRow;
+        
+        xs[row - 1] = TransformRowScaling(xs[row - 1], multiplier);
     }
 
+    private float[] TransformRowReplacement(float[] row1, float[] row2, float multiplier)
+    {
+        return row1
+           .Zip(row2, (e1, e2) => e1 + e2 * multiplier)
+           .ToArray();
+    }
+    
     public void ElementaryRowReplacement(int row, float multiplier, int row2)
     {
         Contract.Requires(row <= MRows && row > 0);
@@ -92,10 +115,7 @@ public class Matrix : IMatrix
         Contract.Requires(row != row2);
         Contract.Requires(multiplier != 0);
 
-        float[] TransformedRow = xs[row - 1]
-            .Zip(xs[row2 - 1], (e1, e2) => e1 + e2 * multiplier)
-            .ToArray();
-        xs[row - 1] = TransformedRow;
+        xs[row - 1] = TransformRowReplacement(xs[row - 1], xs[row2 - 1], multiplier);
     }
 
     public void ElementaryRowInterchange(int row1, int row2)
@@ -109,6 +129,8 @@ public class Matrix : IMatrix
         xs[row2 - 1] = temp;
     }
 
+    #endregion
+
     private void SetupMatrixArray(int cols)
     {
         Enumerable.Range(0, MRows)
@@ -116,33 +138,27 @@ public class Matrix : IMatrix
             .ForEach(i => xs[i] = new float[cols]);
     }
 
-    private void CleanMatrix()
+    private void EliminateRow(int rowNum, int row, int col)
     {
-        float tolerance = 1e-6f;
+        float item = Item0I(rowNum, col - 1);
 
-        Enumerable.Range(0, MRows)
-            .ToList()
-            .ForEach(i => Enumerable.Range(0, NCols)
-                .ToList()
-                .ForEach(
-                j => { if (Math.Abs(this.Item0I(i, j)) <= tolerance) this.SetItem0I(i, j, 0); }
-                ));
+        float tolerance = 1e-5f;
+
+        if (Math.Abs(item) > tolerance)
+        {
+            float value = Math.Abs(item / Item0I(row - 1, col - 1));
+
+            value = DetermineRowFactor(value, item, (Item0I(row, col)));
+
+            ElementaryRowReplacement(rowNum + 1, value, row);
+        }
     }
 
     public void EliminateBelowPivot(float tolerance, int top_row, int col)
     {
-        for (int i = top_row; i < MRows; i++)
+        for (int i = top_row+1; i < MRows; i++)
         {
-            float item = Item0I(i, col - 1);
-
-            if (Math.Abs(item) > tolerance)
-            {
-                float value = Math.Abs(item / Item0I(top_row - 1, col - 1));
-
-                value = DetermineRowFactor(value, item, (Item0I(top_row, col)));
-
-                ElementaryRowReplacement(i + 1, value, top_row);
-            }
+            EliminateRow(i, top_row, col);
         }
     }
 
@@ -151,6 +167,7 @@ public class Matrix : IMatrix
         for (int i = 1; i < row; i++)
         {
             int other_row = row - i;
+
             float item = Item0I(other_row - 1, top_col - 1);
 
             if (Math.Abs(item) > tolerance)
@@ -161,8 +178,26 @@ public class Matrix : IMatrix
                 ElementaryRowReplacement(other_row, value, row);
             }
         }
-    }
+    } 
+    
+    private void FindPivotInColumn(int top_row, IVector column, float tolerance, int curr_col)
+    {
+        bool br = false;
+        for (int j = top_row; j < column.Size; ++j)
+        {
+            if (br) return;
+            if (Math.Abs(column.Item(j + 1)) > tolerance && !br)
+            {
+                ElementaryRowInterchange(j + 1, top_row + 1);
 
+                EliminateBelowPivot(tolerance, top_row, curr_col);
+
+                top_row++;
+                br = true;
+            }
+        }
+    }
+    
     public void ForwardReduction()
     {
         float tolerance = 1e-6f;
@@ -172,23 +207,11 @@ public class Matrix : IMatrix
         for (int i = 0; i < NCols; i++)
         {
             IVector column = Column(i + 1);
-            bool br = false;
 
-            for (int j = top_row; j < column.Size; ++j)
-            {
-                if (br) break;
-                if (Math.Abs(column.Item(j + 1)) > tolerance && !br)
-                {
-                    ElementaryRowInterchange(j + 1, top_row + 1);
-
-                    EliminateBelowPivot(tolerance, top_row + 1, i + 1);
-
-                    top_row++;
-                    br = true;
-                    CleanMatrix();
-                }
-            }
+            FindPivotInColumn(top_row, column, tolerance, i);
         }
+
+        CleanMatrix();
     }
 
     public void BackwardReduction()
@@ -241,6 +264,8 @@ public class Matrix : IMatrix
         return true;
     }
 
+    #region GETTERS
+
     public float Item0I(int i, int j)
     {
         Contract.Requires(i < MRows && i >= 0);
@@ -257,6 +282,24 @@ public class Matrix : IMatrix
         return xs[i - 1][j - 1];
     }
 
+    public IVector Row(int i)
+    {
+        Contract.Requires(i <= MRows && i > 0);
+
+        return new Vector(xs[i - 1]);
+    }
+
+    public IVector Column(int j)
+    {
+        Contract.Requires(j <= NCols && j > 0);
+
+        return new Vector(Enumerable.Range(0, MRows)
+            .Select(e => xs[e][j - 1])
+            .ToArray());
+    }
+
+    #endregion
+
     private float DetermineRowFactor(float factor, float item, float pivot)
     {
         return ((item > 0.0 && pivot > 0.0) || (item < 0.0 && pivot < 0.0))
@@ -267,22 +310,6 @@ public class Matrix : IMatrix
     public float[][] ToArray()
     {
         return xs;
-    }
-
-    public IVector Row(int i)
-    {
-        Contract.Requires(i <= MRows && i > 0);
-
-        return new Vector(xs[i-1]);
-    }
-
-    public IVector Column(int j)
-    {
-        Contract.Requires(j <= NCols && j > 0);
-
-        return new Vector(Enumerable.Range(0, MRows)
-            .Select(e => xs[e][j-1])
-            .ToArray());
     }
 
     public IVector GaussElimination(IVector? b)
@@ -333,6 +360,8 @@ public class Matrix : IMatrix
 
         return A;
     }
+
+    #region MATRIX_OPERATORS
 
     public static IMatrix ArgumentRight(Matrix A, IVector v)
     {
@@ -424,4 +453,33 @@ public class Matrix : IMatrix
 
         return M;
     }
+
+    #endregion
+
+    #region MATRIX_CLEAN
+
+    private void CleanApproximateFloat(int i, int j, float tolerance)
+    {
+        if (Math.Abs(this.Item0I(i, j)) <= tolerance) this.SetItem0I(i, j, 0);
+    }
+
+    private void CleanApproximateFloatsInRow(int i, float tolerance)
+    {
+        Enumerable.Range(0, NCols)
+                .ToList()
+                .ForEach(
+                j => CleanApproximateFloat(i, j, tolerance)
+        );
+    }
+
+    private void CleanMatrix()
+    {
+        float tolerance = 1e-6f;
+
+        Enumerable.Range(0, MRows)
+            .ToList()
+            .ForEach(i => CleanApproximateFloatsInRow(i, tolerance));
+    }
+
+    #endregion
 }

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "I72bdumhNWbdkGuphbrufnc3KlepuLaQMU/2pgNOAp9iW65L7TbVHoXhbnGxgnqVk3jsmtYAzDG25ywfk28fLQ==",
+  "success": true,
+  "projectFilePath": "D:\\C#\\MathLib\\FSharpMathematics\\FSharpMathematics.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Stati\\.nuget\\packages\\fsharp.core\\7.0.300\\fsharp.core.7.0.300.nupkg.sha512"
+  ],
+  "logs": []
+}

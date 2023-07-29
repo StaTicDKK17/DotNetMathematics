@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>FSharpMathematics</name></assembly>
+<members>
+<member name="M:FSharpMathematics.Core.Vector.ToArray">
+ <summary>
+ Get the vector as an array.
+ </summary>
+ 
+ <returns>
+ An array representation of the Matrix.
+ </returns>
+</member>
+<member name="M:FSharpMathematics.Core.Vector.#ctor(FSharpMathematics.Core.Vector)">
+ <summary>
+ Copy constructor
+ </summary>
+ <remarks>
+ Perform a copy of the array, not
+ a shared reference.
+</member>
+<member name="M:FSharpMathematics.Core.Vector.#ctor(System.Double[])">
+ <summary>
+ Initializes an Vector from a float[]
+ </summary>
+ <remarks>
+ Perform a copy of the array, not
+ a shared reference.
+ </remarks>
+</member>
+<member name="M:FSharpMathematics.Core.Vector.#ctor(System.Int32)">
+ <summary>
+ Initializes an n-Vector with all 0's.
+ </summary>
+</member>
+<member name="M:FSharpMathematics.Core.Matrix.ToArray">
+ <summary>
+ Get the matrix as a 2D array.
+ </summary>
+ 
+ <returns>
+ A 2D array representation of the Matrix.
+ </returns>
+</member>
+<member name="M:FSharpMathematics.Core.Matrix.Row(System.Int32)">
+ <summary>
+ Get a particular row vector.
+ </summary>
+
+ <param name="i">
+ The index of the row to get.
+ </param>
+
+ <returns>
+ A vector containing the data of the given row
+ </returns>
+</member>
+<member name="M:FSharpMathematics.Core.Matrix.Column(System.Int32)">
+ <summary>
+ Get a particular column vector.
+ </summary>
+
+ <param name="j">
+ The index of the column to get.
+ </param>
+
+ <returns>
+ A vector containing the data of the given column
+ </returns>
+
+ <remarks>
+ The implementation is row-major, so this is expected to be a slow
+ endeavour.
+ </remarks>
+</member>
+<member name="M:FSharpMathematics.Core.Matrix.#ctor(FSharpMathematics.Core.Matrix)">
+<summary>
+ A copy constructor
+</summary 
+ <remarks>
+ Deep copy, no instances shared.
+ </remarks>
+</member>
+<member name="M:FSharpMathematics.Core.Matrix.#ctor(System.Double[0:])">
+ <summary>
+ Initialises a Matrix from a Array2D
+ </summary>
+ <remarks>
+ the new object has its own instance of _xs
+ </remarks> 
+</member>
+<member name="M:FSharpMathematics.Core.Matrix.#ctor(System.Int32,System.Int32)">
+ <summary>
+ Initializes an m-by-n Matrix with all 0's.
+ </summary>
+</member>
+<member name="M:BasicExtensions.BasicOps.VectorNorm(FSharpMathematics.Core.Vector)">
+ <summary>
+ This function computes the Euclidean Vector norm of a given
+ Vector.
+ </summary>
+
+ <remarks>
+ See page 197 in "Linear Algebra for Engineers and Scientists"
+ by K. Hardy.
+ </remarks>
+
+ <param name="v">An N-dimensional Vector.</param>
+
+ <returns>The Euclidean norm of the Vector.</returns>
+</member>
+<member name="M:BasicExtensions.BasicOps.Transpose(FSharpMathematics.Core.Matrix)">
+ <summary>
+ This function computes the transpose of a given Matrix.
+ </summary>
+
+ <remarks>
+ See page 69 in "Linear Algebra for Engineers and Scientists"
+ by K. Hardy.
+ </remarks>
+
+ <param name="A">An M-by-N Matrix.</param>
+
+ <returns>The N-by-M Matrix B such that B = A^T.</returns>
+</member>
+<member name="M:BasicExtensions.BasicOps.MatrixProduct(FSharpMathematics.Core.Matrix,FSharpMathematics.Core.Matrix)">
+ <summary>
+ This function computes the Matrix product of two given matrices
+ A and B.
+ </summary>
+
+ <remarks>
+ See page 58 in "Linear Algebra for Engineers and Scientists"
+ by K. Hardy.
+ </remarls>
+
+ <param name="A">An M-by-N Matrix.</param>
+ <param name="B">An N-by-P Matrix.</param>
+
+ <returns>The M-by-P Matrix A * B.</returns>
+</member>
+<member name="M:BasicExtensions.BasicOps.MatVecProduct(FSharpMathematics.Core.Matrix,FSharpMathematics.Core.Vector)">
+ <summary>
+ This function computes the Matrix-Vector product of a Matrix A,
+ and a column Vector v.
+ </summary>
+
+ <remarks>
+ See page 68 in "Linear Algebra for Engineers and Scientists"
+ by K. Hardy.
+ </remarks>
+
+ <param name="A">An M-by-N Matrix.</param>
+ <param name="v">An N-size Vector.</param>
+
+ <returns>An M-size Vector b such that b = A * v.</returns>
+</member>
+<member name="M:BasicExtensions.BasicOps.AugmentRight(FSharpMathematics.Core.Matrix,FSharpMathematics.Core.Vector)">
+ <summary>
+ This function creates an augmented Matrix given a Matrix A, and a
+ right-hand side Vector v.
+ </summary>
+
+ <remarks>
+ See page 12 in "Linear Algebra for Engineers and Scientists"
+ by K. Hardy.
+ This implementation is provided for you.
+ </remarks>
+
+ <param name="A">An M-by-N Matrix.</param>
+ <param name="v">An M-size Vector.</param>
+
+ <returns>An M-by-(N+1) augmented Matrix [A | v].</returns>
+</member>
+</members>
+</doc>

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <Compile Include="Core\Vector.fs" />
+	  <Compile Include="Core\Matrix.fs" />
+	  <Compile Include="Extensions\BasicExtensions.fs" />
+	  <Compile Include="Extensions\GaussExtensions.fs" />
+	  <Compile Include="Extensions\AdvancedExtensions.fs" />
+  </ItemGroup>
+
+</Project>
