@@ -93,6 +93,7 @@ public interface IMatrix
     /// <param name="j"></param>
     IVector Column(int j);
 
+    /// <summary>Transposes the matrix</summary>
     /// <param name="M"></param>
     /// <returns>The transpose matrix of M</returns>
     static IMatrix Transpose(IMatrix M)
@@ -136,11 +137,32 @@ public interface IMatrix
         return (Matrix)a * (Matrix)v;
     }
 
-    void ForwardReduction(int row = 0, int col = 0);
+    /// <summary>
+    /// Transforms a matrix to an upper trinagular form.
+    /// </summary>
+    void ForwardReduction();
 
+    /// <summary>
+    /// Tells whether a certain entry is a pivot point in the matrix or not
+    /// </summary>
+    /// <param name="row"></param>
+    /// <param name="col"></param>
+    /// <param name="tolerance"></param>
+    /// <returns>True is entry is a pivot, False otherwise</returns>
     bool IsPivot(int row, int col, float tolerance);
 
+    /// <summary>
+    /// The matrix should already be in upper triangular form before applied.
+    /// Simplifies the upper triangular form to as simple form as possible.
+    /// </summary>
     void BackwardReduction();
 
+    /// <summary>
+    /// If the optional parameter exists arguments right the instance with the parameter
+    /// to form a TotalMatrix which then will be forward reduced, backwards reduced and 
+    /// returns the rightmost column revealing a solution to the system
+    /// </summary>
+    /// <param name="b"></param>
+    /// <returns></returns>
     IVector GaussElimination(IVector? b);
 }

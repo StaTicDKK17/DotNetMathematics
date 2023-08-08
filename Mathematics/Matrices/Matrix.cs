@@ -8,7 +8,7 @@ public class Matrix : IMatrix
 {
     private readonly float[][] xs;
 
-    public int MRows => xs.GetLength(0);
+    public int MRows => xs.Length;
 
     public int NCols => xs[0].Length;
 
@@ -16,6 +16,12 @@ public class Matrix : IMatrix
 
     #region CONSTRUCTORS
 
+    /// <summary>
+    /// Creates a matrix with the dimensions gives in the parameters.
+    /// the parameters are structured as (number of rows, number of columns)
+    /// </summary>
+    /// <param name="mRows"></param>
+    /// <param name="nCols"></param>
     public Matrix(int mRows, int nCols)
     {
         Contract.Requires(mRows > 0);
@@ -24,6 +30,10 @@ public class Matrix : IMatrix
         SetupMatrixArray(nCols);
     }
 
+    /// <summary>
+    /// Creates a matrix using the provides 2-dimensional float array
+    /// </summary>
+    /// <param name="xs"></param>
     public Matrix(float[,] xs)
     {
         this.xs = new float[xs.GetLength(0)][];
@@ -37,11 +47,19 @@ public class Matrix : IMatrix
                 .ForEach(j => this.xs[i][j] = xs[i, j]));
     }
 
+    /// <summary>
+    /// Creates a matrix using the provides 2-dimensional float array
+    /// </summary>
+    /// <param name="xs"></param>
     public Matrix(float[][] xs)
     {
         this.xs = xs;
     }
 
+    /// <summary>
+    /// Copy-Constructor
+    /// </summary>
+    /// <param name="A"></param>
     public Matrix(IMatrix A)
     {
         xs = new float[A.MRows][];
@@ -53,6 +71,10 @@ public class Matrix : IMatrix
             .ForEach(i => xs[i] = A.Row(i + 1).ToArray());
     }
 
+    /// <summary>
+    /// Sets up the xs property with correct size in all inner arrays
+    /// </summary>
+    /// <param name="cols"></param>
     private void SetupMatrixArray(int cols)
     {
         Enumerable.Range(0, MRows)
@@ -92,6 +114,12 @@ public class Matrix : IMatrix
 
     #region ROW_OPERATIONS
 
+    /// <summary>
+    /// Transforms a row my mapping each element multiplied by the second parameter
+    /// </summary>
+    /// <param name="row"></param>
+    /// <param name="multiplier"></param>
+    /// <returns></returns>
     private static float[] TransformRowScaling(float[] row, float multiplier)
     {
         return row
@@ -99,6 +127,11 @@ public class Matrix : IMatrix
             .ToArray();
     }
 
+    /// <summary>
+    /// 1-Indexed - Scales a row by some constant
+    /// </summary>
+    /// <param name="row"></param>
+    /// <param name="multiplier"></param>
     public void ElemetaryRowScaling(int row, float multiplier)
     {
         Contract.Requires(row <= MRows && row > 0);
@@ -108,6 +141,13 @@ public class Matrix : IMatrix
         xs[row - 1] = TransformRowScaling(xs[row - 1], multiplier);
     }
 
+    /// <summary>
+    /// Returns the result of row operations row1 + multiplier * row2
+    /// </summary>
+    /// <param name="row1"></param>
+    /// <param name="row2"></param>
+    /// <param name="multiplier"></param>
+    /// <returns></returns>
     private static float[] TransformRowReplacement(float[] row1, float[] row2, float multiplier)
     {
         return row1
@@ -115,6 +155,12 @@ public class Matrix : IMatrix
            .ToArray();
     }
     
+    /// <summary>
+    /// 1-Indexed - Does row replacement in the form row -> row + multiplier * row2
+    /// </summary>
+    /// <param name="row"></param>
+    /// <param name="multiplier"></param>
+    /// <param name="row2"></param>
     public void ElementaryRowReplacement(int row, float multiplier, int row2)
     {
         Contract.Requires(row <= MRows && row > 0);
@@ -125,6 +171,11 @@ public class Matrix : IMatrix
         xs[row - 1] = TransformRowReplacement(xs[row - 1], xs[row2 - 1], multiplier);
     }
 
+    /// <summary>
+    /// 1-Indexed - Interchanges two rows in the matrix
+    /// </summary>
+    /// <param name="row1"></param>
+    /// <param name="row2"></param>
     public void ElementaryRowInterchange(int row1, int row2)
     {
         Contract.Requires(row1 != row2);
@@ -140,6 +191,12 @@ public class Matrix : IMatrix
 
     #region GAUSS_ELIMINATION
 
+    /// <summary>
+    /// 0-Indexed - Eliminates below or above a pivot if the entry is not zero in the pivots column
+    /// </summary>
+    /// <param name="rowNum"></param>
+    /// <param name="row"></param>
+    /// <param name="col"></param>
     private void EliminateRow(int rowNum, int row, int col)
     {
         float item = Item0I(rowNum, col);
@@ -156,12 +213,23 @@ public class Matrix : IMatrix
         }
     }
 
+    /// <summary>
+    /// 0-Indexed - Eliminates all rows below a pivot point using iteration
+    /// </summary>
+    /// <param name="top_row"></param>
+    /// <param name="col"></param>
     private void EliminateBelowPivot(int top_row, int col)
     {
         for (int i = top_row+1; i < MRows; i++)
             EliminateRow(i, top_row, col);
     }
 
+    /// <summary>
+    /// 1-Indexed - Eliminates all rows above a pivot | Used for backwards reduction
+    /// </summary>
+    /// <param name="tolerance"></param>
+    /// <param name="top_col"></param>
+    /// <param name="row"></param>
     private void EliminateAbovePivot(float tolerance, int top_col, int row)
     {
         for (int i = 1; i < row; i++)
@@ -180,6 +248,12 @@ public class Matrix : IMatrix
         }
     } 
     
+    /// <summary>
+    /// Returns the first non-zero entry in the column after the number "row"
+    /// </summary>
+    /// <param name="row"></param>
+    /// <param name="column"></param>
+    /// <returns>-1 if no non-zero elements, otherwise the row the non-zero number was found on (1-Indexed)</returns>
     private static int Pivot(int row, IVector column)
     {
         for (int i = row; i < column.Size; i++)
@@ -189,6 +263,11 @@ public class Matrix : IMatrix
         return -1;
     }
 
+    /// <summary>
+    /// Transform the instance to an upper triangular matrix using recursion
+    /// </summary>
+    /// <param name="row"></param>
+    /// <param name="col"></param>
     public void ForwardReduction(int row = 0, int col = 0)
     {
         if (row == MRows || col == NCols)
@@ -208,6 +287,11 @@ public class Matrix : IMatrix
         }
 
         CleanMatrix();
+    }
+
+    public void ForwardReduction()
+    {
+        ForwardReduction(0, 0);
     }
 
     public void BackwardReduction()
@@ -261,6 +345,13 @@ public class Matrix : IMatrix
         return true;
     }
 
+    /// <summary>
+    /// Determines when doing row replacement whether the factor of the other row should negative or positive to get zero entry
+    /// </summary>
+    /// <param name="factor"></param>
+    /// <param name="item"></param>
+    /// <param name="pivot"></param>
+    /// <returns></returns>
     private static float DetermineRowFactor(float factor, float item, float pivot)
     {
         return ((item > 0.0 && pivot > 0.0) || (item < 0.0 && pivot < 0.0))
@@ -282,6 +373,11 @@ public class Matrix : IMatrix
         return Transpose(this).Equals(-1f * this);
     }
 
+    /// <summary>
+    /// Transposes the matrix M
+    /// </summary>
+    /// <param name="M"></param>
+    /// <returns></returns>
     public static IMatrix Transpose(Matrix M)
     {
         Matrix A = new(M.NCols, M.MRows);
@@ -370,6 +466,12 @@ public class Matrix : IMatrix
 
     #region MATRIX_OPERATORS
 
+    /// <summary>
+    /// Returns a new matrix that arguments v as a new rightmost column of matrix A.
+    /// </summary>
+    /// <param name="A"></param>
+    /// <param name="v"></param>
+    /// <returns></returns>
     public static IMatrix ArgumentRight(Matrix A, IVector v)
     {
         Contract.Requires(A.MRows == v.Size);
@@ -465,11 +567,22 @@ public class Matrix : IMatrix
 
     #region MATRIX_CLEAN
 
+    /// <summary>
+    /// Cleans entry if it is approximately zero
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="j"></param>
+    /// <param name="tolerance"></param>
     private void CleanApproximateFloat(int i, int j, float tolerance)
     {
         if (Math.Abs(Item0I(i, j)) <= tolerance) SetItem0I(i, j, 0);
     }
 
+    /// <summary>
+    /// Cleans a row for approximate to zero values
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="tolerance"></param>
     private void CleanApproximateFloatsInRow(int i, float tolerance)
     {
         Enumerable.Range(0, NCols)
@@ -479,6 +592,9 @@ public class Matrix : IMatrix
         );
     }
 
+    /// <summary>
+    /// Cleans the instance of approximate to zero values
+    /// </summary>
     private void CleanMatrix()
     {
         float tolerance = 1e-6f;
