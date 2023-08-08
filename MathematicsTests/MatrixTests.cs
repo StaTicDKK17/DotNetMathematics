@@ -519,8 +519,8 @@ public class MatrixTests
                               new float[] {0, 0, 0, 21, 21},
                               new float[] {0, 0, 0, 0, 0}
         };
-        Matrix M = new Matrix(floats);
-        Matrix M2 = new Matrix(reduced);
+        Matrix M = new(floats);
+        Matrix M2 = new(reduced);
 
         M.ForwardReduction();
 
@@ -536,7 +536,7 @@ public class MatrixTests
                              new float[] {-4, -13, 2, 1},
                              new float[] {0, -1, 2, 1}
         };
-        Matrix A = new Matrix(floats);
+        Matrix A = new(floats);
 
         IVector res = A.GaussElimination(v);
 
@@ -553,7 +553,7 @@ public class MatrixTests
                              new float[] {4, 5, 6}
         };
 
-        Matrix A = new Matrix(floats);
+        Matrix A = new(floats);
 
         Assert.False(A.IsPivot(2, 3, 1e-6f));
     }
@@ -561,7 +561,7 @@ public class MatrixTests
     [Fact]
     public void GaussWithNullWorks()
     {
-        Matrix A = new Matrix(10, 10);
+        Matrix A = new(10, 10);
 
         IVector v = A.GaussElimination(null);
 

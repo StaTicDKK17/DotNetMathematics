@@ -1,6 +1,7 @@
 ﻿namespace FSharpMathematics.Core
 
 open FSharp.Collections
+open System.Diagnostics.Contracts
 
 type Matrix = class
   val private _xs : float[,]
@@ -51,8 +52,14 @@ type Matrix = class
     (this.M_Rows, this.N_Cols)
 
   member this.Item
-    with get (i : int, j : int) = this._xs.[i, j]
-    and set (i : int, j : int) (value : float) = this._xs.[i, j] <- value
+    with get (i : int, j : int) = 
+        Contract.Requires(i >= 0 && i < this.M_Rows)
+        Contract.Requires(j >= 0 && j < this.N_Cols)
+        this._xs.[i, j]
+    and set (i : int, j : int) (value : float) = 
+        Contract.Requires(i >= 0 && i < this.M_Rows)
+        Contract.Requires(j >= 0 && j < this.N_Cols)
+        this._xs.[i, j] <- value
 
   /// <summary>
   /// Get a particular row vector.
@@ -66,6 +73,7 @@ type Matrix = class
   /// A vector containing the data of the given row
   /// </returns>
   member this.Row (i : int) : Vector =
+    Contract.Requires(i >= 0 && i < this.M_Rows)
     Vector(seq { for i in 0..this.N_Cols-1 -> i } |> Seq.map (fun x -> this._xs[i, x]) |> Seq.toArray)
 
   /// <summary>
@@ -85,6 +93,7 @@ type Matrix = class
   /// endeavour.
   /// </remarks>
   member this.Column (j : int) =
+    Contract.Requires(j >= 0 && j < this.N_Cols)
     Vector (seq {for i in 0..this.M_Rows-1 -> i } |> Seq.map (fun x -> this._xs[x, j]) |> Seq.toArray)
 
 end

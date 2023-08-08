@@ -1,5 +1,7 @@
 ﻿namespace FSharpMathematics.Core
 
+open System.Diagnostics.Contracts
+
 type Vector = class
   val private _xs : float[]
 
@@ -40,8 +42,12 @@ type Vector = class
     this._xs.Length
 
   member this.Item
-    with get (i : int) = this._xs.[i]
-    and set (i : int) (value : float) = this._xs.[i] <- value 
+    with get (i : int) = 
+        Contract.Requires(i >= 0 && i < this.Size)
+        this._xs.[i]
+    and set (i : int) (value : float) = 
+        Contract.Requires(i >= 0 && i < this.Size)
+        this._xs.[i] <- value 
 
   static member ( * ) (v : Vector, y : float) : Vector =
     Vector(Array.map (fun x -> x * y) (v.ToArray()))
@@ -50,12 +56,15 @@ type Vector = class
     Vector(v.ToArray() |> Array.map (fun v -> v * x))
 
   static member (+) (xs : Vector, ys : Vector) : Vector =
+    Contract.Requires(xs.Size = ys.Size)
     Vector ((xs.ToArray(), ys.ToArray()) ||> Array.map2 (fun x y -> x + y))
 
   static member (-) (xs : Vector, ys : Vector) : Vector =
+    Contract.Requires(xs.Size = ys.Size)
     Vector((xs.ToArray(), ys.ToArray()) ||> Array.map2 (fun x y -> x - y))
 
   static member ( * ) (xs : Vector, ys : Vector) =
+    Contract.Requires(xs.Size = ys.Size)
     (xs.ToArray(), ys.ToArray()) ||> Array.map2 (fun x y -> x * y) |> Array.sum
     
 end

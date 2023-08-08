@@ -1,7 +1,8 @@
 ﻿module AdvancedExtensions
 
-open System
 open FSharpMathematics.Core
+open System.Diagnostics.Contracts
+open BasicExtensions
 
 type AdvancedOps = class
 
@@ -18,6 +19,9 @@ type AdvancedOps = class
     /// <param name="j">The index of the column to remove.</param>
     /// <returns>The resulting (N - 1)-by-(N - 1) submatrix.</returns>
     static member SquareSubMatrix (A : Matrix) (i : int) (j : int) : Matrix =
+       Contract.Requires(i >= 0 && i < A.M_Rows)
+       Contract.Requires(j >= 0 && j < A.N_Cols)
+
        let mutable m = Matrix(A.M_Rows-1, A.N_Cols-1)
 
        for row in 0..A.M_Rows-1 do
@@ -35,6 +39,9 @@ type AdvancedOps = class
        m
 
     static member CalcualteCoFactor (A : Matrix) (i : int) (j : int) : float = 
+        Contract.Requires(i >= 0 && i < A.M_Rows)
+        Contract.Requires(j >= 0 && j < A.N_Cols)
+
         float (pown -1 (i+j)) * AdvancedOps.Determinant A
         
     /// <summary>
@@ -63,24 +70,6 @@ type AdvancedOps = class
 
         res
 
-
-    /// <summary>
-    ///     This function computes the Euclidean norm of a Vector. This has been implemented
-    ///     in Project A and is provided here for convenience
-    /// </summary>
-    /// <param name="v">
-    ///    A Vector
-    /// </param>
-    /// <returns>
-    ///     Euclidean norm, i.e. (\sum v[i]^2)^0.5
-    /// </returns>
-    static member VectorNorm (v : Vector) =
-        let mutable n2 = 0.0
-        for i in 0..v.Size-1 do
-            n2 <- n2 + v.[i] * v.[i]
-        sqrt n2
-    
-
     /// <summary>
     ///     This function copies Vector 'v' as a column of matrix 'A'
     ///     at column position j.
@@ -99,6 +88,8 @@ type AdvancedOps = class
     /// </returns>
     /// <exception cref="ArgumentException"></exception>
     static member SetColumn (A : Matrix) (v : Vector) (j : int) =
+        Contract.Requires(j >= 0 && j < A.N_Cols)
+        Contract.Requires(A.M_Rows = v.Size)
         let mutable M = Matrix(A)
 
         for i in 0..M.M_Rows-1 do
@@ -131,7 +122,7 @@ type AdvancedOps = class
             for i in 0..j-1 do
                 R.Item(i, j) <- Q.Column(i) * A.Column(j)
                 q_j <- q_j - R.Item(i, j) * Q.Column(i)
-            R.Item(j, j) <- AdvancedOps.VectorNorm q_j
+            R.Item(j, j) <- BasicOps.VectorNorm q_j
             if q_j <> Vector(q_j.Size) then
                 q_j <- q_j * (1.0/R.Item(j, j))
                 Q <- AdvancedOps.SetColumn Q q_j (j)

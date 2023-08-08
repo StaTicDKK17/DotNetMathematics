@@ -5,6 +5,7 @@
 
 open System
 open FSharpMathematics.Core
+open System.Diagnostics.Contracts
 
 type GaussOps = class
     /// <summary>
@@ -35,6 +36,8 @@ type GaussOps = class
     /// row operation.
     /// </returns>
     static member ElementaryRowReplacement (A : Matrix) (i : int) (m : float) (j : int) : Matrix =
+        Contract.Requires(i >= 0 && i < A.M_Rows)
+        Contract.Requires(j >= 0 && j < A.N_Cols)
         let new_matrix = Matrix(A.M_Rows, A.N_Cols)
 
         for row in 0..A.M_Rows-1 do
@@ -67,6 +70,9 @@ type GaussOps = class
     /// row operation.
     /// </returns>
     static member ElementaryRowInterchange (A : Matrix) (i : int) (j : int) : Matrix =
+        Contract.Requires(i >= 0 && i < A.M_Rows)
+        Contract.Requires(j >= 0 && j < A.N_Cols)
+
         let mutable new_matrix = Matrix(A.M_Rows, A.N_Cols)
 
         let temp_col = new_matrix.Column(i)
@@ -98,6 +104,8 @@ type GaussOps = class
     /// row operation.
     /// </returns>
     static member ElementaryRowScaling (A : Matrix) (i : int) (c : float) : Matrix =
+        Contract.Requires(i >= 0 && i < A.M_Rows)
+        Contract.Requires(c <> 0)
         let new_matrix = Matrix(A.M_Rows, A.N_Cols)
 
         for k in 0..A.M_Rows-1 do
@@ -128,6 +136,8 @@ type GaussOps = class
             factor
 
     static member EliminateBelowPivot (M : Matrix) (tolerance: float) (top_row: int) (col: int) : Matrix =
+        Contract.Requires(top_row >= 0 && top_row < M.M_Rows)
+        Contract.Requires(col >= 0 && col < M.N_Cols)
         let mutable new_matrix = Matrix(M)
 
         for k in top_row+1..new_matrix.M_Rows-1 do
@@ -141,6 +151,9 @@ type GaussOps = class
         new_matrix
 
     static member EliminateAbovePivot(M : Matrix) (tolerance: float) (top_col: int) (row: int) : Matrix =
+        Contract.Requires(row >= 0 && row < M.M_Rows)
+        Contract.Requires(top_col >= 0 && top_col < M.N_Cols)
+
         let mutable new_matrix = Matrix(M)
 
         for other_row in 0..row-1 do
@@ -256,6 +269,7 @@ type GaussOps = class
     ///
     /// <returns>The N-sized vector x such that A * x = b.</returns>
     static member GaussElimination (A : Matrix) (b : Vector) : Vector =
+        Contract.Requires(A.M_Rows = b.Size)
         let mutable new_matrix = GaussOps.ArgumentMatrix A b
 
         new_matrix <- GaussOps.ForwardReduction new_matrix

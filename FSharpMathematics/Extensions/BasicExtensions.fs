@@ -1,6 +1,7 @@
 ﻿module BasicExtensions
 
 open FSharpMathematics.Core
+open System.Diagnostics.Contracts
 
 type BasicOps = class
   /// <summary>
@@ -19,6 +20,7 @@ type BasicOps = class
   ///
   /// <returns>An M-by-(N+1) augmented Matrix [A | v].</returns>
   static member AugmentRight (A : Matrix) (v : Vector) : Matrix =
+    Contract.Requires(A.M_Rows = v.Size)
     let m_rows = A.M_Rows
     let n_cols = A.N_Cols
 
@@ -45,6 +47,7 @@ type BasicOps = class
   ///
   /// <returns>An M-size Vector b such that b = A * v.</returns>
   static member MatVecProduct (A : Matrix) (v : Vector) : Vector =
+    Contract.Requires(A.N_Cols = v.Size)
     let mutable b =  Vector(A.M_Rows)
 
     for i in 0.. A.M_Rows-1 do
@@ -67,6 +70,7 @@ type BasicOps = class
   ///
   /// <returns>The M-by-P Matrix A * B.</returns>
   static member MatrixProduct (A : Matrix) (B : Matrix) : Matrix =
+    Contract.Requires(A.N_Cols = B.M_Rows)
     let mutable C = Matrix(A.M_Rows, B.N_Cols)
 
     for i in 0..A.M_Rows-1 do

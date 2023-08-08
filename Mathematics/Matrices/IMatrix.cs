@@ -136,11 +136,7 @@ public interface IMatrix
         return (Matrix)a * (Matrix)v;
     }
 
-    void EliminateBelowPivot(float tolerance, int top_row, int col);
-
-    void EliminateAbovePivot(float tolerance, int top_col, int row);
-
-    void ForwardReduction();
+    void ForwardReduction(int row = 0, int col = 0);
 
     bool IsPivot(int row, int col, float tolerance);
 

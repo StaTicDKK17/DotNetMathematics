@@ -11,7 +11,7 @@ public class MatrixFactoryTests
                                new float[] {0, 1}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.Identity(2);
 
         Assert.True(A.Equals(B));
@@ -25,7 +25,7 @@ public class MatrixFactoryTests
                                new float[] {0, 0, 1}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.Identity(3);
 
         Assert.True(A.Equals(B));
@@ -41,7 +41,7 @@ public class MatrixFactoryTests
                                new float[] {1f/5f, 1f/6f, 1f/7f, 1f/8f, 1f/9f}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.Hilbert(5);
 
         Assert.True(A.Equals(B));
@@ -54,7 +54,7 @@ public class MatrixFactoryTests
                                new float[] {1, 0}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.Exchange(2);
 
         Assert.True(A.Equals(B));
@@ -68,7 +68,7 @@ public class MatrixFactoryTests
                                new float[] {1, 0, 0}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.Exchange(3);
 
         Assert.True(A.Equals(B));
@@ -81,7 +81,7 @@ public class MatrixFactoryTests
                                new float[] {1f/2f, 1f}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.Lehmer(2);
 
         Assert.True(A.Equals(B));
@@ -95,7 +95,7 @@ public class MatrixFactoryTests
                               new float[] {1f/3f, 2f/3f, 1f}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.Lehmer(3);
 
         Assert.True(A.Equals(B));
@@ -110,7 +110,7 @@ public class MatrixFactoryTests
                               new float[] {1f/4f, 1f/2f, 3f/4f, 1f}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.Lehmer(4);
 
         Assert.True(A.Equals(B));
@@ -123,7 +123,7 @@ public class MatrixFactoryTests
                               new float[] {1, 1,}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.One(2);
 
         Assert.True(A.Equals(B));
@@ -137,7 +137,7 @@ public class MatrixFactoryTests
                               new float[] {1, 1, 1}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.One(3);
 
         Assert.True(A.Equals(B));
@@ -150,7 +150,7 @@ public class MatrixFactoryTests
                               new float[] {1, 1, 1, 1, 1}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.One(2, 5);
 
         Assert.True(A.Equals(B));
@@ -166,7 +166,7 @@ public class MatrixFactoryTests
                               new float[] {1, 4, 6, 4, 1}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.LowerPascal(5);
 
         Assert.True(A.Equals(B));
@@ -182,7 +182,7 @@ public class MatrixFactoryTests
                               new float[] {0, 0, 0, 0, 1}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.UpperPascal(5);
 
         Assert.True(A.Equals(B));
@@ -198,7 +198,7 @@ public class MatrixFactoryTests
                               new float[] {1, 5, 15, 35, 70}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.SymmetricPascal(5);
 
         Assert.True(A.Equals(B));
@@ -222,7 +222,7 @@ public class MatrixFactoryTests
             new float[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.Redheffer(12);
 
         Assert.True(A.Equals(B));
@@ -238,7 +238,7 @@ public class MatrixFactoryTests
                               new float[] {0, 0, 0, 0, 0}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.UpperShift(5);
 
         Assert.True(A.Equals(B));
@@ -254,7 +254,7 @@ public class MatrixFactoryTests
                               new float[] {0, 0, 0, 1, 0}
         };
 
-        Matrix A = new Matrix(expected);
+        Matrix A = new(expected);
         Matrix B = MatrixFactory.LowerShift(5);
 
         Assert.True(A.Equals(B));
@@ -263,8 +263,17 @@ public class MatrixFactoryTests
     [Fact]
     public void ZeroOfSize100_IsWellBehaved()
     {
-        Matrix A = new Matrix(100, 100);
+        Matrix A = new(100, 100);
         Matrix B = MatrixFactory.Zero(100);
+
+        Assert.True(A.Equals(B));
+    }
+
+    [Fact]
+    public void ZeroOfSize2by3_IsWellBehaved()
+    {
+        Matrix A = new(2, 3);
+        Matrix B = MatrixFactory.Zero(2, 3);
 
         Assert.True(A.Equals(B));
     }

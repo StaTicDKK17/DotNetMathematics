@@ -159,4 +159,11 @@ public class MatrixFactory
 
         return M;
     }
+
+    public static Matrix Zero(int n, int m)
+    {
+        Matrix M = new Matrix(n, m);
+
+        return M;
+    }
 }
