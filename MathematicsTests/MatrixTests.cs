@@ -528,6 +528,23 @@ public class MatrixTests
     }
 
     [Fact]
+    public void TestForwardReductionEdgeCase()
+    {
+        float[][] floats = { new float[] {0, 1, -2, 2, 2},
+                             new float[] {2, 3, 6, 3, 11},
+                             new float[] {-4, -13, 2, 1, -15},
+                             new float[] {0, -1, 2, 1, 1}
+        };
+
+        Matrix M = new(floats);
+        Matrix M2 = new(floats);
+
+        M.ForwardReduction(4,5);
+
+        Assert.True(M.Equals(M2));
+    }
+
+    [Fact]
     public void TestSimpleGaussElimination()
     {
         IVector v = new Vector(new float[] { 2, 11, -15, 1 });
