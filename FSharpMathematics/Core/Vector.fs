@@ -50,7 +50,7 @@ type Vector = class
         this._xs.[i] <- value 
 
   static member ( * ) (v : Vector, y : float) : Vector =
-    Vector(Array.map (fun x -> x * y) (v.ToArray()))
+    Vector(v.ToArray() |> Array.map (fun x -> x * y))
 
   static member ( * ) (x : float, v : Vector) : Vector =
     Vector(v.ToArray() |> Array.map (fun v -> v * x))
@@ -62,7 +62,8 @@ type Vector = class
   static member (-) (xs : Vector, ys : Vector) : Vector =
     Contract.Requires(xs.Size = ys.Size)
     Vector((xs.ToArray(), ys.ToArray()) ||> Array.map2 (fun x y -> x - y))
-
+  
+  // Cannot get 100% test coverage due to Array.sum having untested branch coveraged for ArgumentNullException
   static member ( * ) (xs : Vector, ys : Vector) =
     Contract.Requires(xs.Size = ys.Size)
     (xs.ToArray(), ys.ToArray()) ||> Array.map2 (fun x y -> x * y) |> Array.sum

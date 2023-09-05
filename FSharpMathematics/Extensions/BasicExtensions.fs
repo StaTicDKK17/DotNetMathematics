@@ -107,6 +107,8 @@ type BasicOps = class
   /// <remarks>
   /// See page 197 in "Linear Algebra for Engineers and Scientists"
   /// by K. Hardy.
+  ///
+  /// Impossible to achieve full branch coverage. It is practically fully covered
   /// </remarks>
   ///
   /// <param name="v">An N-dimensional Vector.</param>

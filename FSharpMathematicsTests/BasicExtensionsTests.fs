@@ -3,6 +3,7 @@
 open Xunit
 open FSharpMathematics.Core
 open TestFunctions
+open BasicExtensions
 
 // data for 'augmentRight()'
 
@@ -234,3 +235,8 @@ let ``Vector Norm Tests`` () =
     let vn3 = TestVectorNorm vnv3 vnnv3
     let (_, res, _) = vn3
     Assert.True res
+
+    let v4 = Vector (xs = null)
+    Assert.Throws<System.ArgumentNullException> (fun () -> let r4 = BasicOps.VectorNorm v4
+                                                           ())
+    

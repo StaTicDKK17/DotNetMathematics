@@ -102,12 +102,32 @@ public class Matrix : IMatrix
         xs[i - 1][j - 1] = value;
     }
 
+    public void SetRow0I(int i, IVector v)
+    {
+        Contract.Requires(i < MRows && i >= 0);
+        Contract.Requires(v.Size == NCols);
+
+        xs[i] = v.ToArray();
+    }
+
     public void SetRow(int i, IVector v)
     {
         Contract.Requires(i <= MRows && i > 0);
         Contract.Requires(v.Size == NCols);
 
         xs[i - 1] = v.ToArray();
+    }
+
+    public void SetColumn0I(IVector v, int j)
+    {
+        for (int i = 0; i < MRows; i++)
+            SetItem0I(i, j, v.Item0I(i));
+    }
+
+    public void SetColumn(IVector v, int j)
+    {
+        for (int i = 1; i <= MRows; i++)
+            SetItem(i, j, v.Item(i));
     }
 
     #endregion
@@ -378,21 +398,95 @@ public class Matrix : IMatrix
     /// </summary>
     /// <param name="M"></param>
     /// <returns></returns>
-    public static IMatrix Transpose(Matrix M)
+    public IMatrix Transpose()
     {
-        Matrix A = new(M.NCols, M.MRows);
+        Matrix A = new(NCols, MRows);
 
-        Enumerable.Range(0, M.MRows)
+        Enumerable.Range(0, MRows)
             .ToList()
             .ForEach(
-              i => Enumerable.Range(0, M.NCols)
+              i => Enumerable.Range(0, NCols)
                 .ToList()
-                .ForEach(j => A.SetItem0I(j, i, M.Item0I(i, j)))
+                .ForEach(j => SetItem0I(j, i, Item0I(i, j)))
         );
 
         return A;
     }
 
+    public static Matrix SquareSubMatrix(Matrix A, int i, int j)
+    {
+        Matrix M = new(A);
+
+        for (int row = 0; row < A.MRows; row++)
+        {
+            if (row != i)
+            {
+                for (int col = 0; col < A.NCols; col++)
+                {
+                    if (row > i && col > j)
+                        M.SetItem0I(row - 1, col - 1, A.Item0I(row, col));
+                    else if (row > i && col < j)
+                        M.SetItem0I(row - 1, col, A.Item0I(row, col));
+                    else if (row < i && col < j)
+                        M.SetItem0I(row, col, A.Item0I(row, col));
+                    else if (row < i && col > j)
+                        M.SetItem0I(row, col - 1, A.Item0I(row, col));
+                }
+            }
+        }
+        return M;
+    }
+    
+    public static float CalculateCoFactor(Matrix A, int i, int j)
+    {
+        return MathF.Pow(-1, i + j) * A.Determinant();
+    }
+
+    public float Determinant()
+    {
+        float res = 0.0f;
+
+        if (MRows == 1 && NCols == 1)
+            res = Item0I(0, 0);
+        else
+        {
+            for (int i = 0; i < NCols; i++)
+            {
+                Matrix M = SquareSubMatrix(this, 0, i);
+
+                float coFactor = CalculateCoFactor(M, 0, i);
+
+                res += Item0I(0, i) * coFactor;
+            }
+        }
+
+        return res;
+    }
+
+    public (Matrix, Matrix) GramSchmidt()
+    {
+        Matrix Q = new(MRows, NCols);
+        Matrix R = new(MRows, NCols);
+
+        for (int j = 0; j < NCols; j++)
+        {
+            IVector q_j = Column0I(j + 1);
+            Q.SetColumn0I(q_j, j);
+
+            for (int i = 0; i < j; i++)
+            {
+                R.SetItem0I(i, j, Q.Column0I(i) * Column0I(j));
+                q_j -= R.Item0I(i, j) * Q.Column0I(i);
+            }
+            R.SetItem0I(j, j, q_j.Norm);
+            if (!q_j.Equals(new Vector(q_j.Size))) {
+                q_j *= 1.0f / R.Item0I(j, j);
+                Q.SetColumn0I(q_j, j);
+            }
+        }
+
+        return (Q, R);
+    }
     #endregion
 
     #region GETTERS
@@ -426,6 +520,15 @@ public class Matrix : IMatrix
 
         return new Vector(Enumerable.Range(0, MRows)
             .Select(e => xs[e][j - 1])
+            .ToArray());
+    }
+
+    public IVector Column0I(int j)
+    {
+        Contract.Requires(j < NCols && j >= 0);
+
+        return new Vector(Enumerable.Range(0, MRows)
+            .Select(e => xs[e][j])
             .ToArray());
     }
 

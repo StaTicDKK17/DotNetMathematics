@@ -13,6 +13,8 @@ type AdvancedOps = class
     /// <remarks>
     ///     See page 246-247 in "Linear Algebra for Engineers and Scientists"
     ///     by K. Hardy.
+    ///
+    ///     Practically full branch coverage, cannot be theoretically due to if-elif relation
     /// </remarks>
     /// <param name="A">An N-by-N matrix.</param>
     /// <param name="i">The index of the row to remove.</param>
@@ -37,7 +39,15 @@ type AdvancedOps = class
                        else if row < i && col > j then
                            m.Item(row, col-1) <- A.Item(row, col)
        m
-
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// Unknown if practical branch coverage is done
+    /// </remarks>
+    /// <param name="i"></param>
+    /// <param name="j"></param>
     static member CalcualteCoFactor (A : Matrix) (i : int) (j : int) : float = 
         Contract.Requires(i >= 0 && i < A.M_Rows)
         Contract.Requires(j >= 0 && j < A.N_Cols)
@@ -123,9 +133,8 @@ type AdvancedOps = class
                 R.Item(i, j) <- Q.Column(i) * A.Column(j)
                 q_j <- q_j - R.Item(i, j) * Q.Column(i)
             R.Item(j, j) <- BasicOps.VectorNorm q_j
-            if q_j <> Vector(q_j.Size) then
-                q_j <- q_j * (1.0/R.Item(j, j))
-                Q <- AdvancedOps.SetColumn Q q_j (j)
+            q_j <- q_j * (1.0/R.Item(j, j))
+            Q <- AdvancedOps.SetColumn Q q_j (j)
         (Q, R)
 
     
