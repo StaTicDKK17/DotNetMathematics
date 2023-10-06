@@ -6,6 +6,25 @@ open System.Diagnostics.Contracts
 type Matrix = class
   val private _xs : float[,]
 
+  member this.M_Rows =
+    this._xs.GetLength(0)
+
+  member this.N_Cols =
+    this._xs.GetLength(1)
+
+  member this.Size =
+    (this.M_Rows, this.N_Cols)
+
+  member this.Item
+    with get (i : int, j : int) = 
+        Contract.Requires(i >= 0 && i < this.M_Rows)
+        Contract.Requires(j >= 0 && j < this.N_Cols)
+        this._xs.[i, j]
+    and set (i : int, j : int) (value : float) = 
+        Contract.Requires(i >= 0 && i < this.M_Rows)
+        Contract.Requires(j >= 0 && j < this.N_Cols)
+        this._xs.[i, j] <- value
+
   /// <summary>
   /// Initializes an m-by-n Matrix with all 0's.
   /// </summary>
@@ -42,25 +61,6 @@ type Matrix = class
   member this.ToArray() =
     this._xs
 
-  member this.M_Rows =
-    this._xs.GetLength(0)
-
-  member this.N_Cols =
-    this._xs.GetLength(1)
-
-  member this.Size =
-    (this.M_Rows, this.N_Cols)
-
-  member this.Item
-    with get (i : int, j : int) = 
-        Contract.Requires(i >= 0 && i < this.M_Rows)
-        Contract.Requires(j >= 0 && j < this.N_Cols)
-        this._xs.[i, j]
-    and set (i : int, j : int) (value : float) = 
-        Contract.Requires(i >= 0 && i < this.M_Rows)
-        Contract.Requires(j >= 0 && j < this.N_Cols)
-        this._xs.[i, j] <- value
-
   /// <summary>
   /// Get a particular row vector.
   /// </summary>
@@ -95,5 +95,6 @@ type Matrix = class
   member this.Column (j : int) =
     Contract.Requires(j >= 0 && j < this.N_Cols)
     Vector (seq {for i in 0..this.M_Rows-1 -> i } |> Seq.map (fun x -> this._xs[x, j]) |> Seq.toArray)
+  
 
 end

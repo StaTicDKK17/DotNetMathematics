@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <Compile Include="MathFunctions.fs" />
+	  <Compile Include="Combinatorics\CountingFunctions.fs" />
 	  <Compile Include="Core\Vector.fs" />
 	  <Compile Include="Core\Matrix.fs" />
 	  <Compile Include="Extensions\BasicExtensions.fs" />
