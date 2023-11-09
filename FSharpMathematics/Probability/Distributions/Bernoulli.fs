@@ -5,7 +5,7 @@ open System.Collections.Generic
 type BernoulliDist = Dictionary<int, float>
 
 let create_distribution(p) : BernoulliDist =
-    let dist = new Dictionary<int, float>()
+    let dist = BernoulliDist()
     dist.Add(1, p)
     dist.Add(0, float 1 - p)
     dist
