@@ -10,5 +10,5 @@ let create_distribution(p) : BernoulliDist =
     dist.Add(0, float 1 - p)
     dist
 
-let bernoulli(dist: BernoulliDist, v) =
+let evaluate(dist: BernoulliDist, v) =
     dist.Item v

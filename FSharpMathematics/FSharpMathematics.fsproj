@@ -8,16 +8,15 @@
   <ItemGroup>
 	  <Compile Include="MathFunctions.fs" />
 	  <Compile Include="Combinatorics\CountingFunctions.fs" />
+	  <Compile Include="Probability\Distributions\Binomial.fs" />
+	  <Compile Include="Probability\Distributions\Geometric.fs" />
+	  <Compile Include="Probability\Distributions\Bernoulli.fs" />
 	  <Compile Include="Core\Set.fs" />
 	  <Compile Include="Core\Vector.fs" />
 	  <Compile Include="Core\Matrix.fs" />
 	  <Compile Include="Extensions\BasicExtensions.fs" />
 	  <Compile Include="Extensions\GaussExtensions.fs" />
 	  <Compile Include="Extensions\AdvancedExtensions.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Probability\Distributions\" />
   </ItemGroup>
 
 </Project>

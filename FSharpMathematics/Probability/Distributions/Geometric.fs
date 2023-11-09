@@ -4,11 +4,11 @@ open System.Collections.Generic
 
 type GeometricDist = Dictionary<int, float>
 
-let create_geometric(p: float, lim) =
+let create_distribution(p: float, lim) =
     let dist = new GeometricDist()
-    for i in 1..lim+1 do
+    for i in 1..lim do
         dist.Add(i, p * (float 1-p) ** (float i - float 1))
     dist
 
-let evaluate_geomtric(dist: GeometricDist, k) =
+let evaluate(dist: GeometricDist, k) =
     dist.Item k
