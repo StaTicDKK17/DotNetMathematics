@@ -8,6 +8,7 @@
   <ItemGroup>
 	  <Compile Include="MathFunctions.fs" />
 	  <Compile Include="Combinatorics\CountingFunctions.fs" />
+	  <Compile Include="Probability\Distributions\Pascal.fs" />
 	  <Compile Include="Probability\Distributions\Binomial.fs" />
 	  <Compile Include="Probability\Distributions\Geometric.fs" />
 	  <Compile Include="Probability\Distributions\Bernoulli.fs" />
