@@ -1,11 +1,13 @@
-module Geometric
+namespace Probability.Distributions
 
-type GeometricDist = {p: float}
+module Geometric =
 
-val create_distribution : float -> GeometricDist
+    type GeometricDist = {p: float}
 
-val evaluate_distribution : GeometricDist -> int -> float
+    val create_distribution : float -> GeometricDist
 
-val evaluate : int -> float
+    val evaluate_distribution : GeometricDist -> int -> float
 
-val save_distribution : GeometricDist -> unit
+    val evaluate : int -> float
+
+    val save_distribution : GeometricDist -> unit

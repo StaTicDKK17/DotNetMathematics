@@ -1,11 +1,12 @@
-module Pascal
+namespace Probability.Distributions
 
-type PascalDist = { m: int; p: float }
+module Pascal =
+    type PascalDist = { m: int; p: float }
 
-val create_distribution : int -> float -> PascalDist
+    val create_distribution : int -> float -> PascalDist
 
-val evaluate_distribution : PascalDist -> int -> float
+    val evaluate_distribution : PascalDist -> int -> float
 
-val evaluate : int -> float
+    val evaluate : int -> float
 
-val save_distribution : PascalDist -> unit
+    val save_distribution : PascalDist -> unit

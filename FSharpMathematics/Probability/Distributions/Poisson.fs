@@ -1,19 +1,21 @@
-﻿module Poisson
+﻿namespace Probability.Distributions
 
-open MathFunctions
+module Poisson =
 
-type PoissonDist = { lambda: int }
+    open MathFunctions
 
-let mutable saved_dist = { lambda = -1 }
+    type PoissonDist = { lambda: int }
 
-let create_distribution(lambda: int) =
-    { lambda = lambda }
+    let mutable saved_dist = { lambda = -1 }
 
-let evaluate_distribution(dist: PoissonDist) (k) =
-    ((exp (-float dist.lambda)) * float (pown dist.lambda k)) / float (factorial k)
+    let create_distribution(lambda: int) =
+        { lambda = lambda }
 
-let evaluate(k) =
-    evaluate_distribution saved_dist k
+    let evaluate_distribution(dist: PoissonDist) (k) =
+        ((exp (-float dist.lambda)) * float (pown dist.lambda k)) / float (factorial k)
 
-let save_distribution(dist: PoissonDist) =
-    saved_dist <- dist
+    let evaluate(k) =
+        evaluate_distribution saved_dist k
+
+    let save_distribution(dist: PoissonDist) =
+        saved_dist <- dist

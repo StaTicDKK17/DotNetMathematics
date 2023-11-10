@@ -1,11 +1,12 @@
-module Poisson
+namespace Probability.Distributions
 
-type PoissonDist = { lambda: int }
+module Poisson =
+    type PoissonDist = { lambda: int }
 
-val create_distribution : int -> PoissonDist
+    val create_distribution : int -> PoissonDist
 
-val evaluate_distribution : PoissonDist -> int -> float
+    val evaluate_distribution : PoissonDist -> int -> float
 
-val evaluate : int -> float
+    val evaluate : int -> float
 
-val save_distribution : PoissonDist -> unit
+    val save_distribution : PoissonDist -> unit

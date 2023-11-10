@@ -1,19 +1,21 @@
-﻿module Pascal
+﻿namespace Probability.Distributions
 
-open CountingFunctions
+module Pascal =
 
-type PascalDist = { m: int; p: float }
+    open CountingFunctions
 
-let mutable saved_dist = { m = 0; p = -1 }
+    type PascalDist = { m: int; p: float }
 
-let create_distribution(m) (p: float) =
-    { m = m; p = p }
+    let mutable saved_dist = { m = 0; p = -1 }
 
-let evaluate_distribution(dist: PascalDist) (k) =
-    float (binomial_coefficient (k-1) (dist.m - 1)) * (dist.p ** float dist.m) * ((float 1 - dist.p) ** float (k-dist.m))
+    let create_distribution(m) (p: float) =
+        { m = m; p = p }
 
-let evaluate(k) =
-    evaluate_distribution saved_dist k
+    let evaluate_distribution(dist: PascalDist) (k) =
+        float (binomial_coefficient (k-1) (dist.m - 1)) * (dist.p ** float dist.m) * ((float 1 - dist.p) ** float (k-dist.m))
 
-let save_distribution(dist: PascalDist) =
-    saved_dist <- dist
+    let evaluate(k) =
+        evaluate_distribution saved_dist k
+
+    let save_distribution(dist: PascalDist) =
+        saved_dist <- dist

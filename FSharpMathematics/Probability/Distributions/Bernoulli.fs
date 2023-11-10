@@ -1,20 +1,22 @@
-﻿module Bernoulli
+﻿namespace Probability.Distributions
 
-type BernoulliDist = {p: float}
+module Bernoulli =
 
-let mutable saved_dist = {p = -1}
+    type BernoulliDist = {p: float}
 
-let create_distribution(p) : BernoulliDist =
-    { p = p }
+    let mutable saved_dist = {p = -1}
 
-let evaluate_distribution(dist: BernoulliDist) (v) =
-    match v with
-    | 0 -> float 1 - dist.p
-    | 1 -> dist.p
-    | _ -> -1
+    let create_distribution(p) : BernoulliDist =
+        { p = p }
 
-let evaluate(v) =
-    evaluate_distribution saved_dist v
+    let evaluate_distribution(dist: BernoulliDist) (v) =
+        match v with
+        | 0 -> float 1 - dist.p
+        | 1 -> dist.p
+        | _ -> -1
 
-let save_distribution(dist: BernoulliDist) =
-    saved_dist <- dist
+    let evaluate(v) =
+        evaluate_distribution saved_dist v
+
+    let save_distribution(dist: BernoulliDist) =
+        saved_dist <- dist

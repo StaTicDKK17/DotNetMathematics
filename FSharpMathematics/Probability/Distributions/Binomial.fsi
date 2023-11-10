@@ -1,11 +1,13 @@
-module Binomial
+namespace Probability.Distributions
 
-type BinomialDist = { n: int; p: float }
+module Binomial =
 
-val create_distribution : int -> float -> BinomialDist
+    type BinomialDist = { n: int; p: float }
 
-val evaluate_distribution : BinomialDist -> int -> float
+    val create_distribution : int -> float -> BinomialDist
 
-val evaluate : int -> float
+    val evaluate_distribution : BinomialDist -> int -> float
 
-val save_distribution : BinomialDist -> unit
+    val evaluate : int -> float
+
+    val save_distribution : BinomialDist -> unit

@@ -1,13 +1,12 @@
-module Bernoulli
+namespace Probability.Distributions
 
-open System.Collections.Generic
+module Bernoulli =
+    type BernoulliDist = {p: float}
 
-type BernoulliDist = {p: float}
+    val create_distribution : float -> BernoulliDist
 
-val create_distribution : float -> BernoulliDist
+    val evaluate : int -> float
 
-val evaluate : int -> float
+    val evaluate_distribution : BernoulliDist -> int -> float
 
-val evaluate_distribution : BernoulliDist -> int -> float
-
-val save_distribution : BernoulliDist -> unit
+    val save_distribution : BernoulliDist -> unit
