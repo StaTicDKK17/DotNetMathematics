@@ -1,22 +1,17 @@
 ﻿module Geometric
 
-open System.Collections.Generic
+type GeometricDist = {p: float}
 
-type GeometricDist = Dictionary<int, float>
+let mutable saved_dist = {p = -1}
 
-let mutable saved_dist = new GeometricDist()
-
-let create_distribution(p: float) (lim) =
-    let dist = new GeometricDist()
-    for i in 1..lim do
-        dist.Add(i, p * (float 1-p) ** (float i - float 1))
-    dist
-
-let evaluate(k) =
-    saved_dist.Item k
+let create_distribution(p: float) =
+    { p = p }
 
 let evaluate_distribution(dist: GeometricDist) (k) =
-    dist.Item k
+    (float 1 - dist.p) ** float (k-1) * dist.p
+
+let evaluate(k) =
+    evaluate_distribution saved_dist k
 
 let save_distribution(dist: GeometricDist) =
     saved_dist <- dist

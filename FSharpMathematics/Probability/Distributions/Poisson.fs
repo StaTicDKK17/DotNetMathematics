@@ -1,23 +1,19 @@
 ﻿module Poisson
 
-open System.Collections.Generic
 open MathFunctions
 
-type PoissonDist = Dictionary<int, float>
+type PoissonDist = { lambda: int }
 
-let mutable saved_dist = new PoissonDist()
+let mutable saved_dist = { lambda = -1 }
 
-let create_distribution(lambda: float) (lim) =
-    let dist = new PoissonDist()
-    for i in 0..lim do
-        dist.Add(i, (exp (-lambda) * (lambda ** i))/ float (factorial i))
-    dist
-
-let evaluate(k) =
-    saved_dist.Item k
+let create_distribution(lambda: int) =
+    { lambda = lambda }
 
 let evaluate_distribution(dist: PoissonDist) (k) =
-    dist.Item k
+    ((exp (-float dist.lambda)) * float (pown dist.lambda k)) / float (factorial k)
+
+let evaluate(k) =
+    evaluate_distribution saved_dist k
 
 let save_distribution(dist: PoissonDist) =
     saved_dist <- dist

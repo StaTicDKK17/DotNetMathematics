@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <Compile Include="MathFunctions.fsi" />
+	  <Compile Include="combinatorics\CountingFunctions.fsi" />
+	  <Compile Include="probability\distributions\Poisson.fsi" />
+	  <Compile Include="probability\distributions\Pascal.fsi" />
+	  <Compile Include="probability\distributions\Binomial.fsi" />
+	  <Compile Include="probability\distributions\Geometric.fsi" />
+	  <Compile Include="probability\distributions\Bernoulli.fsi" />
 	  <Compile Include="MathFunctions.fs" />
 	  <Compile Include="Combinatorics\CountingFunctions.fs" />
 	  <Compile Include="Probability\Distributions\Poisson.fs" />

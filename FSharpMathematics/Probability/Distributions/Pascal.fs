@@ -1,23 +1,19 @@
 ﻿module Pascal
 
-open System.Collections.Generic
 open CountingFunctions
 
-type PascalDist = Dictionary<int, float>
+type PascalDist = { m: int; p: float }
 
-let mutable saved_dist = new PascalDist()
+let mutable saved_dist = { m = 0; p = -1 }
 
-let create_distribution(m) (p: float) (lim) =
-    let dist = new PascalDist()
-    for k in m..lim do
-        dist.Add(k, p ** m * float (binomial_coefficient (k-1) (m-1)) * (float 1 - p) ** float (k-m))
-    dist
+let create_distribution(m) (p: float) =
+    { m = m; p = p }
+
+let evaluate_distribution(dist: PascalDist) (k) =
+    float (binomial_coefficient (k-1) (dist.m - 1)) * (dist.p ** float dist.m) * ((float 1 - dist.p) ** float (k-dist.m))
 
 let evaluate(k) =
-    saved_dist.Item k
-
-let evaluate_distribution(dist: PascalDist, k) =
-    dist.Item k
+    evaluate_distribution saved_dist k
 
 let save_distribution(dist: PascalDist) =
     saved_dist <- dist

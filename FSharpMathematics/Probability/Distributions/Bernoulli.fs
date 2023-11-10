@@ -1,22 +1,20 @@
 ﻿module Bernoulli
 
-open System.Collections.Generic
+type BernoulliDist = {p: float}
 
-type BernoulliDist = Dictionary<int, float>
-
-let mutable saved_dist = new BernoulliDist()
+let mutable saved_dist = {p = -1}
 
 let create_distribution(p) : BernoulliDist =
-    let dist = new BernoulliDist()
-    dist.Add(1, p)
-    dist.Add(0, float 1 - p)
-    dist
-
-let evaluate(v) =
-    saved_dist.Item v
+    { p = p }
 
 let evaluate_distribution(dist: BernoulliDist) (v) =
-    dist.Item v
+    match v with
+    | 0 -> float 1 - dist.p
+    | 1 -> dist.p
+    | _ -> -1
+
+let evaluate(v) =
+    evaluate_distribution saved_dist v
 
 let save_distribution(dist: BernoulliDist) =
     saved_dist <- dist

@@ -1,23 +1,19 @@
 ﻿module Binomial
 
-open System.Collections.Generic
 open CountingFunctions
 
-type BinomialDist = Dictionary<int, float>
+type BinomialDist = { n: int; p: float }
 
-let mutable saved_dist = new BinomialDist()
+let mutable saved_dist = { n = 0; p = -1 }
 
 let create_distribution(n) (p: float) =
-    let dist = new BinomialDist()
-    for k in 0..n do
-        dist.Add(k, (float 1 - p) ** float (n-k) * float (binomial_coefficient n k) * p ** k)
-    dist
-
-let evaluate(k) =
-    saved_dist.Item k
+    { n = n; p = p; }
 
 let evaluate_distribution(dist: BinomialDist) (k) =
-    dist.Item k
+    float (binomial_coefficient dist.n k) * (dist.p ** k) * ((float 1-dist.p) ** float (dist.n - k))
+
+let evaluate(k) =
+    evaluate_distribution saved_dist k
 
 let save_distribution(dist: BinomialDist) =
     saved_dist <- dist
