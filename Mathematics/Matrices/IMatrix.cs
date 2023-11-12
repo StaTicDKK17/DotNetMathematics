@@ -98,7 +98,7 @@ public interface IMatrix
     /// <returns>The transpose matrix of M</returns>
     static IMatrix Transpose(IMatrix M)
     {
-        return Matrix.Transpose((Matrix)M);
+        return ((Matrix) M).Transpose();
     }
 
     /// <summary>

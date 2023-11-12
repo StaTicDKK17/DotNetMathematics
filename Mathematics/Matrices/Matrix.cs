@@ -385,12 +385,12 @@ public class Matrix : IMatrix
 
     public bool IsSymmetric()
     {
-        return Transpose(this).Equals(this);
+        return Transpose().Equals(this);
     }
 
     public bool IsSkewSymmetric()
     {
-        return Transpose(this).Equals(-1f * this);
+        return Transpose().Equals(-1f * this);
     }
 
     /// <summary>
