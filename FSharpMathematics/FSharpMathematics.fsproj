@@ -6,6 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <Compile Include="Set\UnarySetOperations.fs" />
+	  <Compile Include="set\BinarySetOperations.fsi" />
+	  <Compile Include="set\Set.fsi" />
 	  <Compile Include="MathFunctions.fsi" />
 	  <Compile Include="combinatorics\CountingFunctions.fsi" />
 	  <Compile Include="probability\distributions\Poisson.fsi" />
@@ -13,6 +16,8 @@
 	  <Compile Include="probability\distributions\Binomial.fsi" />
 	  <Compile Include="probability\distributions\Geometric.fsi" />
 	  <Compile Include="probability\distributions\Bernoulli.fsi" />
+	  <Compile Include="Set\Set.fs" />
+	  <Compile Include="Set\BinarySetOperations.fs" />
 	  <Compile Include="MathFunctions.fs" />
 	  <Compile Include="Combinatorics\CountingFunctions.fs" />
 	  <Compile Include="Probability\Distributions\Poisson.fs" />
@@ -20,7 +25,6 @@
 	  <Compile Include="Probability\Distributions\Binomial.fs" />
 	  <Compile Include="Probability\Distributions\Geometric.fs" />
 	  <Compile Include="Probability\Distributions\Bernoulli.fs" />
-	  <Compile Include="Core\Set.fs" />
 	  <Compile Include="Core\Vector.fs" />
 	  <Compile Include="Core\Matrix.fs" />
 	  <Compile Include="Extensions\BasicExtensions.fs" />

@@ -385,12 +385,12 @@ public class Matrix : IMatrix
 
     public bool IsSymmetric()
     {
-        return Transpose(this).Equals(this);
+        return Transpose().Equals(this);
     }
 
     public bool IsSkewSymmetric()
     {
-        return Transpose(this).Equals(-1f * this);
+        return Transpose().Equals(-1f * this);
     }
 
     /// <summary>
@@ -407,7 +407,7 @@ public class Matrix : IMatrix
             .ForEach(
               i => Enumerable.Range(0, NCols)
                 .ToList()
-                .ForEach(j => SetItem0I(j, i, Item0I(i, j)))
+                .ForEach(j => A.SetItem0I(j, i, Item0I(i, j)))
         );
 
         return A;

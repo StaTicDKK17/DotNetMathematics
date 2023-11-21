@@ -11,7 +11,9 @@ module Poisson =
     let create_distribution(lambda: int) =
         { lambda = lambda }
 
-    let evaluate_distribution(dist: PoissonDist) (k) =
+    // f1 ** f2
+    // pown i1 i2
+    let evaluate_distribution(dist: PoissonDist) (k) = // (evaluate_distribution dist k) evaluate_distribution(dist, k)
         ((exp (-float dist.lambda)) * float (pown dist.lambda k)) / float (factorial k)
 
     let evaluate(k) =

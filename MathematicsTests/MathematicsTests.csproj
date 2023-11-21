@@ -19,10 +19,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+	<PackageReference Include="ReportGenerator" Version="5.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mathematics\Mathematics.csproj" />
+	  <ProjectReference Include="..\Mathematics\Mathematics.csproj" />
   </ItemGroup>
 
 </Project>
