@@ -4,10 +4,12 @@
 /MathematicsTests/bin
 /MathematicsTests/obj
 /MathematicsTests/Report
+/MathematicsTests/coveragereport
 /MathematicsTests/TestResults
 /FSharpMathematicsTests/bin
 /FSharpMathematicsTests/obj
 /FSharpMathematicsTests/Report
+/FSharpMathematicsTests/coveragereport
 /FSharpMathematicsTests/TestResults
 /FSharpMathematics/bin
 /FSharpMathematics/obj
