@@ -10,6 +10,7 @@
 	  <Compile Include="Set\BinarySetOperations.fs" />
 	  <Compile Include="MathFunctions.fs" />
 	  <Compile Include="Combinatorics\CountingFunctions.fs" />
+	  <Compile Include="Probability\Distributions\Continuous\Gamma.fs" />
 	  <Compile Include="Probability\Distributions\Continuous\Normal.fs" />
 	  <Compile Include="Probability\Distributions\Continuous\Exponential.fs" />
 	  <Compile Include="Probability\Distributions\Continuous\Uniform.fs" />
