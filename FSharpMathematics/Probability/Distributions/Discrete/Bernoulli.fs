@@ -1,4 +1,4 @@
-﻿namespace Probability.Distributions
+﻿namespace DotnetMathematics.Probability.Distributions.Discrete
 
 module Bernoulli =
 
@@ -7,7 +7,8 @@ module Bernoulli =
     let mutable saved_dist = {p = -1}
 
     let create_distribution(p) : BernoulliDist =
-        { p = p }
+        saved_dist <- { p = p }
+        saved_dist
 
     let evaluate_distribution(dist: BernoulliDist) (v) =
         match v with

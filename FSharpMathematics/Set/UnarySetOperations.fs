@@ -1,4 +1,6 @@
-﻿namespace DotnetMathematics.Set.UnarySetOperations
+﻿namespace DotnetMathematics.Set
+
+open DotnetMathematics.Set.SetCreation
 
 module UnarySetOperations =
 

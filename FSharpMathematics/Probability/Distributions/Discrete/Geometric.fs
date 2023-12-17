@@ -1,4 +1,4 @@
-﻿namespace Probability.Distributions
+﻿namespace DotnetMathematics.Probability.Distributions.Discrete
 
 module Geometric =
     type GeometricDist = {p: float}
@@ -6,7 +6,8 @@ module Geometric =
     let mutable saved_dist = {p = -1}
 
     let create_distribution(p: float) =
-        { p = p }
+        saved_dist <- { p = p }
+        saved_dist
 
     let evaluate_distribution(dist: GeometricDist) (k) =
         (float 1 - dist.p) ** float (k-1) * dist.p

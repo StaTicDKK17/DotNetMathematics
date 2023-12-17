@@ -1,4 +1,4 @@
-﻿namespace Probability.Distributions
+﻿namespace DotnetMathematics.Probability.Distributions.Discrete
 
 module Poisson =
 
@@ -9,7 +9,8 @@ module Poisson =
     let mutable saved_dist = { lambda = -1 }
 
     let create_distribution(lambda: int) =
-        { lambda = lambda }
+        saved_dist <- { lambda = lambda }
+        saved_dist
 
     // f1 ** f2
     // pown i1 i2
