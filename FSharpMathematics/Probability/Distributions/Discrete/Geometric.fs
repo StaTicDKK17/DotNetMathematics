@@ -6,8 +6,7 @@ module Geometric =
     let mutable saved_dist = {p = -1}
 
     let create_distribution(p: float) =
-        saved_dist <- { p = p }
-        saved_dist
+        { p = p }
 
     let evaluate_distribution(dist: GeometricDist) (k) =
         (float 1 - dist.p) ** float (k-1) * dist.p

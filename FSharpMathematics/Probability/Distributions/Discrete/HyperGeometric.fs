@@ -9,8 +9,7 @@ module HyperGeometric =
     let mutable saved_dist = { b = 0; r = 0; k = 0 }
 
     let create_distribution (b) (r) (k) =
-        saved_dist <- { b = b; r = r; k = k }
-        saved_dist
+        { b = b; r = r; k = k }
 
     let evaluate_distribution(dist: HyperGeometricDist) (x) = // (evaluate_distribution dist k) evaluate_distribution(dist, k)
         let numerator = (binomial_coefficient dist.b x) * (binomial_coefficient dist.r (dist.k - x))

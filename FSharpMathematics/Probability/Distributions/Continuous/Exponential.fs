@@ -9,8 +9,7 @@ module Exponential =
     let mutable saved_dist = { lamb = 0 }
 
     let create_distribution (lamb) =
-        saved_dist <- { lamb = lamb }
-        saved_dist
+        { lamb = lamb }
 
     let evaluate_distribution(dist: ExponentialDist) (x: float) =
         if x > 0 then
@@ -21,5 +20,5 @@ module Exponential =
     let evaluate(k) =
         evaluate_distribution saved_dist k
 
-    let save_distribution(dist: UniformDist) =
+    let save_distribution(dist: ExponentialDist) =
         saved_dist <- dist

@@ -7,8 +7,7 @@ module Bernoulli =
     let mutable saved_dist = {p = -1}
 
     let create_distribution(p) : BernoulliDist =
-        saved_dist <- { p = p }
-        saved_dist
+        { p = p }
 
     let evaluate_distribution(dist: BernoulliDist) (v) =
         match v with

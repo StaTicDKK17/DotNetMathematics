@@ -7,8 +7,7 @@ module Uniform =
     let mutable saved_dist = { a = 0; b = 0 }
 
     let create_distribution (a) (b) =
-        saved_dist <- { a = a; b = b }
-        saved_dist
+        { a = a; b = b }
 
     let evaluate_distribution(dist: UniformDist) (x) =
         if x > dist.a && x < dist.b then
