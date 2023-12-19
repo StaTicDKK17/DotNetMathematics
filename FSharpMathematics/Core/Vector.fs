@@ -1,71 +1,45 @@
 ﻿namespace FSharpMathematics.Core
 
-open System.Diagnostics.Contracts
+module Vectors =
 
-type Vector = class
-  val private _xs : float[]
+    type vector  = float[]
 
-  /// <summary>
-  /// Initializes an n-Vector with all 0's.
-  /// </summary>
-  new (n : int) = 
-    { _xs = Array.zeroCreate n }
-  /// <summary>
-  /// Initializes an Vector from a float[]
-  /// </summary>
-  /// <remarks>
-  /// Perform a copy of the array, not
-  /// a shared reference.
-  /// </remarks>
-  new (xs : float[]) = 
-    { _xs = xs }
-  /// <summary>
-  /// Copy constructor
-  /// </summary>
-  /// <remarks>
-  /// Perform a copy of the array, not
-  /// a shared reference.
-  new (v : Vector) = 
-    {_xs = Array.copy v._xs}
+    let create_zero_vector(n: int) : vector =
+        Array.zeroCreate n
 
-  /// <summary>
-  /// Get the vector as an array.
-  /// </summary>
-  /// 
-  /// <returns>
-  /// An array representation of the Matrix.
-  /// </returns>
-  member this.ToArray() =
-    this._xs
+    let create_vector(numbers: float[]) : vector =
+        numbers
+
+    let create_copy_vector(v: vector) : vector =
+        Array.copy v
+
+    let get_index(v: vector, idx: int) : float =
+        Array.get v idx
+
+    let set_index(v: vector, idx: int, value: float) : unit =
+        let new_v = create_copy_vector v
+        Array.set new_v idx value
+
+    let to_array (v: vector) : float[] =
+        v
+
+    let num_elems (v: vector) : int =
+        v.Length
+
+module VectorVectorOperations =
+    open Vectors
     
-  member this.Size =
-    this._xs.Length
+    let vector_add (v1: vector) (v2: vector) : vector =
+        (to_array v1, to_array v2) ||> Array.map2 (fun x y -> x + y)
 
-  member this.Item
-    with get (i : int) = 
-        Contract.Requires(i >= 0 && i < this.Size)
-        this._xs.[i]
-    and set (i : int) (value : float) = 
-        Contract.Requires(i >= 0 && i < this.Size)
-        this._xs.[i] <- value 
+    let vector_sub (v1: vector) (v2: vector) : vector =
+        (to_array v1, to_array v2) ||> Array.map2 (fun x y -> x - y)
 
-  static member ( * ) (v : Vector, y : float) : Vector =
-    Vector(v.ToArray() |> Array.map (fun x -> x * y))
+    let vector_dot (v1: vector) (v2: vector) : float =
+        (to_array v1, to_array v2) ||> Array.map2 (fun x y -> x * y) |> Array.sum
 
-  static member ( * ) (x : float, v : Vector) : Vector =
-    Vector(v.ToArray() |> Array.map (fun v -> v * x))
+module VectorFloatOperations =
+    open Vectors
 
-  static member (+) (xs : Vector, ys : Vector) : Vector =
-    Contract.Requires(xs.Size = ys.Size)
-    Vector ((xs.ToArray(), ys.ToArray()) ||> Array.map2 (fun x y -> x + y))
-
-  static member (-) (xs : Vector, ys : Vector) : Vector =
-    Contract.Requires(xs.Size = ys.Size)
-    Vector((xs.ToArray(), ys.ToArray()) ||> Array.map2 (fun x y -> x - y))
-  
-  // Cannot get 100% test coverage due to Array.sum having untested branch coveraged for ArgumentNullException
-  static member ( * ) (xs : Vector, ys : Vector) =
-    Contract.Requires(xs.Size = ys.Size)
-    (xs.ToArray(), ys.ToArray()) ||> Array.map2 (fun x y -> x * y) |> Array.sum
-    
-end
+    let vector_mul (v : vector) (y : float) : vector =
+        (to_array v) |> Array.map (fun x -> x * y)
