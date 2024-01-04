@@ -1,9 +1,11 @@
-﻿module CountingFunctions
+﻿namespace FSharpMathematics.Combinatorics
 
-open MathFunctions
+module CountingFunctions =
 
-let k_permutations (n: int) (k: int) : uint64 = 
-    factorial n / (factorial (n-k))
+    open MathFunctions
 
-let binomial_coefficient (n: int) (k: int) : uint64 =
-    factorial n / (factorial k * (factorial (n - k)))
+    let k_permutations (n: int) (k: int) : uint64 = 
+        factorial n / (factorial (n-k))
+
+    let binomial_coefficient (n: int) (k: int) : uint64 =
+        factorial n / (factorial k * (factorial (n - k)))

@@ -1,6 +1,6 @@
-﻿namespace DotnetMathematics.Set.Creation
+﻿namespace DotnetMathematics.Set
 
-module Set =
+module SetCreation =
 
     type Set = array<obj>
 
