@@ -1,7 +1,6 @@
-﻿namespace FSharpMathematics.Core
+﻿namespace DotnetMathematics.LinAlg
 
 module Vectors =
-
     type vector  = float[]
 
     let create_zero_vector(n: int) : vector =
@@ -43,3 +42,9 @@ module VectorFloatOperations =
 
     let vector_mul (v : vector) (y : float) : vector =
         (to_array v) |> Array.map (fun x -> x * y)
+
+module UnaryVectorOperations = 
+    open Vectors
+
+    let vector_norm (v : vector) : float =
+        (to_array v) |> Array.map (fun a -> a ** 2.0) |> Array.sum |> sqrt

@@ -20,3 +20,15 @@ module Bernoulli =
 
     let save_distribution(dist: BernoulliDist) =
         saved_dist <- dist
+
+    let expected_value (dist: BernoulliDist) : float =
+        dist.p
+
+    let expected_value_saved () : float =
+        expected_value saved_dist
+
+    let variance (dist: BernoulliDist) : float =
+        dist.p * (1.0 - dist.p)
+
+    let variance_saved () : float =
+        variance saved_dist

@@ -16,3 +16,15 @@ module Geometric =
 
     let save_distribution(dist: GeometricDist) =
         saved_dist <- dist
+
+    let expected_value (dist: GeometricDist) : float =
+        1.0 / dist.p
+
+    let expected_value_saved () : float =
+        expected_value saved_dist
+
+    let variance (dist: GeometricDist) : float =
+        (float 1 - dist.p) / dist.p ** 2
+
+    let variance_saved () : float =
+        variance saved_dist

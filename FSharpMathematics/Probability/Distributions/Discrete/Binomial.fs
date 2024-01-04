@@ -19,3 +19,15 @@ module Binomial =
 
     let save_distribution(dist: BinomialDist) =
         saved_dist <- dist
+
+    let expected_value (dist: BinomialDist) : float =
+        float dist.n * dist.p
+
+    let expected_value_saved () : float =
+        expected_value saved_dist
+
+    let variance (dist: BinomialDist): float =
+        float dist.n * dist.p * (1.0 - dist.p)
+
+    let variance_saved () : float =
+        variance saved_dist

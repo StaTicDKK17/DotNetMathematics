@@ -21,8 +21,8 @@
 	  <Compile Include="Probability\Distributions\Discrete\Geometric.fs" />
 	  <Compile Include="Probability\Distributions\Discrete\Bernoulli.fs" />
 	  <Compile Include="Set\UnarySetOperations.fs" />
-	  <Compile Include="Core\Vector.fs" />
-	  <Compile Include="Core\Matrix.fs" />
+	  <Compile Include="LinAlg\Vector.fs" />
+	  <Compile Include="LinAlg\Matrix.fs" />
 	  <Compile Include="Extensions\BasicExtensions.fs" />
 	  <Compile Include="Extensions\GaussExtensions.fs" />
 	  <Compile Include="Extensions\AdvancedExtensions.fs" />

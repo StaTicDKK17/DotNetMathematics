@@ -19,3 +19,15 @@ module Pascal =
 
     let save_distribution(dist: PascalDist) =
         saved_dist <- dist
+
+    let expected_value (dist: PascalDist) : float = 
+        float dist.m / dist.p
+
+    let expected_value_saved () : float =
+        expected_value saved_dist
+
+    let variance (dist: PascalDist) : float =
+        (float dist.m * (float 1 - dist.p)) / dist.p ** 2
+
+    let variance_saved () : float =
+        variance saved_dist
