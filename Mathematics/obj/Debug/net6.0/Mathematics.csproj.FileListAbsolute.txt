@@ -9,3 +9,4 @@ D:\C#\MathLib\Mathematics\obj\Debug\net6.0\Mathematics.dll
 D:\C#\MathLib\Mathematics\obj\Debug\net6.0\refint\Mathematics.dll
 D:\C#\MathLib\Mathematics\obj\Debug\net6.0\Mathematics.pdb
 D:\C#\MathLib\Mathematics\obj\Debug\net6.0\ref\Mathematics.dll
+D:\C#\MathLib\Mathematics\obj\Debug\net6.0\Mathematics.sourcelink.json

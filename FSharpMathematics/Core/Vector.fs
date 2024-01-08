@@ -1,4 +1,4 @@
-﻿namespace FSharpMathematics.Core
+﻿namespace DotnetMathematics.Core.Vector
 
 open System.Diagnostics.Contracts
 
