@@ -7,6 +7,8 @@
 
   <ItemGroup>
 	  <Compile Include="ComplexNumber.fs" />
+	  <Compile Include="LinAlg\Matrix.fs" />
+	  <Compile Include="LinAlg\Vector.fs" />
 	  
 	  <Compile Include="MathFunctions.fsi" />
 	  <Compile Include="combinatorics\CountingFunctions.fsi" />
@@ -24,6 +26,9 @@
 	  <Compile Include="Extensions\BasicExtensions.fs" />
 	  <Compile Include="Extensions\GaussExtensions.fs" />
 	  <Compile Include="Extensions\AdvancedExtensions.fs" />
+	  <Compile Include="Set\BinarySetOperations.fs" />
+	  <Compile Include="Set\Set.fs" />
+	  <Compile Include="Set\UnarySetOperations.fs" />
   </ItemGroup>
 
 </Project>

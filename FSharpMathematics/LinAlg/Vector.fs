@@ -48,3 +48,18 @@ module UnaryVectorOperations =
 
     let vector_norm (v : vector) : float =
         (to_array v) |> Array.map (fun a -> a ** 2.0) |> Array.sum |> sqrt
+
+module ExportedOperations = 
+    open Vectors
+    open VectorVectorOperations
+    open VectorFloatOperations
+
+    let inline (+) (v1: vector) (v2: vector): vector = vector_add v1 v2
+
+    let inline (-) (v1: vector) (v2: vector): vector = vector_sub v1 v2
+
+    let inline (*) (v1: vector) (v2: vector): float = vector_dot v1 v2
+
+    let inline (*) (lamb: float) (v: vector): vector = vector_mul v lamb
+
+    let inline (*) (v: vector) (lamb: float): vector = vector_mul v lamb

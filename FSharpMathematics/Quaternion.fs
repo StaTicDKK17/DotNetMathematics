@@ -1,9 +1,11 @@
 ﻿namespace DotnetMathematics.Quaternion
 
-open DotnetMathematics.Core.Vector
+open DotnetMathematics.LinAlg.Vectors
+open DotnetMathematics.LinAlg.ExportedOperations
+
 
 module Quaternion =
-    type quaternion = float * Vector
+    type quaternion = float * vector
 
 module TertiaryQuaternionOperations = 
     open Quaternion
