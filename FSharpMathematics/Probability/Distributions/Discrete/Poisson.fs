@@ -1,4 +1,4 @@
-﻿namespace Probability.Distributions
+﻿namespace DotnetMathematics.Probability.Distributions.Discrete
 
 module Poisson =
 
@@ -19,3 +19,15 @@ module Poisson =
 
     let save_distribution(dist: PoissonDist) =
         saved_dist <- dist
+
+    let expected_value (dist: PoissonDist) : float = 
+        dist.lambda
+
+    let expected_value_saved () : float =
+        expected_value saved_dist
+
+    let variance (dist: PoissonDist) : float =
+        dist.lambda
+
+    let variance_saved () : float =
+        variance saved_dist

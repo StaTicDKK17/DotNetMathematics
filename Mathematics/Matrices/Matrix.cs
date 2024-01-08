@@ -407,7 +407,7 @@ public class Matrix : IMatrix
             .ForEach(
               i => Enumerable.Range(0, NCols)
                 .ToList()
-                .ForEach(j => SetItem0I(j, i, Item0I(i, j)))
+                .ForEach(j => A.SetItem0I(j, i, Item0I(i, j)))
         );
 
         return A;
