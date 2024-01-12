@@ -9,24 +9,22 @@
 	  <Compile Include="ComplexNumber.fs" />
 	  <Compile Include="LinAlg\Matrix.fs" />
 	  <Compile Include="LinAlg\Vector.fs" />
-	  
-	  <Compile Include="MathFunctions.fsi" />
-	  <Compile Include="combinatorics\CountingFunctions.fsi" />
 	  <Compile Include="MathFunctions.fs" />
 	  <Compile Include="Combinatorics\CountingFunctions.fs" />
-	  <Compile Include="Probability\Distributions\Poisson.fs" />
-	  <Compile Include="Probability\Distributions\Pascal.fs" />
-	  <Compile Include="Probability\Distributions\Binomial.fs" />
-	  <Compile Include="Probability\Distributions\Geometric.fs" />
-	  <Compile Include="Probability\Distributions\Bernoulli.fs" />
-	  <Compile Include="Core\Set.fs" />
-	  <Compile Include="Core\Vector.fs" />
-	  <Compile Include="Core\Matrix.fs" />
+	  <Compile Include="Probability\Distributions\Continuous\Exponential.fs" />
+	  <Compile Include="Probability\Distributions\Continuous\Gamma.fs" />
+	  <Compile Include="Probability\Distributions\Continuous\Normal.fs" />
+	  <Compile Include="Probability\Distributions\Continuous\Uniform.fs" />
+	  <Compile Include="Probability\Distributions\Discrete\Bernoulli.fs" />
+	  <Compile Include="Probability\Distributions\Discrete\Binomial.fs" />
+	  <Compile Include="Probability\Distributions\Discrete\Geometric.fs" />
+	  <Compile Include="Probability\Distributions\Discrete\HyperGeometric.fs" />
+	  <Compile Include="Probability\Distributions\Discrete\Pascal.fs" />
+	  <Compile Include="Probability\Distributions\Discrete\Poisson.fs" />
 	  <Compile Include="Quaternion.fs" />
 	  <Compile Include="Extensions\BasicExtensions.fs" />
 	  <Compile Include="Extensions\GaussExtensions.fs" />
 	  <Compile Include="Extensions\AdvancedExtensions.fs" />
-	  <Compile Include="Set\BinarySetOperations.fs" />
 	  <Compile Include="Set\Set.fs" />
 	  <Compile Include="Set\UnarySetOperations.fs" />
   </ItemGroup>
